@@ -440,21 +440,6 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
  .back-card{height:clamp(40px,10vh,50px)!important;}
  .table-mid{inset:clamp(43px,11vh,58px) 2px 1px!important;}
 }
-.score-name .player-role{font-size:8px;font-weight:700;color:#cbb98d;letter-spacing:.08em;margin-left:5px;white-space:nowrap;}
-.play-label .player-role{display:block;font-size:7px;letter-spacing:.12em;color:#cbb98d;margin-top:1px;}
-.p2p-lobby{display:none;position:fixed;inset:0;z-index:20000;place-items:center;padding:18px;background:rgba(2,13,9,.78);backdrop-filter:blur(7px);}
-.p2p-lobby.active{display:grid;}
-.p2p-lobby-card{width:min(430px,100%);padding:clamp(20px,5vw,30px);border:1px solid rgba(229,204,146,.42);border-radius:16px;background:linear-gradient(145deg,#173d2d,#09251b 72%);box-shadow:0 24px 80px #000b;text-align:center;color:#f1e5c7;}
-.p2p-lobby-kicker{font-size:9px;letter-spacing:.24em;color:#d2b979;text-transform:uppercase;}
-.p2p-lobby-card h2{margin:10px 0 7px;font:700 clamp(22px,5vw,29px) 'Playfair Display',Georgia,serif;}
-.p2p-lobby-status{min-height:34px;margin:0 auto 16px;max-width:340px;font-size:12px;line-height:1.5;color:#c3d2c5;}
-.p2p-lobby-code{display:grid;gap:7px;margin:0 0 18px;padding:12px;border:1px solid rgba(226,204,153,.22);border-radius:10px;background:#061a13aa;text-align:left;}
-.p2p-lobby-code>span{font-size:8px;letter-spacing:.17em;color:#c5b17e;}
-.p2p-lobby-code-row{display:flex;gap:7px;}
-.p2p-lobby-code-row input{flex:1;min-width:0;border:1px solid rgba(225,202,145,.25);border-radius:7px;background:#102c22;color:#fff0c9;padding:10px;font:700 17px ui-monospace,monospace;letter-spacing:.14em;text-align:center;}
-.p2p-lobby-code-row button,.p2p-lobby-cancel{border:1px solid rgba(225,202,145,.35);border-radius:8px;padding:10px 13px;background:#234633;color:#f4e5c2;font:700 10px inherit;letter-spacing:.08em;cursor:pointer;}
-.p2p-lobby-cancel{width:100%;background:rgba(255,255,255,.05);}
-@media(max-width:440px){.score-name .player-role{display:block;margin:2px 0 0;font-size:7px;}.play-label .player-role{font-size:6px;}.p2p-lobby-card{padding:19px 15px;}}
 
 
 /* Salida de las cartas jugadas: salen hacia los laterales y abandonan la mesa. */
@@ -483,29 +468,6 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .ai-zone.is-thinking .ai-dot{animation:aiPulse 1.05s ease-in-out infinite}
 @keyframes aiPulse{0%,100%{opacity:.45;transform:scale(.82);box-shadow:0 0 2px #86e3a6}50%{opacity:1;transform:scale(1.25);box-shadow:0 0 12px #86e3a6}}
 
-
-/* Selector de modalidad y salas P2P */
-.mode-field{display:flex;flex-direction:column;gap:7px;color:#d8c9a5;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-.mode-field select,.p2p-panel input,.p2p-panel select{width:100%;border:1px solid rgba(225,202,145,.3);border-radius:9px;background:#102c22;color:#f3e6c7;padding:11px 12px;font:inherit;letter-spacing:.04em;outline:none}
-.p2p-panel{display:none;gap:10px;padding:13px;border:1px solid rgba(225,202,145,.2);border-radius:12px;background:rgba(4,23,17,.55)}
-.p2p-panel.active{display:grid}
-.p2p-panel label{display:flex;flex-direction:column;gap:6px;color:#d8c9a5;font-size:9px;letter-spacing:.12em}
-.p2p-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.p2p-actions button{border:1px solid rgba(225,202,145,.32);border-radius:8px;padding:10px 7px;background:#183d2d;color:#f1dfb8;font:700 10px inherit;letter-spacing:.08em;cursor:pointer}
-.p2p-actions button.primary{background:linear-gradient(135deg,#c69d55,#8c642d);color:#1b160d}
-.p2p-code-row{display:flex;gap:6px;align-items:center}
-.p2p-code-row input{min-width:0;text-transform:none;letter-spacing:.04em;text-align:center}
-.p2p-hint{font-size:9px;line-height:1.5;color:#9eb4a2;letter-spacing:0;text-transform:none}
-.p2p-status{font-size:10px;line-height:1.45;color:#e4d4a7;min-height:14px;text-align:center}
-.p2p-turn{border:1px solid rgba(225,202,145,.2);border-radius:8px;padding:9px;background:rgba(0,0,0,.13)}
-.p2p-turn summary{cursor:pointer;color:#dfc98f;font-size:9px;font-weight:800;letter-spacing:.08em;list-style-position:inside}
-.p2p-turn-body{display:grid;gap:8px;padding-top:9px}
-.p2p-turn-body p,.p2p-turn-body small{margin:0;color:#aebfae;font-size:9px;line-height:1.5;letter-spacing:0;text-transform:none}
-.p2p-turn-body a{color:#e5c987;font-size:9px;font-weight:800;letter-spacing:.04em;text-decoration:underline}
-.p2p-turn-body textarea{width:100%;min-height:78px;resize:vertical;border:1px solid rgba(225,202,145,.28);border-radius:7px;background:#071c15;color:#f3e6c7;padding:8px;font:10px/1.4 ui-monospace,Consolas,monospace;letter-spacing:0;text-transform:none}
-.p2p-turn-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.p2p-turn-actions button{border:1px solid rgba(225,202,145,.28);border-radius:7px;padding:8px;background:#183d2d;color:#f1dfb8;font-size:9px;font-weight:800;cursor:pointer}
-@media(max-width:440px){.p2p-actions{grid-template-columns:1fr}.p2p-panel{padding:9px}.p2p-turn-actions{grid-template-columns:1fr 1fr}}
 
 /* FIX DEFINITIVO DE ANUNCIOS MÓVILES: capas fuera del contenedor con overflow y animación CSS nativa. */
 #callEffects{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:2147483000!important;display:block!important;overflow:visible!important;pointer-events:none!important;isolation:isolate!important;clip-path:none!important;}
@@ -757,24 +719,7 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
     <p class="menu-intro">Una mesa, tres cartas y una buena mentira.</p>
     <div class="menu-rule"></div>
     <div class="menu-options">
-      <label class="mode-field"><span>MODO DE JUEGO</span><select id="gameMode"><option value="ai">VS. IA</option><option value="p2p">P2P · 2 JUGADORES</option></select></label>
-      <div class="p2p-panel" id="p2pOptions">
-        <label>TIPO DE SALA<select id="p2pVisibility"><option value="public">Pública · código compartible</option><option value="private">Privada · código secreto</option></select></label>
-        <div class="p2p-hint">Pública: cualquiera que tenga el código puede entrar. Privada: usa un código más largo y difícil de adivinar. Se necesita Internet y el segundo jugador entra pegando el código. No hay un listado público de salas.</div>
-        <details class="p2p-turn">
-          <summary>¿NO CONECTA? CONFIGURAR RELÉ TURN GRATIS</summary>
-          <div class="p2p-turn-body">
-            <p>TURN ayuda cuando el router o la red móvil bloquean la conexión directa. Generá credenciales temporales gratuitas, pegá aquí el JSON y guardalo. El código de invitación Trystero las incluirá para tu rival.</p>
-            <a href="https://rstream.io/tools/turn-server" target="_blank" rel="noopener noreferrer">ABRIR GENERADOR TURN GRATIS (DURA 1 HORA) ↗</a>
-            <label>JSON DE CREDENCIALES TURN<textarea id="turnIceInput" rows="4" spellcheck="false" placeholder='Pegá el JSON descargado o el objeto que contiene "iceServers"…'></textarea></label>
-            <div class="p2p-turn-actions"><button type="button" id="saveTurnConfig">GUARDAR TURN</button><button type="button" id="clearTurnConfig">BORRAR</button></div>
-            <small id="turnConfigStatus">Sin TURN personalizado: Trystero usará sus servidores STUN predeterminados.</small>
-          </div>
-        </details>
-        <div class="p2p-actions"><button class="primary" id="createRoomBtn">CREAR SALA</button><button id="joinRoomBtn">UNIRSE A SALA</button></div>
-        <label>CÓDIGO DE SALA<div class="p2p-code-row"><input id="p2pRoomCode" maxlength="5000" placeholder="PEGÁ EL CÓDIGO" autocomplete="off" spellcheck="false"><button type="button" id="copyRoomCodeBtn" aria-label="Copiar código" style="border:1px solid rgba(225,202,145,.3);border-radius:8px;padding:10px;background:#183d2d;color:#f1dfb8;cursor:pointer">COPIAR</button></div></label>
-        <div class="p2p-status" id="p2pStatus">Creá una sala o ingresá el código de tu rival.</div>
-      </div>
+      <div class="menu-field"><span>MODO DE JUEGO</span><div class="mode-static">VS. IA</div></div>
       <label class="menu-field"><span>PARTIDA A</span><select id="targetPoints"><option value="15">15 puntos</option><option value="30" selected>30 puntos</option><option value="40">40 puntos</option></select></label>
       <label class="menu-field"><span>DIFICULTAD DE LA IA</span><select id="menuDifficulty"><option value="easy">Fácil</option><option value="medium" selected>Medio</option><option value="hard">Difícil</option><option value="impossible">Imposible</option></select></label>
       <label class="flor-option" for="florEnabled"><span class="flor-copy"><b>FLOR</b><small>Activa flor, contra flor y contra flor al resto.</small></span><input id="florEnabled" type="checkbox"><i class="toggle-ui"></i></label>
@@ -821,51 +766,12 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
       <div class="log"><span class="log-label">MESA</span><span class="log-text" id="logText">La partida está por comenzar.</span></div>
     </section>
   </main>
-  <footer class="footer"><span><b>TRUCO CRIOLLO</b> · Reglas argentinas clásicas</span><span>SVG locales → CDN de respaldo → cartas CSS · anuncios solo texto · VS. IA sin conexión · P2P con Trystero requiere Internet</span></footer>
-</div>
-<div class="p2p-lobby" id="p2pLobby" role="dialog" aria-modal="true" aria-labelledby="p2pLobbyTitle">
-  <div class="p2p-lobby-card">
-    <div class="p2p-lobby-kicker">CONEXIÓN ENTRE JUGADORES</div>
-    <h2 id="p2pLobbyTitle">Esperando al rival</h2>
-    <p class="p2p-lobby-status" id="p2pLobbyStatus">Preparando la sala…</p>
-    <div class="p2p-lobby-code" id="p2pLobbyCodeBlock">
-      <span>CÓDIGO DE SALA</span>
-      <div class="p2p-lobby-code-row"><input id="p2pLobbyCode" readonly value=""><button id="p2pLobbyCopy" type="button">COPIAR</button></div>
-    </div>
-    <button class="p2p-lobby-cancel" id="p2pLobbyCancel" type="button">CANCELAR Y VOLVER AL MENÚ</button>
-  </div>
+  <footer class="footer"><span><b>TRUCO CRIOLLO</b> · Reglas argentinas clásicas</span><span>SVG locales → CDN de respaldo → cartas CSS · anuncios solo texto · VS. IA sin conexión</span></footer>
 </div>
 <div class="overlay" id="overlay"><div class="result-card"><div class="result-kicker" id="resultKicker">FIN DE LA MANO</div><div class="result-title" id="resultTitle">¡Bien jugado!</div><div class="result-desc" id="resultDesc"></div><button class="new-btn" id="overlayButton">CONTINUAR</button></div></div>
 <script>
 (()=>{
 'use strict';
-let trysteroJoinRoom=null;
-let trysteroLoadPromise=null;
-function loadTrystero(){
- if(trysteroJoinRoom)return Promise.resolve(trysteroJoinRoom);
- if(!trysteroLoadPromise){
-  trysteroLoadPromise=(async()=>{
-   const sources=[
-    'https://esm.sh/trystero@0.26.0?bundle',
-    'https://esm.run/trystero@0.26.0',
-    'https://cdn.jsdelivr.net/npm/trystero@0.26.0/+esm'
-   ];
-   let lastError=null;
-   for(const url of sources){
-    try{
-     const mod=await import(url);
-     if(typeof mod.joinRoom!=='function')throw new Error('El módulo no exportó joinRoom.');
-     trysteroJoinRoom=mod.joinRoom;
-     return trysteroJoinRoom;
-    }catch(error){lastError=error;console.warn('No se pudo cargar Trystero desde',url,error);}
-   }
-   throw new Error('No se pudo descargar Trystero desde los CDN disponibles. Revisá Internet o probá recargar la página. '+(lastError?.message||''));
-  })().catch(error=>{trysteroLoadPromise=null;throw error;});
- }
- return trysteroLoadPromise;
-}
-// La librería se precarga en segundo plano; el modo VS. IA no depende de ella.
-loadTrystero().catch(error=>console.warn('Trystero todavía no está disponible:',error));
 const $=id=>document.getElementById(id);
 // Los anuncios se dibujan en una capa independiente, centrada en el viewport.
 const callEffectLayer=$('callEffects');
@@ -890,8 +796,8 @@ for(const suit of Object.keys(suitMeta)) for(const rank of ranks){
 }
 const CARD_DIR='cards/';
 const difficultyNames={easy:'Fácil',medium:'Medio',hard:'Difícil',impossible:'Imposible'};
-let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null,pendingRemoteEnvidoReveal=null;
-let gameMode='ai',localPlayer=0,p2pRole=null,p2pRoom=null,p2pAction=null,p2pOpponentId=null,p2pConnected=false,p2pRoomCode='',p2pConfig=null,p2pStarting=false,p2pRoomFull=false,p2pSnapshotSeq=0,p2pLastSnapshot=0,p2pWaitTimer=null,p2pTurnServers=null,p2pConnectionState='idle',p2pTurnConfigured=false,p2pLeavePromise=Promise.resolve(),p2pAttemptId=0;
+let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null;
+const localPlayer=0;
 const other=p=>1-p;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const rand=a=>a[Math.floor(Math.random()*a.length)];
@@ -910,10 +816,6 @@ function setStatus(msg,pulse=false){const el=$('statusLine');if(!el)return;el.te
 function floatCall(label){
  const host=$('callEffects');if(!host)return;
  const message=String(label);
- // En P2P el anfitrión debe enviar el anuncio: el cliente solo recibía el estado de la mesa.
- if(gameMode==='p2p'&&p2pRole==='host'&&p2pConnected){
-  try{sendP2PMessage({type:'callout',label:message});}catch{}
- }
  if(activeFloat){clearTimeout(activeFloat.timer);clearTimeout(activeFloat.removeTimer);activeFloat.node.remove();activeFloat=null;}
  const node=document.createElement('div');
  node.className='gold-call';node.textContent=message;
@@ -936,30 +838,21 @@ function floatCall(label){
 }
 
 function eventText(id,text){const el=$(id);if(el)el.textContent=text;}
-function playerName(p){return gameMode==='p2p'?`Jugador ${p+1}`:p===localPlayer?'Vos':'La IA';}
-function winnerPhrase(p){return p===localPlayer?'Ganaste vos':gameMode==='p2p'?'Ganó tu rival':'Ganó la IA';}
+function playerName(p){return p===localPlayer?'Vos':'La IA';}
+function winnerPhrase(p){return p===localPlayer?'Ganaste vos':'Ganó la IA';}
 function hasFlor(hand){return !!hand&&hand.length===3&&hand.every(c=>c.suit===hand[0].suit);}
 function florPoints(hand){return hasFlor(hand)?20+hand.reduce((sum,c)=>sum+c.envido,0):0;}
 function mustAnnounceFlor(player){return state.withFlor&&!state.florDone&&!state.florPending&&hasFlor(state.hands[player]);}
 function activateCardFallbacks(root){if(!root)return;root.querySelectorAll('.card img').forEach(img=>{if(img.complete){if(!img.naturalWidth)img.parentElement.classList.add('img-failed');return;}if(img.dataset.fallbackTimer)return;img.dataset.fallbackTimer='1';setTimeout(()=>{if(img.isConnected&&!img.dataset.loaded&&!img.naturalWidth)img.parentElement.classList.add('img-failed');},2300);});}
 function scoreTrack(score){return Array.from({length:state.targetPoints},(_,i)=>`<i class="${i<score?'on':''}"></i>`).join('');}
 function renderScore(){
- const you=state.scores[localPlayer],opp=state.scores[other(localPlayer)];
+ const you=state.scores[0],opp=state.scores[1];
  $('scoreYou').textContent=you;$('scoreAI').textContent=opp;
  $('you-half').textContent=you>=state.targetPoints/2?'BUENAS':'MALAS';$('ai-half').textContent=opp>=state.targetPoints/2?'BUENAS':'MALAS';
  $('trackYou').innerHTML=scoreTrack(you);$('trackAI').innerHTML=scoreTrack(opp);
  const sides=document.querySelectorAll('.score-side');
- const setSideName=(side,player,isLocal)=>{
-  if(!side)return;
-  const name=side.querySelector('.score-name'),avatar=side.querySelector('.avatar');
-  if(gameMode==='p2p'){
-   name.textContent='';
-   const main=document.createElement('span');main.textContent=`JUGADOR ${player+1}`;
-   const role=document.createElement('small');role.className='player-role';role.textContent=isLocal?'(TÚ)':'(RIVAL)';
-   name.append(main,role);avatar.textContent=`J${player+1}`;
-  }else{name.textContent=isLocal?'VOS':'LA IA';avatar.textContent=isLocal?'TÚ':'IA';}
- };
- setSideName(sides[0],localPlayer,true);setSideName(sides[1],other(localPlayer),false);
+ const setSideName=(side,isLocal)=>{if(!side)return;const name=side.querySelector('.score-name'),avatar=side.querySelector('.avatar');name.textContent=isLocal?'VOS':'LA IA';avatar.textContent=isLocal?'TÚ':'IA';};
+ setSideName(sides[0],true);setSideName(sides[1],false);
 }
 function currentTrickSlot(p){const play=state.currentTrick.find(x=>x.player===p);return play?cardMarkup(play.card,{cls:'played-card from-'+(p===localPlayer?'you':'ai'),tilt:p===localPlayer?-2:2}):'<div class="empty-slot"></div>';}
 function renderHistory(){
@@ -968,7 +861,7 @@ function renderHistory(){
  if(root.dataset.html!==html){root.innerHTML=html;root.dataset.html=html;}
  const dots=$('trickDots');
  if(dots){
-  const labels=['ganaste vos',gameMode==='p2p'?'ganó tu rival':'ganó la IA','baza empatada'];
+  const labels=['ganaste vos','ganó la IA','baza empatada'];
   const dotsHtml=Array.from({length:3},(_,i)=>{
    const t=state.tricks[i];
    const kind=!t?'':t.winner===null?'draw':t.winner===localPlayer?'won':'lost';
@@ -1005,19 +898,15 @@ function render(){
  if(!state)return;
  renderScore();syncAIBacks();syncPlayedSlot(0);syncPlayedSlot(1);renderHistory();if(state.log)$('logText').textContent=state.log;
  $('roundPill').textContent=`MANO ${String(state.handNo).padStart(2,'0')} · BAZA ${Math.min(3,state.tricks.length+1)}`;
- const waitingOpponentFlor=gameMode==='p2p'&&state.withFlor&&!state.florDone&&!state.florPending&&hasFlor(state.hands[other(localPlayer)]);
- const yourTurn=state.turn===localPlayer&&!state.handOver&&!state.gameOver&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending&&!mustAnnounceFlor(localPlayer)&&!waitingOpponentFlor;
- $('turnNote').textContent=state.handOver?'Mano terminada':yourTurn?'Tu turno':state.envidoPending||state.trucoPending?'Respondé el canto':gameMode==='p2p'?'Esperando al rival':'La IA está jugando';
- $('ai-turn-label').textContent=state.aiThinking?'· analizando':state.turn===other(localPlayer)&&!state.handOver?(gameMode==='p2p'?'· rival jugando':'· pensando'):'· esperando';
+ const yourTurn=state.turn===localPlayer&&!state.handOver&&!state.gameOver&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending&&!mustAnnounceFlor(localPlayer);
+ $('turnNote').textContent=state.handOver?'Mano terminada':yourTurn?'Tu turno':state.envidoPending||state.trucoPending?'Respondé el canto':'La IA está jugando';
+ $('ai-turn-label').textContent=state.aiThinking?'· analizando':state.turn===other(localPlayer)&&!state.handOver?'· pensando':'· esperando';
  const aiZone=$('aiBacks').parentElement;if(aiZone)aiZone.classList.toggle('is-thinking',!!state.aiThinking);
- const names=document.querySelectorAll('.play-label');const setPlayName=(el,player,isLocal)=>{if(!el)return;if(gameMode==='p2p'){el.textContent='';const main=document.createElement('span');main.textContent=`JUGADOR ${player+1}`;const role=document.createElement('small');role.className='player-role';role.textContent=isLocal?'(TÚ)':'(RIVAL)';el.append(main,role);}else el.textContent=isLocal?'VOS':'LA IA';};setPlayName(names[0],localPlayer,true);setPlayName(names[1],other(localPlayer),false);
- const aiInfo=document.querySelector('.ai-info');if(aiInfo){const spans=aiInfo.querySelectorAll('span');if(spans[1])spans[1].textContent=gameMode==='p2p'?`JUGADOR ${other(localPlayer)+1} · RIVAL`:'LA IA';}
+ const names=document.querySelectorAll('.play-label');
+ if(names[0])names[0].textContent='VOS';if(names[1])names[1].textContent='LA IA';
+ const aiInfo=document.querySelector('.ai-info');if(aiInfo){const spans=aiInfo.querySelectorAll('span');if(spans[1])spans[1].textContent='LA IA';}
  syncPlayerHand(yourTurn);renderActions();activateCardFallbacks($('felt'));
  if(state.resolvingTrick){document.querySelectorAll('#slotYou .played-card,#slotAI .played-card').forEach(el=>{const cls=el.closest('#slotYou')?'sweep-left':'sweep-right';if(!el.classList.contains(cls))el.classList.add(cls);});}
- if(gameMode==='p2p'&&p2pRole==='host')sendP2PSnapshot();
- if(gameMode==='p2p'&&p2pRole==='client'&&state.handOver&&!$('overlay').classList.contains('show')){
-  showOverlay(state.gameOver?'PARTIDA TERMINADA':`FIN DE LA MANO ${state.handNo}`,state.gameOver?(state.scores[localPlayer]>=state.targetPoints?'¡GANASTE!':'GANÓ TU RIVAL'):(state.scores[localPlayer]>state.scores[other(localPlayer)]?'¡La mano es tuya!':'Tu rival se lleva la mano'),state.log||`Marcador: ${state.scores[localPlayer]} — ${state.scores[other(localPlayer)]}.`,state.gameOver?'VOLVER AL MENÚ':'SIGUIENTE MANO',()=>{if(state.gameOver)openMainMenu();else{$('overlay').classList.remove('show');sendP2PAction('nextHand',{});}});
- }
 }
 
 function envidoOpen(){return !state.envidoDone&&!state.florPending&&(!state.withFlor||state.florDone)&&state.tricks.length===0&&state.currentTrick.length===0&&state.hands[0].length===3&&state.hands[1].length===3;}
@@ -1025,26 +914,25 @@ function canRaiseTruco(player){if(state.trucoPending||state.handOver||state.game
 function nextTrucoLabel(){return state.trucoLevel===0?'Truco':state.trucoLevel===1?'Retruco':'Vale cuatro';}
 function renderActions(){
  const grid=$('actionGrid'),host=$('responseHost'),me=localPlayer,opp=other(me);
- const sig=JSON.stringify({gameOver:state.gameOver,handOver:state.handOver,turn:state.turn,animatingCard:state.animatingCard,envidoRevealing:state.envidoRevealing,envidoPending:state.envidoPending,trucoPending:state.trucoPending,florPending:state.florPending,withFlor:state.withFlor,florDone:state.florDone,envidoDone:state.envidoDone,trucoLevel:state.trucoLevel,escalateBy:state.escalateBy,mano:state.mano,tricks:state.tricks.length,hand:state.hands[me].map(c=>c.id),mode:gameMode,localPlayer});
+ const sig=JSON.stringify({gameOver:state.gameOver,handOver:state.handOver,turn:state.turn,animatingCard:state.animatingCard,envidoRevealing:state.envidoRevealing,envidoPending:state.envidoPending,trucoPending:state.trucoPending,florPending:state.florPending,withFlor:state.withFlor,florDone:state.florDone,envidoDone:state.envidoDone,trucoLevel:state.trucoLevel,escalateBy:state.escalateBy,mano:state.mano,tricks:state.tricks.length,hand:state.hands[me].map(c=>c.id)});
  if(grid.dataset.signature===sig)return;grid.dataset.signature=sig;grid.innerHTML='';host.innerHTML='';
- if(state.gameOver){grid.innerHTML='<button class="action primary" id="againBtn">Nueva partida</button>'; $('againBtn').onclick=()=>gameMode==='p2p'?sendP2PAction('restart',{}):newGame();return;}
+ if(state.gameOver){grid.innerHTML='<button class="action primary" id="againBtn">Nueva partida</button>'; $('againBtn').onclick=()=>newGame();return;}
  if(state.handOver){grid.innerHTML='<button class="action" disabled>Mano terminada</button>';return;}
  const myTurn=state.turn===me&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending;
  if(state.florPending&&state.florPending.caller===opp){
-  if(hasFlor(state.hands[me]))host.appendChild(responsePanel(state.florPending.level===1?'FLOR':state.florPending.level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO',`${gameMode==='p2p'?'Tu rival':'La IA'} cantó flor. ¿Cómo respondés?`,[['Quiero','primary',()=>dispatchAction('resolveFlor',{accept:true})],['No quiero','red',()=>dispatchAction('resolveFlor',{accept:false})],...(state.florPending.level===1?[['Contra flor','',()=>dispatchAction('raiseFlor',{level:2})],['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:state.florPending.level===2?[['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:[])]));
-  else host.appendChild(responsePanel('FLOR',`${gameMode==='p2p'?'Tu rival':'La IA'} tiene flor y vos no.`,[['No tengo','primary',()=>dispatchAction('resolveFlor',{accept:false})]]));
+  if(hasFlor(state.hands[me]))host.appendChild(responsePanel(state.florPending.level===1?'FLOR':state.florPending.level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO','La IA cantó flor. ¿Cómo respondés?',[['Quiero','primary',()=>dispatchAction('resolveFlor',{accept:true})],['No quiero','red',()=>dispatchAction('resolveFlor',{accept:false})],...(state.florPending.level===1?[['Contra flor','',()=>dispatchAction('raiseFlor',{level:2})],['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:state.florPending.level===2?[['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:[])]));
+  else host.appendChild(responsePanel('FLOR','La IA tiene flor y vos no.',[['No tengo','primary',()=>dispatchAction('resolveFlor',{accept:false})]]));
   return;
  }
  if(state.florPending&&state.florPending.caller===me)return;
  if(mustAnnounceFlor(me)){const b=document.createElement('button');b.className='action primary';b.textContent='Flor';b.title='Tenés tres cartas del mismo palo';b.onclick=()=>dispatchAction('callFlor',{});grid.appendChild(b);return;}
- if(gameMode==='p2p'&&!state.florDone&&!state.florPending&&hasFlor(state.hands[opp])){const b=document.createElement('button');b.className='action';b.disabled=true;b.textContent='Esperando que el rival cante flor…';grid.appendChild(b);return;}
  if(myTurn){
   const cardsOk=envidoOpen();
   const actions=[{label:'Envido',sub:'2 puntos',type:'envido',enabled:cardsOk},{label:'Real envido',sub:'3 puntos',type:'real',enabled:cardsOk},{label:'Falta envido',sub:'a la partida',type:'falta',enabled:cardsOk},{label:'Truco',sub:'vale 2',type:'truco',enabled:canRaiseTruco(me)&&state.trucoLevel===0,primary:true},{label:'Retruco',sub:'vale 3',type:'retruco',enabled:canRaiseTruco(me)&&state.trucoLevel===1},{label:'Vale cuatro',sub:'vale 4',type:'vale4',enabled:canRaiseTruco(me)&&state.trucoLevel===2},{label:'Irse al mazo',sub:'Abandonar la mano',type:'fold',enabled:true}];
   actions.filter(a=>a.enabled).forEach(a=>{const b=document.createElement('button');b.className='action'+(a.primary?' primary':'')+(a.type==='vale4'||a.type==='fold'?' red':'');b.textContent=a.label;b.title=a.sub;b.onclick=()=>{if(['envido','real','falta'].includes(a.type))dispatchAction('callEnvido',{type:a.type});else if(a.type==='fold')dispatchAction('fold',{});else dispatchAction('callTruco',{level:a.type==='truco'?1:a.type==='retruco'?2:3});};grid.appendChild(b);});
  }
- if(state.envidoPending&&state.envidoPending.caller===opp){const p=state.envidoPending;host.appendChild(responsePanel(p.type==='falta'?'FALTA ENVIDO':p.type==='real'?'REAL ENVIDO':'ENVIDO',`${gameMode==='p2p'?'Tu rival':'La IA'} te canta ${typeName(p.type)}.`,[['Quiero','primary',()=>dispatchAction('resolveEnvido',{accept:true})],['No quiero','red',()=>dispatchAction('resolveEnvido',{accept:false})],...envidoRaiseOptions(p.type,p.chain).map(t=>[typeName(t),'',()=>dispatchAction('raiseEnvido',{type:t})])]));}
- else if(state.trucoPending&&state.trucoPending.caller===opp){const p=state.trucoPending;const opts=[['Quiero','primary',()=>dispatchAction('resolveTruco',{accept:true})],['No quiero','red',()=>dispatchAction('resolveTruco',{accept:false})]];if(envidoOpen())opts.push(['Envido','',()=>dispatchAction('callEnvido',{type:'envido'})]);if(state.withFlor&&!state.florDone&&hasFlor(state.hands[me]))opts.push(['Flor','',()=>dispatchAction('callFlor',{})]);host.appendChild(responsePanel(p.level===1?'TRUCO':p.level===2?'RETRUCO':'VALE CUATRO',`${gameMode==='p2p'?'Tu rival':'La IA'} canta ${p.level===1?'¡Truco!':p.level===2?'¡Retruco!':'¡Vale cuatro!'}.`,opts));}
+ if(state.envidoPending&&state.envidoPending.caller===opp){const p=state.envidoPending;host.appendChild(responsePanel(p.type==='falta'?'FALTA ENVIDO':p.type==='real'?'REAL ENVIDO':'ENVIDO',`La IA te canta ${typeName(p.type)}.`,[['Quiero','primary',()=>dispatchAction('resolveEnvido',{accept:true})],['No quiero','red',()=>dispatchAction('resolveEnvido',{accept:false})],...envidoRaiseOptions(p.type,p.chain).map(t=>[typeName(t),'',()=>dispatchAction('raiseEnvido',{type:t})])]));}
+ else if(state.trucoPending&&state.trucoPending.caller===opp){const p=state.trucoPending;const opts=[['Quiero','primary',()=>dispatchAction('resolveTruco',{accept:true})],['No quiero','red',()=>dispatchAction('resolveTruco',{accept:false})]];if(envidoOpen())opts.push(['Envido','',()=>dispatchAction('callEnvido',{type:'envido'})]);if(state.withFlor&&!state.florDone&&hasFlor(state.hands[me]))opts.push(['Flor','',()=>dispatchAction('callFlor',{})]);host.appendChild(responsePanel(p.level===1?'TRUCO':p.level===2?'RETRUCO':'VALE CUATRO',`La IA canta ${p.level===1?'¡Truco!':p.level===2?'¡Retruco!':'¡Vale cuatro!'}.`,opts));}
 }
 
 function responsePanel(title,sub,opts){
@@ -1053,273 +941,16 @@ function responsePanel(title,sub,opts){
 }
 function typeName(t){return t==='envido'?'Envido':t==='real'?'Real envido':'Falta envido';}
 function envidoRaiseOptions(t,chain=1){if(t==='envido')return chain===1?['envido','real','falta']:['real','falta'];if(t==='real')return ['falta'];return [];}
-function setP2PStatus(msg){
- const el=$('p2pStatus');if(el)el.textContent=msg;
- const lobbyStatus=$('p2pLobbyStatus');if(lobbyStatus&&$('p2pLobby').classList.contains('active'))lobbyStatus.textContent=msg;
- if($('gameApp').classList.contains('active'))setStatus(msg);
-}
-function syncModeMenuUI(){
- const p2p=$('gameMode').value==='p2p';
- $('p2pOptions').classList.toggle('active',p2p);
- $('menuDifficulty').closest('.menu-field').style.display=p2p?'none':'grid';
- $('startGame').style.display=p2p?'none':'block';
-}
-function showP2PLobby(title,message,code=''){
- $('p2pLobbyTitle').textContent=title;
- $('p2pLobbyStatus').textContent=message;
- $('p2pLobbyCode').value=code||'';
- $('p2pLobbyCodeBlock').style.display=code?'grid':'none';
- $('p2pLobby').classList.add('active');
-}
-function hideP2PLobby(){$('p2pLobby').classList.remove('active');}
-function randomRoomCode(privateRoom=false){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',len=privateRoom?13:7;let out='';for(let i=0;i<len;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out;}
 function showGameShell(){ $('mainMenu').classList.add('hidden');$('gameApp').classList.add('active');document.body.classList.add('in-game'); }
-function normalizeIceServers(value){
- let list=Array.isArray(value)?value:(value&&Array.isArray(value.iceServers)?value.iceServers:null);
- if(!list&&value&&value.iceServers&&typeof value.iceServers==='object')list=[value.iceServers];
- if(!list&&value&&value.iceServer)list=[value.iceServer];
- if(!list&&value&&value.urls)list=[value];
- if(!Array.isArray(list))return null;
- const clean=list.filter(item=>item&&((typeof item.urls==='string'&&item.urls.trim())||(Array.isArray(item.urls)&&item.urls.some(u=>typeof u==='string'&&u.trim())))).map(item=>item.credential!==undefined?item:{...item,...(item.password!==undefined?{credential:item.password}:{})});
- if(!clean.length||!clean.some(item=>[].concat(item.urls).some(url=>/^turns?:/i.test(url))))return null;
- return clean;
-}
-function savedTurnIceServers(){
- try{return normalizeIceServers(JSON.parse(localStorage.getItem('trucoArgTurnIceServers')||'null'));}catch{return null;}
-}
-function activeTurnIceServers(preferred=null){return normalizeIceServers(preferred)||normalizeIceServers(p2pTurnServers)||savedTurnIceServers();}
-function parseTurnJson(raw){
- const parsed=JSON.parse(raw);
- const servers=normalizeIceServers(parsed);
- if(!servers)throw new Error('El JSON no contiene servidores TURN válidos.');
- return servers;
-}
-function updateTurnConfigStatus(message){
- const el=$('turnConfigStatus');if(!el)return;
- if(message){el.textContent=message;return;}
- const servers=savedTurnIceServers();
- el.textContent=servers?'TURN guardado. Se adjuntará al código de invitación Trystero.':'Sin TURN personalizado: Trystero usará sus servidores STUN predeterminados.';
-}
-function encodeRoomInvite(roomId,iceServers){
- const servers=normalizeIceServers(iceServers);
- if(!servers)return roomId;
- const payload=btoa(unescape(encodeURIComponent(JSON.stringify(servers)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
- return `TRYSTERO1:${roomId}:${payload}`;
-}
-function decodeRoomInvite(raw){
- const value=String(raw||'').trim();
- const match=value.match(/^TRYSTERO1:([A-Za-z0-9_-]{6,100}):([A-Za-z0-9_-]+)$/i);
- if(!match){
-  if(!/^[A-Za-z0-9_-]{6,100}$/.test(value))return {roomId:'',turnServers:null,embedded:false,error:'El código no es válido. Pedile al anfitrión que cree una sala nueva y te comparta el código completo.'};
-  return {roomId:value.toUpperCase(),turnServers:null,embedded:false};
- }
- try{
-  const token=match[2].replace(/-/g,'+').replace(/_/g,'/');
-  const padded=token+'='.repeat((4-token.length%4)%4);
-  const decoded=decodeURIComponent(escape(atob(padded)));
-  const servers=normalizeIceServers(JSON.parse(decoded));
-  if(!servers)throw new Error('TURN no válido');
-  return {roomId:match[1].toUpperCase(),turnServers:servers,embedded:true};
- }catch(error){return {roomId:'',turnServers:null,embedded:false,error:'El código de invitación está incompleto o dañado. Copialo nuevamente.'};}
-}
-function clearP2PWaitTimer(){if(p2pWaitTimer)clearTimeout(p2pWaitTimer);p2pWaitTimer=null;}
-function sendP2PMessage(message,target=p2pOpponentId){
- if(!p2pRoom||!p2pAction||!p2pConnected||!target)throw new Error('No hay un rival conectado.');
- p2pAction.send(message,{target});
-}
-function makeTrysteroRoom(roomId,preferredTurnServers=null){
- if(typeof trysteroJoinRoom!=='function')throw new Error('Trystero todavía no está cargado.');
- const configuredServers=activeTurnIceServers(preferredTurnServers);
- const turnServers=configuredServers?.map(server=>({...server,urls:[].concat(server.urls).filter(url=>/^turns?:/i.test(url))})).filter(server=>server.urls.length)||null;
- p2pTurnConfigured=!!turnServers?.length;
- p2pConnectionState='buscando sala';
- const config={appId:'com.jxdxv.truco-argentino.trystero.v2'};
- if(turnServers)config.turnConfig=turnServers;
- const room=trysteroJoinRoom(config,roomId,{
-  onJoinError:({peerId,error}={})=>{
-   if(p2pRoom!==room)return;
-   const detail=error?.message||String(error||'error desconocido');
-   p2pConnectionState=detail;
-   setP2PStatus(`Trystero no pudo completar la conexión WebRTC${peerId?' con el rival':''}: ${detail}. ${p2pTurnConfigured?'Se cargó TURN.':'No hay TURN personalizado.'}`);
-  }
- });
- const action=room.makeAction('truco-argentino-game-v2');
- p2pRoom=room;p2pAction=action;p2pOpponentId=null;p2pConnected=false;
-
- room.onPeerJoin=peerId=>{
-  if(p2pRoom!==room||!peerId)return;
-  if(p2pRole==='host'){
-   if(p2pOpponentId&&p2pOpponentId!==peerId){
-    try{action.send({type:'room-full'},{target:peerId});}catch{}
-    return;
-   }
-   if(!p2pOpponentId){
-    p2pOpponentId=peerId;p2pConnected=true;p2pConnectionState='connected';
-    try{action.send({type:'host-ready',protocol:'truco-trystero-v2'},{target:peerId});}catch(error){console.warn('No se pudo enviar host-ready:',error);}
-    setP2PStatus('Rival conectado. Esperando la confirmación para repartir…');
-   }
-  }else if(p2pRole==='client'){
-   if(p2pOpponentId&&p2pOpponentId!==peerId)return;
-   p2pOpponentId=peerId;p2pConnected=true;p2pConnectionState='connected';
-   setP2PStatus('Conexión WebRTC establecida. Esperando confirmación del anfitrión…');
-  }
- };
-
- room.onPeerLeave=peerId=>{
-  if(p2pRoom!==room||peerId!==p2pOpponentId)return;
-  p2pConnected=false;p2pOpponentId=null;p2pConnectionState='disconnected';clearP2PWaitTimer();
-  if(p2pRole==='host'){
-   showP2PLobby('Esperando al rival','El rival se desconectó. La sala sigue abierta.',p2pRoomCode);
-   setP2PStatus('El rival se desconectó. Podés volver a compartir el código.');
-   p2pWaitTimer=setTimeout(()=>{if(p2pRole==='host'&&!p2pConnected)setP2PStatus('La sala sigue abierta. Todavía no volvió a conectarse nadie.');},30000);
-  }else if(p2pRole==='client'){
-   setStatus('El anfitrión se desconectó.');
-   setP2PStatus('El anfitrión se desconectó. Volvé al menú y uníte cuando cree otra sala.');
-  }
- };
-
- action.onMessage=(msg,meta={})=>{
-  if(p2pRoom!==room||!msg)return;
-  const peerId=meta.peerId;
-  if(!peerId)return;
-
-  if(p2pRole==='host'){
-   if(!p2pOpponentId&&msg.type==='hello'){
-    p2pOpponentId=peerId;p2pConnected=true;p2pConnectionState='connected';clearP2PWaitTimer();
-   }
-   if(peerId!==p2pOpponentId){
-    if(['hello','host-ready','action'].includes(msg.type))try{action.send({type:'room-full'},{target:peerId});}catch{}
-    return;
-   }
-   if(msg.type==='hello'){
-    beginP2PHostGame();sendP2PSnapshot();return;
-   }
-   if(msg.type==='snapshot-ack')return;
-   handleP2PAction(msg);
-  }else if(p2pRole==='client'){
-   if(msg.type==='room-full'){
-    p2pRoomFull=true;p2pConnected=false;clearP2PWaitTimer();
-    setP2PStatus('La sala ya tiene dos jugadores. Pedile al anfitrión que cree otra sala.');return;
-   }
-   if(msg.type==='host-ready'){
-    if(p2pOpponentId&&p2pOpponentId!==peerId)return;
-    p2pOpponentId=peerId;p2pConnected=true;p2pConnectionState='connected';clearP2PWaitTimer();
-    setP2PStatus('Anfitrión encontrado. Sincronizando la partida…');
-    try{action.send({type:'hello',protocol:'truco-trystero-v2'},{target:peerId});}catch{}
-    return;
-   }
-   if(p2pOpponentId&&peerId!==p2pOpponentId)return;
-   if(!p2pOpponentId){p2pOpponentId=peerId;p2pConnected=true;p2pConnectionState='connected';clearP2PWaitTimer();}
-   if(msg.type==='callout'&&typeof msg.label==='string'){
-    floatCall(msg.label);
-   }else if(msg.type==='envidoReveal'){
-    if(state)showEnvidoDeclaration(msg.firstCaller,msg.your,msg.ai,msg.winner,msg.pts,msg.detail);
-    else pendingRemoteEnvidoReveal=msg;
-   }else if(msg.type==='snapshot'&&msg.state){
-    if(Number.isFinite(msg.seq)&&msg.seq<p2pLastSnapshot)return;
-    p2pLastSnapshot=Number.isFinite(msg.seq)?msg.seq:p2pLastSnapshot+1;
-    state=msg.state;state.deck=[];
-    if(!state.handOver)$('overlay').classList.remove('show');
-    $('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;
-    $('gameConfigLine').textContent=`P2P · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'}`;
-    showGameShell();hideP2PLobby();render();updateP2PClientStatus();
-    if(state.log)log(state.log);
-    if(pendingRemoteEnvidoReveal){const reveal=pendingRemoteEnvidoReveal;pendingRemoteEnvidoReveal=null;showEnvidoDeclaration(reveal.firstCaller,reveal.your,reveal.ai,reveal.winner,reveal.pts,reveal.detail);}
-    try{action.send({type:'snapshot-ack',seq:p2pLastSnapshot},{target:peerId});}catch{}
-   }
-  }
- };
- return room;
-}
-function closeNetwork(){
- clearP2PWaitTimer();p2pAttemptId++;
- const room=p2pRoom,action=p2pAction;
- if(action)action.onMessage=null;
- if(room){room.onPeerJoin=null;room.onPeerLeave=null;try{p2pLeavePromise=Promise.resolve(room.leave?.()).catch(error=>console.warn('Error al salir de la sala Trystero:',error));}catch(error){p2pLeavePromise=Promise.resolve();}}
- p2pRoom=null;p2pAction=null;p2pOpponentId=null;p2pConnected=false;p2pRole=null;p2pRoomCode='';p2pStarting=false;p2pRoomFull=false;p2pSnapshotSeq=0;p2pLastSnapshot=0;p2pTurnServers=null;p2pConnectionState='idle';p2pTurnConfigured=false;hideP2PLobby();
-}
-function sendP2PAction(action,payload){
- if(!p2pConnected||!p2pOpponentId){setStatus('Se perdió la conexión con el rival.');return;}
- try{sendP2PMessage({type:'action',action,payload});}catch(error){setStatus('No se pudo enviar la jugada. Revisá la conexión.');}
-}
 function dispatchAction(action,payload){
- if(gameMode==='p2p'&&p2pRole==='client'){sendP2PAction(action,payload);return;}
  const p=localPlayer;
  if(action==='play'){const i=state.hands[p].findIndex(c=>c.id===payload.cardId);if(i>=0)playCardFor(p,i);}
  else if(action==='callEnvido')callEnvido(p,payload.type);else if(action==='raiseEnvido')raiseEnvido(p,payload.type);else if(action==='callFlor')callFlor(p);else if(action==='raiseFlor')raiseFlor(p,payload.level);else if(action==='resolveFlor')resolveFlor(p,payload.accept);else if(action==='resolveEnvido')resolveEnvido(p,payload.accept);else if(action==='callTruco')callTruco(p,payload.level);else if(action==='resolveTruco')resolveTruco(p,payload.accept);else if(action==='fold')foldHand(p);
 }
-function updateP2PClientStatus(){
- if(p2pRole!=='client'||!state)return;
- if(state.handOver){setStatus(state.gameOver?'Partida terminada.':'Mano terminada.');return;}
- const pending=state.florPending||state.envidoPending||state.trucoPending;
- if(pending){setStatus(pending.caller===localPlayer?'Esperando la respuesta del rival…':'El rival cantó. Respondé desde los botones.');return;}
- if(state.animatingCard||state.resolvingTrick){setStatus('La jugada está en curso…');return;}
- setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':'Esperando al rival…');
-}
-function sendP2PSnapshot(){
- if(!p2pConnected||!p2pOpponentId||p2pRole!=='host'||!state)return;
- const snap=JSON.parse(JSON.stringify(state));snap.deck=[];snap.hands[0]=Array.from({length:state.hands[0].length},(_,i)=>({id:'hidden-'+i}));
- try{sendP2PMessage({type:'snapshot',seq:++p2pSnapshotSeq,state:snap,config:{targetPoints:state.targetPoints,withFlor:state.withFlor}});}catch(error){setP2PStatus('No se pudo sincronizar la partida.');}
-}
-function beginP2PHostGame(){
- if(p2pRole!=='host'||!p2pConnected||!p2pOpponentId)return;
- clearP2PWaitTimer();
- $('gameConfigLine').textContent=`P2P · ${p2pConfig.targetPoints} puntos · ${p2pConfig.withFlor?'Con flor':'Sin flor'}`;
- showGameShell();hideP2PLobby();
- if(!p2pStarting||!state){p2pStarting=true;newGame(p2pConfig||readConfig());}
- else sendP2PSnapshot();
-}
-function handleP2PAction(msg){
- if(p2pRole!=='host'||!msg||msg.type!=='action'||!state)return;
- const p=1,a=msg.action,x=msg.payload||{};
- if(a==='play'){if(state.turn!==p||mustAnnounceFlor(p))return;const i=state.hands[p].findIndex(c=>c.id===x.cardId);if(i>=0&&!state.animatingCard&&!state.envidoPending&&!state.trucoPending&&!state.florPending){const c=state.hands[p].splice(i,1)[0];placeCard(p,c,null);}}
- else if(a==='callEnvido'){if(state.turn===p)callEnvido(p,x.type);}else if(a==='raiseEnvido')raiseEnvido(p,x.type);else if(a==='callFlor')callFlor(p);else if(a==='raiseFlor')raiseFlor(p,x.level);else if(a==='resolveFlor')resolveFlor(p,!!x.accept);else if(a==='resolveEnvido')resolveEnvido(p,!!x.accept);else if(a==='callTruco'){if(state.turn===p)callTruco(p,x.level);}else if(a==='resolveTruco')resolveTruco(p,!!x.accept);else if(a==='fold')foldHand(p);else if(a==='nextHand'&&state.handOver&&!state.gameOver){$('overlay').classList.remove('show');startNextHand();}else if(a==='restart'&&state.gameOver)newGame(p2pConfig);
-}
-function p2pConnectFailureMessage(){
- const relay=p2pTurnConfigured?'TURN personalizado estaba configurado.':'No hay TURN personalizado; Trystero intentó conexión directa con STUN.';
- return `No apareció el anfitrión en la sala. Verificá que ambos usen la misma versión y el mismo código. ${relay} Si la red bloquea WebRTC, puede hacer falta TURN.`;
-}
-async function createP2PRoom(){
- closeNetwork();
- const attempt=++p2pAttemptId;
- if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
- gameMode='p2p';localPlayer=0;p2pRole='host';p2pRoomFull=false;p2pConfig=readConfig();p2pStarting=false;p2pTurnServers=savedTurnIceServers();
- p2pRoomCode=randomRoomCode($('p2pVisibility').value==='private');$('p2pRoomCode').value=p2pRoomCode;
- showGameShell();showP2PLobby('Preparando sala Trystero','Cargando el sistema de conexión…',p2pRoomCode);setP2PStatus('Cargando Trystero…');
- try{
-  await p2pLeavePromise;
-  await loadTrystero();
-  if(attempt!==p2pAttemptId||p2pRole!=='host')return;
-  makeTrysteroRoom(p2pRoomCode,p2pTurnServers);
-  const invite=encodeRoomInvite(p2pRoomCode,p2pTurnServers);
-  $('p2pRoomCode').value=invite;$('p2pLobbyCode').value=invite;
-  setP2PStatus(p2pTurnServers?'Sala Trystero creada con TURN. Compartí el código completo.':'Sala Trystero creada. Compartí el código y esperá a tu rival.');
-  p2pWaitTimer=setTimeout(()=>{if(p2pRole==='host'&&!p2pStarting)setP2PStatus('La sala sigue abierta, pero todavía no se inició la partida. Comprobá que el rival use el mismo código y versión.');},30000);
- }catch(error){console.error(error);if(attempt===p2pAttemptId)setP2PStatus(error?.message||'No se pudo crear la sala Trystero. Revisá Internet y volvé a intentar.');}
-}
-async function joinP2PRoom(){
- const rawCode=$('p2pRoomCode').value.trim();
- const invite=decodeRoomInvite(rawCode);
- if(invite.error){setP2PStatus(invite.error);return;}
- const roomId=invite.roomId;
- if(roomId.length<6||roomId.length>100){setP2PStatus('Ingresá un código de sala válido.');return;}
- closeNetwork();
- const attempt=++p2pAttemptId;
- if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
- gameMode='p2p';localPlayer=1;p2pRole='client';p2pRoomFull=false;p2pStarting=false;p2pTurnServers=invite.turnServers||savedTurnIceServers();showGameShell();
- $('gameConfigLine').textContent='P2P · conectando…';showP2PLobby('Conectando a la sala Trystero','Buscando al anfitrión en la red de señalización…',rawCode);setStatus('Conectando con la sala…');setP2PStatus(invite.embedded?'Código Trystero con TURN detectado. Buscando anfitrión…':'Buscando sala Trystero…');
- try{
-  await p2pLeavePromise;
-  await loadTrystero();
-  if(attempt!==p2pAttemptId||p2pRole!=='client')return;
-  makeTrysteroRoom(roomId,p2pTurnServers);
-  p2pWaitTimer=setTimeout(()=>{if(attempt===p2pAttemptId&&p2pRole==='client'&&!state&&!p2pRoomFull)setP2PStatus(p2pConnectFailureMessage());},35000);
- }catch(error){console.error(error);if(attempt===p2pAttemptId)setP2PStatus(error?.message||'No se pudo iniciar Trystero. Revisá Internet y volvé a intentar.');}
-}
 function readConfig(){return {targetPoints:Number($('targetPoints').value)||30,withFlor:$('florEnabled').checked,difficulty:$('menuDifficulty').value||'medium'};}
-function startConfiguredGame(){const cfg=readConfig();closeNetwork();gameMode='ai';localPlayer=0;p2pRole=null;hideP2PLobby();showGameShell();newGame(cfg);}
-function openMainMenu(){envidoRevealRun++;const returnMode=gameMode==='p2p'?'p2p':$('gameMode').value;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;if(gameMode==='p2p')closeNetwork();gameMode='ai';localPlayer=0;if(state)state.aiThinking=false;$('overlay').classList.remove('show');hideP2PLobby();if(state){$('targetPoints').value=state.targetPoints;$('florEnabled').checked=state.withFlor;if(state.difficulty)$('menuDifficulty').value=state.difficulty;}$('gameMode').value=returnMode;syncModeMenuUI();$('gameApp').classList.remove('active');$('mainMenu').classList.remove('hidden');document.body.classList.remove('in-game');}
-function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=gameMode==='p2p'?`P2P · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'}`:`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
+function startConfiguredGame(){const cfg=readConfig();showGameShell();newGame(cfg);}
+function openMainMenu(){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;if(state)state.aiThinking=false;$('overlay').classList.remove('show');if(state){$('targetPoints').value=state.targetPoints;$('florEnabled').checked=state.withFlor;if(state.difficulty)$('menuDifficulty').value=state.difficulty;}$('gameApp').classList.remove('active');$('mainMenu').classList.remove('hidden');document.body.classList.remove('in-game');}
+function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
 function startHand(){
  state.handNo++;state.deck=shuffle(deckBase.map(c=>({...c})));state.hands=[[],[]];
  for(let i=0;i<6;i++)state.hands[i%2].push(state.deck.pop());
@@ -1327,15 +958,10 @@ function startHand(){
  eventText('eventEnvido','Sin cantar');eventText('eventBaza','Baza 1 · en juego');eventText('eventHand','En juego');
  setStatus('Las cartas están en la mesa.');log(`Mano ${state.handNo}: ${playerName(state.mano)} es mano.`);render();
  if(state.withFlor){
-  if(gameMode==='ai'){
-   if(hasFlor(state.hands[1])){callFlor(1);return;}
-   if(!hasFlor(state.hands[0])){state.florDone=true;render();}
-  }else{
-   // En P2P cada jugador anuncia su propia flor; nunca se debe cantar por el rival.
-   state.florDone=!(hasFlor(state.hands[0])||hasFlor(state.hands[1]));render();
-  }
+  if(hasFlor(state.hands[1])){callFlor(1);return;}
+  if(!hasFlor(state.hands[0])){state.florDone=true;render();}
  }
- if(gameMode==='ai'&&state.turn===1)scheduleAI(1050);
+ if(state.turn===1)scheduleAI(1050);
 }
 function startNextHand(){if(state.gameOver)return;state.mano=1-state.mano;startHand();}
 function envidoPoints(hand){
@@ -1346,28 +972,28 @@ function offerValue(type){return type==='envido'?2:type==='real'?3:Math.max(1,st
 function callEnvido(player,type){
  if(!envidoOpen()||state.handOver)return;
  if(state.trucoPending){state.heldTruco=state.trucoPending;state.trucoPending=null;}
- floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+typeName(type).toUpperCase());const value=offerValue(type);state.envidoPending={caller:player,firstCaller:player,type,committed:0,offeredValue:value,chain:1};
- setStatus(player===localPlayer?`Cantaste ${typeName(type).toLowerCase()}.`:`${gameMode==='p2p'?'Tu rival':'La IA'} cantó ${typeName(type).toLowerCase()}.`,true);log(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${typeName(type).toLowerCase()}.`);render();
- if(gameMode==='ai'&&player===0)scheduleAIResponse('envido',1050);else render();
+ floatCall((player!==localPlayer?('LA IA · '):'')+typeName(type).toUpperCase());const value=offerValue(type);state.envidoPending={caller:player,firstCaller:player,type,committed:0,offeredValue:value,chain:1};
+ setStatus(player===localPlayer?`Cantaste ${typeName(type).toLowerCase()}.`:`${'La IA'} cantó ${typeName(type).toLowerCase()}.`,true);log(`${player===localPlayer?'Cantaste':'La IA cantó'} ${typeName(type).toLowerCase()}.`);render();
+ if(player===0)scheduleAIResponse('envido',1050);else render();
 }
 function raiseEnvido(player,type){
  const p=state.envidoPending;if(!p||p.caller===player||!envidoRaiseOptions(p.type,p.chain).includes(type))return;
- floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+typeName(type).toUpperCase());const committed=p.committed+p.offeredValue;state.envidoPending={caller:player,firstCaller:p.firstCaller??p.caller,type,committed,offeredValue:offerValue(type),chain:p.chain+1};
- setStatus(`${player===localPlayer?'Vos':gameMode==='p2p'?'Tu rival':'La IA'} sube a ${typeName(type)}.`,true);log(`${player===localPlayer?'Subiste':gameMode==='p2p'?'Tu rival subió':'La IA subió'} a ${typeName(type).toLowerCase()}.`);render();
- if(gameMode==='ai'&&player===0)scheduleAIResponse('envido',1050);else render();
+ floatCall((player!==localPlayer?('LA IA · '):'')+typeName(type).toUpperCase());const committed=p.committed+p.offeredValue;state.envidoPending={caller:player,firstCaller:p.firstCaller??p.caller,type,committed,offeredValue:offerValue(type),chain:p.chain+1};
+ setStatus(`${player===localPlayer?'Vos':'La IA'} sube a ${typeName(type)}.`,true);log(`${player===localPlayer?'Subiste':'La IA subió'} a ${typeName(type).toLowerCase()}.`);render();
+ if(player===0)scheduleAIResponse('envido',1050);else render();
 }
 function callFlor(player){
  if(!state.withFlor||state.florDone||state.florPending||!hasFlor(state.hands[player])||state.handOver)return;
  if(state.trucoPending){state.heldTruco=state.trucoPending;state.trucoPending=null;}
  state.envidoDone=true;state.florPending={caller:player,level:1};
- floatCall('FLOR');const message=player===localPlayer?'Cantaste flor.':`${gameMode==='p2p'?'Tu rival':'La IA'} cantó flor.`;setStatus(message,true);log(message);eventText('eventEnvido',message);render();
- if(gameMode==='ai'&&player===0)scheduleAIResponse('flor',950);
- else if(gameMode==='ai'&&player===1&&!hasFlor(state.hands[0]))setTimeout(()=>resolveFlor(0,false),650);
+ floatCall('FLOR');const message=player===localPlayer?'Cantaste flor.':`${'La IA'} cantó flor.`;setStatus(message,true);log(message);eventText('eventEnvido',message);render();
+ if(player===0)scheduleAIResponse('flor',950);
+ else if(player===1&&!hasFlor(state.hands[0]))setTimeout(()=>resolveFlor(0,false),650);
 }
 function raiseFlor(player,level){
  const p=state.florPending;if(!p||p.caller===player||!hasFlor(state.hands[player])||level<=p.level||level>3)return;
- state.florPending={caller:player,level};floatCall(level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO');setStatus(player===localPlayer?`Cantaste ${level===2?'contra flor':'contra flor al resto'}.`:`${gameMode==='p2p'?'Tu rival':'La IA'} canta ${level===2?'contra flor':'contra flor al resto'}.`,true);eventText('eventEnvido',`${playerName(player)} sube a ${level===2?'contra flor':'contra flor al resto'}`);render();
- if(gameMode==='ai'&&player===0)scheduleAIResponse('flor',950);
+ state.florPending={caller:player,level};floatCall(level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO');setStatus(player===localPlayer?`Cantaste ${level===2?'contra flor':'contra flor al resto'}.`:`${'La IA'} canta ${level===2?'contra flor':'contra flor al resto'}.`,true);eventText('eventEnvido',`${playerName(player)} sube a ${level===2?'contra flor':'contra flor al resto'}`);render();
+ if(player===0)scheduleAIResponse('flor',950);
 }
 function resolveFlor(responder,accept){
  const p=state.florPending;if(!p||p.caller===responder)return;
@@ -1378,9 +1004,9 @@ function resolveFlor(responder,accept){
   pts=p.level===1?3:p.level===2?6:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));floatCall('¡QUIERO!');
  }
  state.scores[winner]+=pts;state.florPending=null;state.florDone=true;state.envidoDone=true;
- const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);const refusal=hasOther?(responder===localPlayer?'no quisiste el canto':`${gameMode==='p2p'?'tu rival':'la IA'} no quiso el canto`):(responder===localPlayer?'no tenés flor':`${gameMode==='p2p'?'tu rival':'la IA'} no tiene flor`);const detail=accept?`Flor: ${playerName(0)} ${a} · ${playerName(1)} ${b}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`:`${refusal}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
+ const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);const refusal=hasOther?(responder===localPlayer?'no quisiste el canto':`${'la IA'} no quiso el canto`):(responder===localPlayer?'no tenés flor':`${'la IA'} no tiene flor`);const detail=accept?`Flor: ${playerName(0)} ${a} · ${playerName(1)} ${b}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`:`${refusal}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
  eventText('eventEnvido',detail);log(detail);setStatus(detail,true);renderScore();render();
- if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);return;}
+ if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);return;}
  if(state.heldTruco){state.trucoPending=state.heldTruco;state.heldTruco=null;setStatus('Se resolvió la flor. Respondé el truco.',true);render();return;}
  continueTurn();
 }
@@ -1400,10 +1026,7 @@ function restoreAfterEnvido(){
 let envidoRevealRun=0;
 function showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail){
  const host=$('envidoReveal');if(!host)return;
- if(gameMode==='p2p'&&p2pRole==='host'&&p2pConnected){
-  try{sendP2PMessage({type:'envidoReveal',firstCaller,your,ai,winner,pts,detail});}catch{}
- }
- const run=++envidoRevealRun;
+  const run=++envidoRevealRun;
  state.envidoRevealing=true;host.classList.remove('fade-out');
  const firstValue=firstCaller===0?your:ai,other=1-firstCaller;
  const firstNode=$(firstCaller===0?'revealYou':'revealAI'),otherNode=$(other===0?'revealYou':'revealAI');
@@ -1438,7 +1061,7 @@ function showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail){
   await pause(1500);if(run!==envidoRevealRun)return;
   await dismiss(otherNode);if(run!==envidoRevealRun)return;
   state.envidoRevealing=false;
-  if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);render();return;}
+  if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);render();return;}
   restoreAfterEnvido();render();
  })();
 }
@@ -1451,7 +1074,7 @@ function resolveEnvido(responder,accept){
   const pts=Math.max(1,p.committed);state.scores[p.caller]+=pts;
   const detail=`Envido no querido: ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;
   eventText('eventEnvido',detail);setStatus(detail,true);log(detail);renderScore();state.envidoRevealing=true;render();
-  setTimeout(()=>{state.envidoRevealing=false;if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}else restoreAfterEnvido();render();},850);
+  setTimeout(()=>{state.envidoRevealing=false;if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}else restoreAfterEnvido();render();},850);
   return;
  }
  const your=envidoPoints(state.hands[0]),ai=envidoPoints(state.hands[1]);
@@ -1543,8 +1166,8 @@ function aiInitialEnvidoType(){
 }
 function callTruco(player,level){
  if(!canRaiseTruco(player))return;
- state.trucoPending={caller:player,level};floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+(level===1?'TRUCO':level===2?'RETRUCO':'VALE CUATRO'));eventText('eventHand',`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}`);setStatus(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'¡truco!':level===2?'¡retruco!':'¡vale cuatro!'}`,true);log(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}.`);render();
- if(gameMode==='ai'&&player===0)scheduleAIResponse('truco',1000);
+ state.trucoPending={caller:player,level};floatCall((player!==localPlayer?('LA IA · '):'')+(level===1?'TRUCO':level===2?'RETRUCO':'VALE CUATRO'));eventText('eventHand',`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}`);setStatus(`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'¡truco!':level===2?'¡retruco!':'¡vale cuatro!'}`,true);log(`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}.`);render();
+ if(player===0)scheduleAIResponse('truco',1000);
 }
 function simulatedHandWinner(results){
  if(results.length<2)return null;
@@ -1768,8 +1391,8 @@ function aiShouldRaiseTruco(level){
  const credible=state.hands[1].some(c=>c.strength>=11)||state.tricks.some(t=>t.winner===1);
  return credible&&p>=threshold-.15&&Math.random()<aiBluffChance(p,'raise');
 }
-function resolveTruco(responder,accept){const p=state.trucoPending;if(!p||p.caller===responder)return;state.trucoPending=null;floatCall(accept?'¡QUIERO!':'NO QUIERO');if(!accept){const pts=p.level;state.scores[p.caller]+=pts;const detail=`${responder===localPlayer?'No quisiste':gameMode==='p2p'?'Tu rival no quiso':'La IA no quiso'}. ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;eventText('eventHand',detail);log(detail);setStatus(detail,true);render();finishHand(p.caller,0,true);return;}
- state.trucoLevel=p.level;state.escalateBy=responder;const detail=`${responder===localPlayer?'Quisiste':gameMode==='p2p'?'Tu rival quiso':'La IA quiso'}: ${p.level===1?'truco':p.level===2?'retruco':'vale cuatro'} por ${p.level+1}.`;eventText('eventHand',detail);log(detail);setStatus('¡Quiero! La mano sigue.',true);render();continueTurn();}
+function resolveTruco(responder,accept){const p=state.trucoPending;if(!p||p.caller===responder)return;state.trucoPending=null;floatCall(accept?'¡QUIERO!':'NO QUIERO');if(!accept){const pts=p.level;state.scores[p.caller]+=pts;const detail=`${responder===localPlayer?'No quisiste':'La IA no quiso'}. ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;eventText('eventHand',detail);log(detail);setStatus(detail,true);render();finishHand(p.caller,0,true);return;}
+ state.trucoLevel=p.level;state.escalateBy=responder;const detail=`${responder===localPlayer?'Quisiste':'La IA quiso'}: ${p.level===1?'truco':p.level===2?'retruco':'vale cuatro'} por ${p.level+1}.`;eventText('eventHand',detail);log(detail);setStatus('¡Quiero! La mano sigue.',true);render();continueTurn();}
 function foldHand(player=0){
  if(state.turn!==player||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending)return;
  const winner=1-player;
@@ -1781,13 +1404,13 @@ function foldHand(player=0){
  eventText('eventHand',detail);log(detail);setStatus(detail,true);
  finishHand(winner,0,true);
 }
-function playCard(index){const p=localPlayer;if(!state||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];if(gameMode==='p2p'&&p2pRole==='client'){sendP2PAction('play',{cardId:card.id});return;}playCardFor(p,index);}
+function playCard(index){const p=localPlayer;if(!state||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];playCardFor(p,index);}
 function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player].splice(index,1)[0];if(card)placeCard(player,card,origin);}
 function placeCard(player,card,originRect=null){
  if(state.handOver||state.animatingCard)return;
  state.publicPlayed.push({player,card});state.currentTrick.push({player,card});state.envidoDone=true;
  state.animatingCard=true;state.turn=state.currentTrick.length===1?other(player):null;
- setStatus(player===localPlayer?'Tiraste una carta.':gameMode==='p2p'?'Tu rival tiró una carta.':'La IA tiró una carta.',true);log(`${playerName(player)} jugó ${rankLabel(card.rank)} de ${suitMeta[card.suit].name.toLowerCase()}.`);
+ setStatus(player===localPlayer?'Tiraste una carta.':'La IA tiró una carta.',true);log(`${playerName(player)} jugó ${rankLabel(card.rank)} de ${suitMeta[card.suit].name.toLowerCase()}.`);
  render();
  const target=$(player===localPlayer?'slotYou':'slotAI').querySelector('.played-card');
  let done=false;
@@ -1797,7 +1420,7 @@ function placeCard(player,card,originRect=null){
   if(target&&target.isConnected)target.style.visibility='';
   setTimeout(()=>{
    state.animatingCard=false;render();
-   if(state.currentTrick.length===1){if(gameMode==='ai'&&state.turn===1)scheduleAI(1150);else if(state.turn===localPlayer)setStatus('Tu turno: elegí una carta o cantá.');return;}
+   if(state.currentTrick.length===1){if(state.turn===1)scheduleAI(1150);else if(state.turn===localPlayer)setStatus('Tu turno: elegí una carta o cantá.');return;}
    setTimeout(resolveTrick,650);
   },120);
  };
@@ -1827,23 +1450,23 @@ function resolveTrick(){
  if(state.currentTrick.length!==2||state.resolvingTrick)return;state.resolvingTrick=true;
  const cards=state.currentTrick.slice(),winner=trickWinner(cards),n=state.tricks.length+1;state.tricks.push({winner,cards});
  if(winner===null){floatCall('PARDA');setStatus(`Baza ${n}: ¡parda!`,true);log(`Baza ${n} empatada.`);eventText('eventBaza',`Baza ${n}: parda`);state.lead=state.mano;}
- else{floatCall(winner===localPlayer?'BAZA PARA VOS':gameMode==='p2p'?'BAZA PARA EL RIVAL':'BAZA PARA LA IA');setStatus(`Baza ${n}: ${winner===localPlayer?'¡tuya!':gameMode==='p2p'?'para tu rival':'para la IA'}`,true);log(`Baza ${n}: ${winner===localPlayer?'la ganaste vos':gameMode==='p2p'?'la ganó tu rival':'la ganó la IA'}.`);eventText('eventBaza',winner===localPlayer?`Baza ${n}: la ganaste vos`:`Baza ${n}: la ganó ${gameMode==='p2p'?'tu rival':'la IA'}`);state.lead=winner;}
+ else{floatCall(winner===localPlayer?'BAZA PARA VOS':'BAZA PARA LA IA');setStatus(`Baza ${n}: ${winner===localPlayer?'¡tuya!':'para la IA'}`,true);log(`Baza ${n}: ${winner===localPlayer?'la ganaste vos':'la ganó la IA'}.`);eventText('eventBaza',winner===localPlayer?`Baza ${n}: la ganaste vos`:`Baza ${n}: la ganó ${'la IA'}`);state.lead=winner;}
  render();
  const played=[...document.querySelectorAll('#slotYou .played-card,#slotAI .played-card')];played.forEach(el=>el.classList.add(el.closest('#slotYou')?'sweep-left':'sweep-right'));
  const result=handWinner(state.tricks);
  setTimeout(()=>{
   state.currentTrick=[];state.resolvingTrick=false;render();
   if(result!==null){setTimeout(()=>finishHand(result),240);return;}
-  state.turn=state.lead;setTimeout(()=>{if(!state.handOver){setStatus(`Baza ${state.tricks.length+1} · ${state.turn===localPlayer?'jugás vos':gameMode==='p2p'?'juega tu rival':'juega la IA'}.`);render();continueTurn();}},650);
+  state.turn=state.lead;setTimeout(()=>{if(!state.handOver){setStatus(`Baza ${state.tricks.length+1} · ${state.turn===localPlayer?'jugás vos':'juega la IA'}.`);render();continueTurn();}},650);
  },900);
 }
-function continueTurn(){if(state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending)return;if(gameMode==='ai'&&state.turn===1)scheduleAI(850);else{setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':gameMode==='p2p'?'Esperando al rival…':'La IA está pensando…');render();}}
+function continueTurn(){if(state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending)return;if(state.turn===1)scheduleAI(850);else{setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':'La IA está pensando…');render();}}
 function finishHand(winner,unused,isFold=false){if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;render();renderScore();
- const title=winner===localPlayer?'¡La mano es tuya!':gameMode==='p2p'?'Tu rival se lleva la mano':'La IA se lleva la mano';const desc=isFold?(state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} se fue al mazo. ${winnerPhrase(winner)} ${state.foldPoints} punto${state.foldPoints===1?'':'s'}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`:`No se quiso el canto. ${winner===0?'Vos te llevás':'La IA se lleva'} los puntos del rechazo. Marcador: ${state.scores[0]} — ${state.scores[1]}.`):`${winner===localPlayer?'Ganaste vos':gameMode==='p2p'?'Tu rival ganó':'La IA ganó'} la mano y suma ${pts} punto${pts===1?'':'s'}${state.trucoLevel?` con ${['','truco','retruco','vale cuatro'][state.trucoLevel]}`:''}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`;
- eventText('eventHand',isFold&&state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} al mazo · ${winnerPhrase(winner)} +${state.foldPoints}`:`${winner===localPlayer?'Ganaste la mano':gameMode==='p2p'?'Tu rival ganó la mano':'La IA ganó la mano'}${pts?` · +${pts}`:''}`);log(desc);render();setStatus(winner===localPlayer?'Mano para vos.':gameMode==='p2p'?'Mano para tu rival.':'Mano para la IA.',true);
- if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`, 'VOLVER AL MENÚ',openMainMenu);}else{showOverlay(`FIN DE LA MANO ${state.handNo}`,title,desc,'SIGUIENTE MANO',()=>{$('overlay').classList.remove('show');startNextHand();});}
+ const title=winner===localPlayer?'¡La mano es tuya!':'La IA se lleva la mano';const desc=isFold?(state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} se fue al mazo. ${winnerPhrase(winner)} ${state.foldPoints} punto${state.foldPoints===1?'':'s'}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`:`No se quiso el canto. ${winner===0?'Vos te llevás':'La IA se lleva'} los puntos del rechazo. Marcador: ${state.scores[0]} — ${state.scores[1]}.`):`${winner===localPlayer?'Ganaste vos':'La IA ganó'} la mano y suma ${pts} punto${pts===1?'':'s'}${state.trucoLevel?` con ${['','truco','retruco','vale cuatro'][state.trucoLevel]}`:''}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`;
+ eventText('eventHand',isFold&&state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} al mazo · ${winnerPhrase(winner)} +${state.foldPoints}`:`${winner===localPlayer?'Ganaste la mano':'La IA ganó la mano'}${pts?` · +${pts}`:''}`);log(desc);render();setStatus(winner===localPlayer?'Mano para vos.':'Mano para la IA.',true);
+ if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`, 'VOLVER AL MENÚ',openMainMenu);}else{showOverlay(`FIN DE LA MANO ${state.handNo}`,title,desc,'SIGUIENTE MANO',()=>{$('overlay').classList.remove('show');startNextHand();});}
 }
-function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
+function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
 function showOverlay(kicker,title,desc,button,fn){$('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
 function unseenPoolForPlay(){return sampleUnknownCards();}
 function chooseAiCard(){
@@ -1896,7 +1519,7 @@ function aiShouldCallTruco(){
  const bluffFloor=d==='impossible'?.37:d==='hard'?.40:d==='medium'?.44:.50;
  return canRepresent&&p>=bluffFloor&&Math.random()<aiBluffChance(p,'truco');
 }
-function runAI(){if(gameMode!=='ai'||aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;
+function runAI(){if(aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;
  try{
   if(state.withFlor&&!state.florDone&&hasFlor(state.hands[1])){aiBusy=false;state.aiThinking=false;callFlor(1);return;}
   if(envidoOpen()&&aiShouldCallEnvido()){const type=aiInitialEnvidoType();aiBusy=false;state.aiThinking=false;callEnvido(1,type);return;}
@@ -1906,27 +1529,14 @@ function runAI(){if(gameMode!=='ai'||aiBusy||state.handOver||state.gameOver||sta
  }catch(e){console.error(e);state.aiThinking=false;aiPlanCache=null;aiBusy=false;const idx=Math.max(0,state.hands[1].length-1);const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;if(state.hands[1][idx])placeCard(1,state.hands[1].splice(idx,1)[0],origin);}
 }
 function scheduleAI(delay=850){
- if(gameMode!=='ai')return;
+ 
  if(aiTimer)clearTimeout(aiTimer);
  state.aiThinking=true;render();setStatus('La IA está pensando su próxima jugada…');
  aiTimer=setTimeout(()=>{aiTimer=null;runAI();},aiThinkDelay('play'));
 }
 $('playerHand').addEventListener('click',ev=>{const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
 $('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
-$('gameMode').addEventListener('change',syncModeMenuUI);
-$('createRoomBtn').addEventListener('click',createP2PRoom);$('joinRoomBtn').addEventListener('click',joinP2PRoom);
-$('saveTurnConfig').addEventListener('click',()=>{
- const raw=$('turnIceInput').value.trim();
- if(!raw){updateTurnConfigStatus('Pegá primero el JSON de credenciales TURN.');return;}
- try{const servers=parseTurnJson(raw);localStorage.setItem('trucoArgTurnIceServers',JSON.stringify(servers));p2pTurnServers=servers;updateTurnConfigStatus('TURN guardado correctamente. La próxima sala Trystero incluirá las credenciales temporales en el código de invitación.');}
- catch(e){updateTurnConfigStatus(e.message||'No pude leer esas credenciales. Pegá el JSON completo.');}
-});
-$('clearTurnConfig').addEventListener('click',()=>{try{localStorage.removeItem('trucoArgTurnIceServers');}catch{}$('turnIceInput').value='';p2pTurnServers=null;updateTurnConfigStatus('TURN borrado. Trystero usará sus servidores STUN predeterminados.');});
-$('copyRoomCodeBtn').addEventListener('click',async()=>{const code=$('p2pRoomCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{ $('p2pRoomCode').select();setP2PStatus('Seleccioné el código: copialo con Ctrl+C.');}});
-$('p2pLobbyCopy').addEventListener('click',async()=>{const code=$('p2pLobbyCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{$('p2pLobbyCode').select();setP2PStatus('Código seleccionado: copialo con Ctrl+C.');}});
-$('p2pLobbyCancel').addEventListener('click',openMainMenu);
-$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';syncModeMenuUI();updateTurnConfigStatus();
-try{const saved=savedTurnIceServers();if(saved)$('turnIceInput').value=JSON.stringify({iceServers:saved},null,2);}catch{}
+$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';
 })();
 </script>
 
