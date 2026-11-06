@@ -71,7 +71,7 @@ body{padding:0;background:radial-gradient(ellipse at 50% 8%,#62452b 0%,#392719 4
 .response-title{font:700 10px Georgia,serif;letter-spacing:.14em;color:#f2d796}
 .response-sub{display:none}.response-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.response-actions .action{min-width:100px;padding:8px 14px}
 .log,.footer{display:none}
-.overlay{background:rgba(14,11,7,.64);backdrop-filter:blur(2px)}
+.overlay{background:rgba(0,0,0,.34);backdrop-filter:none}
 .result-card{border-radius:9px;background:linear-gradient(145deg,#244a37,#10281e);box-shadow:0 22px 60px #000a}
 @keyframes throwFromYou{0%{opacity:0;transform:translate(0,95px) rotate(12deg) scale(.94)}65%{opacity:1;transform:translate(0,-5px) rotate(-3deg) scale(1.015)}100%{opacity:1;transform:translate(0,0) rotate(-2deg) scale(1)}}
 @keyframes throwFromAI{0%{opacity:0;transform:translate(0,-95px) rotate(-12deg) scale(.94)}65%{opacity:1;transform:translate(0,5px) rotate(3deg) scale(1.015)}100%{opacity:1;transform:translate(0,0) rotate(2deg) scale(1)}}
@@ -481,7 +481,7 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 #envidoReveal .envido-bubble.hide{animation:talkBubbleOut .28s ease-in forwards!important;}
 .back-card{overflow:hidden!important;}
 .back-card .back-card-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;border-radius:inherit;}
-.back-card:not(.back-css-fallback):has(.back-card-art){background:transparent!important;}
+.back-card:not(.back-css-fallback):has(.back-card-art){background:#fff!important;}
 .back-card:not(.back-css-fallback):has(.back-card-art):before,.back-card:not(.back-css-fallback):has(.back-card-art):after{display:none!important;}
 @media(max-width:760px){
  #callEffects{inset:0!important;height:100dvh!important;}
@@ -708,9 +708,57 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
  #callEffects .gold-call.gold-call-above{top:19dvh!important;}
 }
 
+
+/* Reparto animado: mazo, reversos y revelado */
+.deal-deck{position:fixed;width:48px;height:70px;z-index:10020;pointer-events:none;border-radius:5px;filter:drop-shadow(0 8px 9px #001a12aa);transform-origin:center;}
+.deal-deck img,.deal-player-back img,.deal-ai-back img{width:100%;height:100%;display:block;object-fit:fill;border-radius:5px;}
+.deal-player-back{position:relative;flex:0 1 auto;width:clamp(82px,8.5vw,104px);height:clamp(124px,12vw,158px);border-radius:6px;overflow:hidden;border:1px solid #d7c28c;background:#fff;box-shadow:0 11px 20px #160e08a8;opacity:0;perspective:900px;}
+.deal-player-back:after{content:'✦';position:absolute;inset:0;display:grid;place-items:center;color:#f1d89b;font-size:25px;text-shadow:0 1px 4px #390e10;pointer-events:none;}
+.deal-ai-back{opacity:0;}
+.back-card.deal-ai-back:before,.back-card.deal-ai-back:after{display:none;}
+.back-card.deal-ai-back img{position:absolute;inset:0;}
+.ai-backs .card.ai-revealed{width:47px;height:69px;flex:0 0 47px;margin-left:-18px;border-radius:5px;box-shadow:0 7px 12px #002218aa;overflow:hidden;position:relative;z-index:2;}
+.ai-backs .card.ai-revealed:first-child{margin-left:0;}
+.ai-backs .card.ai-revealed img{width:100%;height:100%;object-fit:fill;}
+.deal-flying-card{position:fixed;z-index:10021;pointer-events:none;border-radius:5px;overflow:hidden;border:1px solid #d7c28c;background:#fff;box-shadow:0 8px 16px #001a12aa;}
+.deal-flying-card img{width:100%;height:100%;display:block;object-fit:fill;}
+@media(max-width:760px){.deal-player-back{width:clamp(70px,23vw,91px);height:clamp(106px,34vw,138px);}}
+
+/* Cartas del rival: más separación y ligeramente más abajo, lejos del borde curvo de la mesa. */
+.ai-zone{top:clamp(18px,3.2vh,30px)!important;}
+.ai-backs{gap:clamp(3px,.55vw,7px)!important;}
+.ai-backs .card.ai-revealed{margin-left:0!important;flex:0 0 47px;width:47px;height:69px;}
+.ai-backs .card.ai-revealed:first-child{margin-left:0!important;}
+@media(max-height:520px){.ai-zone{top:clamp(12px,3vh,19px)!important;}}
+
+
+/* Pantalla inicial de precarga de la baraja */
+#assetPreloader{position:fixed;inset:0;z-index:30000;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at 50% 42%,#174b38 0%,#0b281f 58%,#071a15 100%);color:#f1d79b;opacity:1;visibility:visible;transition:opacity .38s ease,visibility .38s ease;font-family:inherit}
+#assetPreloader.done{opacity:0;visibility:hidden;pointer-events:none}
+#assetPreloader .loader-panel{width:min(390px,100%);text-align:center;padding:30px 25px 25px;border:1px solid #c8a96b55;border-radius:17px;background:#071c16b8;box-shadow:0 20px 65px #0008}
+#assetPreloader .loader-mark{font-size:35px;line-height:1;margin-bottom:12px;text-shadow:0 3px 12px #0008}
+#assetPreloader h2{margin:0;font-size:19px;letter-spacing:2px;font-weight:850}
+#assetPreloader p{margin:9px 0 20px;color:#d0c4a4;font-size:12px;letter-spacing:.35px}
+#assetPreloader .loader-track{height:7px;border-radius:20px;overflow:hidden;background:#ffffff20;border:1px solid #ffffff18}
+#assetPreloader .loader-fill{height:100%;width:0%;border-radius:20px;background:linear-gradient(90deg,#b58b4d,#f1d79b);transition:width .18s ease}
+#assetPreloader .loader-status{display:flex;justify-content:space-between;gap:12px;margin-top:10px;color:#d9c99f;font-size:11px;font-variant-numeric:tabular-nums}
+#assetPreloader .loader-skip{margin-top:20px;padding:8px 14px;border:1px solid #d7c28c66;border-radius:7px;background:#ffffff0a;color:#e9d8ad;font:700 10px inherit;letter-spacing:1px;cursor:pointer}
+#assetPreloader .loader-skip:hover{background:#ffffff18}
+
 </style>
 </head>
 <body>
+<div id="assetPreloader" role="status" aria-live="polite">
+ <div class="loader-panel">
+  <div class="loader-mark">♠</div>
+  <h2>PREPARANDO LA BARAJA</h2>
+  <p>Estamos cargando las cartas para que la partida empiece más rápido.</p>
+  <div class="loader-track"><div class="loader-fill" id="assetLoaderFill"></div></div>
+  <div class="loader-status"><span id="assetLoaderText">Cargando cartas…</span><span id="assetLoaderCount">0 / 41</span></div>
+  <button class="loader-skip" id="assetLoaderSkip" type="button">CONTINUAR SIN ESPERAR</button>
+ </div>
+</div>
+
 <section class="menu-screen" id="mainMenu">
   <div class="menu-backdrop"></div>
   <div class="menu-card">
@@ -797,7 +845,7 @@ for(const suit of Object.keys(suitMeta)) for(const rank of ranks){
 }
 const CARD_DIR='cards/';
 const difficultyNames={easy:'Fácil',medium:'Medio',hard:'Difícil',impossible:'Imposible'};
-let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null;
+let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null,dealRunId=0;
 const localPlayer=0;
 const other=p=>1-p;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
@@ -806,11 +854,12 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const rankLabel=r=>r===1?'AS':r===10?'SOTA':r===11?'CAB.':r===12?'REY':String(r);
 function cardFile(c){return `card_${suitMeta[c.suit].file}_${String(c.rank).padStart(2,'0')}.svg`;}
 function cardUrl(c){return CARD_DIR+cardFile(c);}
+function cardAssetSrc(file){return window.__trucoCardRaster?.[file]||CARD_DIR+file;}
 const CARD_CDN='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
 function cardMarkup(c,opts={}){
  const tiny=opts.tiny?' tiny':'';const cls=opts.cls||'';const meta=suitMeta[c.suit];const file=cardFile(c);
  // Orden de carga: SVG local -> mismo SVG desde CDN -> carta CSS de emergencia.
- return `<div class="card${tiny} ${cls}" style="--tilt:${opts.tilt||0}deg" data-card="${c.id}"><img src="${CARD_DIR+file}" data-remote-src="${CARD_CDN+file}" alt="${rankLabel(c.rank)} de ${meta.name}" referrerpolicy="no-referrer" onload="this.dataset.loaded='1';this.parentElement.classList.remove('img-failed')" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.dataset.loaded='1';this.parentElement.classList.add('img-failed')}"><div class="fallback ${meta.red?'red':''}"><span class="rank">${rankLabel(c.rank)}</span><span class="suit">${meta.glyph}</span><span class="suitname">${meta.name}</span></div></div>`;
+ return `<div class="card${tiny} ${cls}" style="--tilt:${opts.tilt||0}deg" data-card="${c.id}"><img src="${cardAssetSrc(file)}" data-remote-src="${CARD_CDN+file}" alt="${rankLabel(c.rank)} de ${meta.name}" referrerpolicy="no-referrer" onload="this.dataset.loaded='1';this.parentElement.classList.remove('img-failed')" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.dataset.loaded='1';this.parentElement.classList.add('img-failed')}"><div class="fallback ${meta.red?'red':''}"><span class="rank">${rankLabel(c.rank)}</span><span class="suit">${meta.glyph}</span><span class="suitname">${meta.name}</span></div></div>`;
 }
 function log(msg){state.log=msg;const el=$('logText');if(el)el.textContent=msg;}
 function setStatus(msg,pulse=false){const el=$('statusLine');if(!el)return;el.textContent=msg;if(pulse){el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}}
@@ -873,12 +922,14 @@ function renderHistory(){
  }
 }
 function syncAIBacks(){
- const root=$('aiBacks'),wanted=state.hands[other(localPlayer)].length;
+ const root=$('aiBacks');if(state.dealing)return;
+ const wanted=state.hands[other(localPlayer)].length;
  while(root.children.length>wanted)root.lastElementChild.remove();
- while(root.children.length<wanted){const el=document.createElement('div');el.className='back-card';el.innerHTML=`<img class="back-card-art" src="${CARD_DIR}card_back.svg" data-remote-src="${CARD_CDN}card_back.svg" alt="Reverso de carta" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.remove();this.parentElement.classList.add('back-css-fallback')}">`;root.appendChild(el);}
+ while(root.children.length<wanted){const el=document.createElement('div');el.className='back-card';el.innerHTML=`<img class="back-card-art" src="${cardAssetSrc('card_back.svg')}" data-remote-src="${CARD_CDN}card_back.svg" alt="Reverso de carta" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.remove();this.parentElement.classList.add('back-css-fallback')}">`;root.appendChild(el);}
  [...root.children].forEach((el,i)=>{el.style.setProperty('--r',`${(i-1)*5}deg`);el.style.setProperty('--y',`${Math.abs(i-1)*-2}px`);});
 }
 function syncPlayerHand(yourTurn){
+ if(state.dealing)return;
  const root=$('playerHand'),wanted=state.hands[localPlayer],existing=new Map([...root.children].map(el=>[el.dataset.card,el])),keep=new Set(),ordered=[];
  wanted.forEach((c,i)=>{
   let el=existing.get(c.id);
@@ -899,7 +950,7 @@ function render(){
  if(!state)return;
  renderScore();syncAIBacks();syncPlayedSlot(0);syncPlayedSlot(1);renderHistory();if(state.log)$('logText').textContent=state.log;
  $('roundPill').textContent=`MANO ${String(state.handNo).padStart(2,'0')} · BAZA ${Math.min(3,state.tricks.length+1)}`;
- const yourTurn=state.turn===localPlayer&&!state.handOver&&!state.gameOver&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending&&!mustAnnounceFlor(localPlayer);
+ const yourTurn=!state.dealing&&state.turn===localPlayer&&!state.handOver&&!state.gameOver&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending&&!mustAnnounceFlor(localPlayer);
  $('turnNote').textContent=state.handOver?'Mano terminada':yourTurn?'Tu turno':state.envidoPending||state.trucoPending?'Respondé el canto':'La IA está jugando';
  $('ai-turn-label').textContent=state.aiThinking?'· analizando':state.turn===other(localPlayer)&&!state.handOver?'· pensando':'· esperando';
  const aiZone=$('aiBacks').parentElement;if(aiZone)aiZone.classList.toggle('is-thinking',!!state.aiThinking);
@@ -950,20 +1001,90 @@ function dispatchAction(action,payload){
 }
 function readConfig(){return {targetPoints:Number($('targetPoints').value)||30,withFlor:$('florEnabled').checked,difficulty:$('menuDifficulty').value||'medium'};}
 function startConfiguredGame(){const cfg=readConfig();showGameShell();newGame(cfg);}
-function openMainMenu(){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;if(state)state.aiThinking=false;$('overlay').classList.remove('show');if(state){$('targetPoints').value=state.targetPoints;$('florEnabled').checked=state.withFlor;if(state.difficulty)$('menuDifficulty').value=state.difficulty;}$('gameApp').classList.remove('active');$('mainMenu').classList.remove('hidden');document.body.classList.remove('in-game');}
-function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
+function openMainMenu(){dealRunId++;envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;if(state)state.aiThinking=false;$('overlay').classList.remove('show');if(state){$('targetPoints').value=state.targetPoints;$('florEnabled').checked=state.withFlor;if(state.difficulty)$('menuDifficulty').value=state.difficulty;}$('gameApp').classList.remove('active');$('mainMenu').classList.remove('hidden');document.body.classList.remove('in-game');}
+function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,dealing:false,aiRevealed:false,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
 function startHand(){
+ const run=++dealRunId;
  state.handNo++;state.deck=shuffle(deckBase.map(c=>({...c})));state.hands=[[],[]];
  for(let i=0;i<6;i++)state.hands[i%2].push(state.deck.pop());
- state.turn=state.mano;state.lead=state.mano;state.currentTrick=[];state.tricks=[];state.publicPlayed=[];state.trucoLevel=0;state.escalateBy=null;state.trucoPending=null;state.envidoPending=null;state.florPending=null;state.heldTruco=null;state.envidoDone=false;state.florDone=!state.withFlor;state.handOver=false;state.gameOver=false;state.resolvingTrick=false;state.animatingCard=false;state.aiThinking=false;aiPlanCache=null;state.envidoRevealing=false;state.foldedBy=null;state.foldPoints=0;
+ state.turn=state.mano;state.lead=state.mano;state.currentTrick=[];state.tricks=[];state.publicPlayed=[];state.trucoLevel=0;state.escalateBy=null;state.trucoPending=null;state.envidoPending=null;state.florPending=null;state.heldTruco=null;state.envidoDone=false;state.florDone=!state.withFlor;state.handOver=false;state.gameOver=false;state.resolvingTrick=false;state.animatingCard=false;state.aiThinking=false;state.dealing=true;state.aiRevealed=false;aiPlanCache=null;state.envidoRevealing=false;state.foldedBy=null;state.foldPoints=0;
+ $('playerHand').innerHTML='';$('aiBacks').innerHTML='';
  eventText('eventEnvido','Sin cantar');eventText('eventBaza','Baza 1 · en juego');eventText('eventHand','En juego');
- setStatus('Las cartas están en la mesa.');log(`Mano ${state.handNo}: ${playerName(state.mano)} es mano.`);render();
- if(state.withFlor){
-  if(hasFlor(state.hands[1])){callFlor(1);return;}
-  if(!hasFlor(state.hands[0])){state.florDone=true;render();}
- }
- if(state.turn===1)scheduleAI(1050);
+ setStatus('Repartiendo las cartas…');log(`Mano ${state.handNo}: ${playerName(state.mano)} es mano.`);render();
+ animateDeal(run).then(()=>{
+  if(run!==dealRunId||!state)return;
+  revealPlayerHand().then(()=>{
+   if(run!==dealRunId||!state)return;
+   state.dealing=false;render();
+   if(state.withFlor){
+    if(hasFlor(state.hands[1])){callFlor(1);return;}
+    if(!hasFlor(state.hands[0])){state.florDone=true;render();}
+   }
+   if(state.turn===1)scheduleAI(1050);
+   else setStatus('Tu turno: elegí una carta o cantá.');
+  });
+ });
 }
+function wait(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+function makeBackImage(){const img=document.createElement('img');img.src=cardAssetSrc('card_back.svg');img.alt='Reverso de carta';img.onerror=()=>{if(img.dataset.remoteTried!=='1'){img.dataset.remoteTried='1';img.src=CARD_CDN+'card_back.svg';}else{img.style.display='none';}};return img;}
+async function animateDeal(run){
+ const felt=$('felt'),playerRoot=$('playerHand'),aiRoot=$('aiBacks');if(!felt||!playerRoot||!aiRoot)return;
+ const fr=felt.getBoundingClientRect();
+ const deck=document.createElement('div');deck.className='deal-deck';deck.appendChild(makeBackImage());
+ const startX=Math.min(window.innerWidth-58,fr.right+65),startY=fr.top+fr.height*.43;
+ deck.style.left=`${startX}px`;deck.style.top=`${startY}px`;document.body.appendChild(deck);
+ await wait(30);if(run!==dealRunId){deck.remove();return;}
+ const parkedX=fr.right-Math.min(95,fr.width*.12),parkedY=startY-10;
+ await deck.animate([{transform:'translateX(0) rotate(8deg)',opacity:0},{transform:`translateX(${parkedX-startX}px) rotate(0deg)`,opacity:1}],{duration:430,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'}).finished.catch(()=>{});
+ if(run!==dealRunId){deck.remove();return;}
+ for(let i=0;i<6;i++){
+  const isPlayer=i%2===0,root=isPlayer?playerRoot:aiRoot;
+  const placeholder=document.createElement('div');
+  if(isPlayer){placeholder.className='deal-player-back';placeholder.dataset.dealIndex=String(Math.floor(i/2));placeholder.appendChild(makeBackImage());}
+  else{placeholder.className='back-card deal-ai-back';placeholder.appendChild(makeBackImage());}
+  root.appendChild(placeholder);
+  const target=placeholder.getBoundingClientRect();
+  const source=deck.getBoundingClientRect();
+  const flight=document.createElement('div');flight.className='deal-flying-card';flight.appendChild(makeBackImage());
+  Object.assign(flight.style,{left:`${source.left}px`,top:`${source.top}px`,width:`${source.width}px`,height:`${source.height}px`});document.body.appendChild(flight);
+  const dx=target.left-source.left,dy=target.top-source.top,sx=target.width/source.width,sy=target.height/source.height;
+  await flight.animate([
+   {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1},
+   {transform:`translate(${dx*.72}px,${dy*.72}px) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${isPlayer?-4:4}deg)`,opacity:1,offset:.72},
+   {transform:`translate(${dx}px,${dy}px) scale(${sx},${sy}) rotate(0deg)`,opacity:1}
+  ],{duration:260,easing:'cubic-bezier(.2,.72,.22,1)',fill:'forwards'}).finished.catch(()=>{});
+  flight.remove();placeholder.style.opacity='1';
+  if(run!==dealRunId){deck.remove();return;}
+  await wait(95);
+ }
+ await deck.animate([{transform:'translateX(0) scale(1)',opacity:1},{transform:'translateX(28px) scale(.94)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
+ deck.remove();
+}
+async function revealPlayerHand(){
+ const root=$('playerHand'),backs=[...root.querySelectorAll('.deal-player-back')];
+ for(let i=0;i<backs.length;i++){
+  const old=backs[i],card=state.hands[0][i];if(!old||!card)continue;
+  await old.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(90deg)'}],{duration:170,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
+  const template=document.createElement('template');template.innerHTML=cardMarkup(card,{tilt:(i-1)*2});const face=template.content.firstElementChild;face.dataset.index=String(i);face.classList.add('deal-revealed');old.replaceWith(face);
+  face.animate([{transform:'rotateY(-90deg)',opacity:.75},{transform:'rotateY(0deg)',opacity:1}],{duration:220,easing:'ease-out',fill:'both'});
+  await wait(75);
+ }
+ activateCardFallbacks(root);
+}
+async function revealAIHand(){
+ if(!state||state.aiRevealed)return;state.aiRevealed=true;const run=dealRunId;
+ const root=$('aiBacks'),backs=[...root.children];
+ for(let i=0;i<backs.length;i++){
+  if(run!==dealRunId)return;
+  const old=backs[i],card=state.hands[1][i];if(!old||!card)continue;
+  await old.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(90deg)'}],{duration:190,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
+  const template=document.createElement('template');template.innerHTML=cardMarkup(card,{tilt:(i-1)*5});const face=template.content.firstElementChild;face.classList.add('ai-revealed');old.replaceWith(face);
+  face.animate([{transform:'rotateY(-90deg) scale(.96)',opacity:.7},{transform:'rotateY(0deg) scale(1.08)',opacity:1}],{duration:240,easing:'ease-out',fill:'both'});
+  await wait(90);
+ }
+ activateCardFallbacks(root);
+}
+
 function startNextHand(){if(state.gameOver)return;state.mano=1-state.mano;startHand();}
 function envidoPoints(hand){
  let best=0;for(const suit of Object.keys(suitMeta)){const vals=hand.filter(c=>c.suit===suit).map(c=>c.envido).sort((a,b)=>b-a);if(vals.length>=2)best=Math.max(best,20+vals[0]+vals[1]);else if(vals.length===1)best=Math.max(best,vals[0]);}return best;
@@ -1405,7 +1526,7 @@ function foldHand(player=0){
  eventText('eventHand',detail);log(detail);setStatus(detail,true);
  finishHand(winner,0,true);
 }
-function playCard(index){const p=localPlayer;if(!state||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];playCardFor(p,index);}
+function playCard(index){const p=localPlayer;if(!state||state.dealing||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];playCardFor(p,index);}
 function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player].splice(index,1)[0];if(card)placeCard(player,card,origin);}
 function placeCard(player,card,originRect=null){
  if(state.handOver||state.animatingCard)return;
@@ -1462,10 +1583,15 @@ function resolveTrick(){
  },900);
 }
 function continueTurn(){if(state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending)return;if(state.turn===1)scheduleAI(850);else{setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':'La IA está pensando…');render();}}
-function finishHand(winner,unused,isFold=false){if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;render();renderScore();
+function finishHand(winner,unused,isFold=false){
+ if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;render();renderScore();
  const title=winner===localPlayer?'¡La mano es tuya!':'La IA se lleva la mano';const desc=isFold?(state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} se fue al mazo. ${winnerPhrase(winner)} ${state.foldPoints} punto${state.foldPoints===1?'':'s'}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`:`No se quiso el canto. ${winner===0?'Vos te llevás':'La IA se lleva'} los puntos del rechazo. Marcador: ${state.scores[0]} — ${state.scores[1]}.`):`${winner===localPlayer?'Ganaste vos':'La IA ganó'} la mano y suma ${pts} punto${pts===1?'':'s'}${state.trucoLevel?` con ${['','truco','retruco','vale cuatro'][state.trucoLevel]}`:''}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`;
  eventText('eventHand',isFold&&state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} al mazo · ${winnerPhrase(winner)} +${state.foldPoints}`:`${winner===localPlayer?'Ganaste la mano':'La IA ganó la mano'}${pts?` · +${pts}`:''}`);log(desc);render();setStatus(winner===localPlayer?'Mano para vos.':'Mano para la IA.',true);
- if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`, 'VOLVER AL MENÚ',openMainMenu);}else{showOverlay(`FIN DE LA MANO ${state.handNo}`,title,desc,'SIGUIENTE MANO',()=>{$('overlay').classList.remove('show');startNextHand();});}
+ const revealRun=dealRunId;revealAIHand().then(()=>{
+  if(!state||revealRun!==dealRunId)return;
+  if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`, 'VOLVER AL MENÚ',openMainMenu);}
+  else showOverlay(`FIN DE LA MANO ${state.handNo}`,title,desc,'SIGUIENTE MANO',()=>{$('overlay').classList.remove('show');startNextHand();});
+ });
 }
 function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
 function showOverlay(kicker,title,desc,button,fn){$('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
@@ -1561,6 +1687,80 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
  window.addEventListener('resize',syncCardZoom,{passive:true});
  if(window.visualViewport)window.visualViewport.addEventListener('resize',syncCardZoom,{passive:true});
  syncCardZoom();
+})();
+</script>
+
+
+<script>
+(()=>{
+ 'use strict';
+ const screen=document.getElementById('assetPreloader');
+ const fill=document.getElementById('assetLoaderFill');
+ const label=document.getElementById('assetLoaderText');
+ const count=document.getElementById('assetLoaderCount');
+ const skip=document.getElementById('assetLoaderSkip');
+ if(!screen)return;
+ const suits=['swords','clubs','coins','cups'];
+ const ranks=[1,2,3,4,5,6,7,10,11,12];
+ const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
+ const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
+ const rasterMap=window.__trucoCardRaster=Object.create(null);
+ const cacheName='truco-card-raster-v2';
+ let completed=0,finished=false,cachePromise=null;
+ const total=files.length;
+ function update(name){
+  completed++;
+  const pct=Math.round(completed/total*100);
+  if(fill)fill.style.width=pct+'%';
+  if(count)count.textContent=`${completed} / ${total}`;
+  if(label)label.textContent=completed===total?'¡Baraja lista!':`Optimizando ${name}…`;
+  if(completed>=total)close();
+ }
+ function close(){if(finished)return;finished=true;screen.classList.add('done');setTimeout(()=>screen.remove(),450);}
+ skip?.addEventListener('click',close);
+ function cacheKey(file){return new Request(new URL(`__truco_raster_cache__/${file.replace(/\.svg$/i,'.webp')}`,location.href).href);}
+ async function getCache(){
+  if(!('caches' in window))return null;
+  try{if(!cachePromise)cachePromise=caches.open(cacheName);return await cachePromise;}catch(_){return null;}
+ }
+ async function sourceBlob(file){
+  let response;
+  try{response=await fetch('cards/'+file,{cache:'force-cache'});if(!response.ok)throw new Error('local');return await response.blob();}
+  catch(_){response=await fetch(cdn+file,{mode:'cors',cache:'force-cache'});if(!response.ok)throw new Error('remote');return await response.blob();}
+ }
+ async function rasterize(blob){
+  const url=URL.createObjectURL(blob);
+  try{
+   const img=new Image();img.decoding='async';img.src=url;
+   if(img.decode)await img.decode();else await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;});
+   const canvas=document.createElement('canvas');canvas.width=144;canvas.height=222;
+   const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw new Error('canvas');
+   ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+   ctx.drawImage(img,0,0,canvas.width,canvas.height);
+   const webp=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',0.78));
+   if(!webp)throw new Error('webp');return webp;
+  }finally{URL.revokeObjectURL(url);}
+ }
+ async function processFile(file){
+  const cache=await getCache(),key=cacheKey(file);
+  try{
+   let blob=null;
+   if(cache){const hit=await cache.match(key);if(hit)blob=await hit.blob();}
+   if(!blob){const original=await sourceBlob(file);blob=await rasterize(original);if(cache)await cache.put(key,new Response(blob,{headers:{'Content-Type':'image/webp','Cache-Control':'public, max-age=31536000'}}));}
+   rasterMap[file]=URL.createObjectURL(blob);
+  }catch(_){
+   // Si el navegador no admite conversión o la fuente falla, conserva el SVG original.
+   rasterMap[file]='cards/'+file;
+  }
+ }
+ let next=0;
+ async function worker(){
+  while(!finished&&next<files.length){const file=files[next++];await processFile(file);update(file);}
+ }
+ // Convierte las cartas a WebP de 144×222 px y calidad 78%; la caché evita repetirlo al volver.
+ Promise.all(Array.from({length:Math.min(4,total)},()=>worker())).then(()=>{if(!finished)close();});
+ // No bloquear la entrada si una red o un servidor deja una petición colgada.
+ setTimeout(close,18000);
 })();
 </script>
 
