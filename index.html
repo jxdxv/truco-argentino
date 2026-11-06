@@ -494,10 +494,18 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .p2p-actions button{border:1px solid rgba(225,202,145,.32);border-radius:8px;padding:10px 7px;background:#183d2d;color:#f1dfb8;font:700 10px inherit;letter-spacing:.08em;cursor:pointer}
 .p2p-actions button.primary{background:linear-gradient(135deg,#c69d55,#8c642d);color:#1b160d}
 .p2p-code-row{display:flex;gap:6px;align-items:center}
-.p2p-code-row input{min-width:0;text-transform:uppercase;letter-spacing:.16em;text-align:center}
+.p2p-code-row input{min-width:0;text-transform:none;letter-spacing:.04em;text-align:center}
 .p2p-hint{font-size:9px;line-height:1.5;color:#9eb4a2;letter-spacing:0;text-transform:none}
 .p2p-status{font-size:10px;line-height:1.45;color:#e4d4a7;min-height:14px;text-align:center}
-@media(max-width:440px){.p2p-actions{grid-template-columns:1fr}.p2p-panel{padding:9px}}
+.p2p-turn{border:1px solid rgba(225,202,145,.2);border-radius:8px;padding:9px;background:rgba(0,0,0,.13)}
+.p2p-turn summary{cursor:pointer;color:#dfc98f;font-size:9px;font-weight:800;letter-spacing:.08em;list-style-position:inside}
+.p2p-turn-body{display:grid;gap:8px;padding-top:9px}
+.p2p-turn-body p,.p2p-turn-body small{margin:0;color:#aebfae;font-size:9px;line-height:1.5;letter-spacing:0;text-transform:none}
+.p2p-turn-body a{color:#e5c987;font-size:9px;font-weight:800;letter-spacing:.04em;text-decoration:underline}
+.p2p-turn-body textarea{width:100%;min-height:78px;resize:vertical;border:1px solid rgba(225,202,145,.28);border-radius:7px;background:#071c15;color:#f3e6c7;padding:8px;font:10px/1.4 ui-monospace,Consolas,monospace;letter-spacing:0;text-transform:none}
+.p2p-turn-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.p2p-turn-actions button{border:1px solid rgba(225,202,145,.28);border-radius:7px;padding:8px;background:#183d2d;color:#f1dfb8;font-size:9px;font-weight:800;cursor:pointer}
+@media(max-width:440px){.p2p-actions{grid-template-columns:1fr}.p2p-panel{padding:9px}.p2p-turn-actions{grid-template-columns:1fr 1fr}}
 
 /* FIX DEFINITIVO DE ANUNCIOS MÓVILES: capas fuera del contenedor con overflow y animación CSS nativa. */
 #callEffects{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:2147483000!important;display:block!important;overflow:visible!important;pointer-events:none!important;isolation:isolate!important;clip-path:none!important;}
@@ -753,8 +761,18 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
       <div class="p2p-panel" id="p2pOptions">
         <label>TIPO DE SALA<select id="p2pVisibility"><option value="public">Pública · código compartible</option><option value="private">Privada · código secreto</option></select></label>
         <div class="p2p-hint">Pública: cualquiera que tenga el código puede entrar. Privada: usa un código más largo y difícil de adivinar. Se necesita Internet y el segundo jugador entra pegando el código. No hay un listado público de salas.</div>
+        <details class="p2p-turn">
+          <summary>¿NO CONECTA? CONFIGURAR RELÉ TURN GRATIS</summary>
+          <div class="p2p-turn-body">
+            <p>TURN ayuda cuando el router o la red móvil bloquean la conexión directa. Generá credenciales temporales gratuitas, pegá aquí el JSON y guardalo. El código de invitación las incluirá automáticamente para tu rival.</p>
+            <a href="https://rstream.io/tools/turn-server" target="_blank" rel="noopener noreferrer">ABRIR GENERADOR TURN GRATIS (DURA 1 HORA) ↗</a>
+            <label>JSON DE CREDENCIALES TURN<textarea id="turnIceInput" rows="4" spellcheck="false" placeholder='Pegá el JSON descargado o el objeto que contiene "iceServers"…'></textarea></label>
+            <div class="p2p-turn-actions"><button type="button" id="saveTurnConfig">GUARDAR TURN</button><button type="button" id="clearTurnConfig">BORRAR</button></div>
+            <small id="turnConfigStatus">Sin TURN personalizado: se intentará conexión directa con STUN.</small>
+          </div>
+        </details>
         <div class="p2p-actions"><button class="primary" id="createRoomBtn">CREAR SALA</button><button id="joinRoomBtn">UNIRSE A SALA</button></div>
-        <label>CÓDIGO DE SALA<div class="p2p-code-row"><input id="p2pRoomCode" maxlength="16" placeholder="PEGÁ EL CÓDIGO" autocomplete="off" spellcheck="false"><button type="button" id="copyRoomCodeBtn" aria-label="Copiar código" style="border:1px solid rgba(225,202,145,.3);border-radius:8px;padding:10px;background:#183d2d;color:#f1dfb8;cursor:pointer">COPIAR</button></div></label>
+        <label>CÓDIGO DE SALA<div class="p2p-code-row"><input id="p2pRoomCode" maxlength="5000" placeholder="PEGÁ EL CÓDIGO" autocomplete="off" spellcheck="false"><button type="button" id="copyRoomCodeBtn" aria-label="Copiar código" style="border:1px solid rgba(225,202,145,.3);border-radius:8px;padding:10px;background:#183d2d;color:#f1dfb8;cursor:pointer">COPIAR</button></div></label>
         <div class="p2p-status" id="p2pStatus">Creá una sala o ingresá el código de tu rival.</div>
       </div>
       <label class="menu-field"><span>PARTIDA A</span><select id="targetPoints"><option value="15">15 puntos</option><option value="30" selected>30 puntos</option><option value="40">40 puntos</option></select></label>
@@ -847,7 +865,7 @@ for(const suit of Object.keys(suitMeta)) for(const rank of ranks){
 const CARD_DIR='cards/';
 const difficultyNames={easy:'Fácil',medium:'Medio',hard:'Difícil',impossible:'Imposible'};
 let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null,pendingRemoteEnvidoReveal=null;
-let gameMode='ai',localPlayer=0,netRole=null,netPeer=null,netConn=null,netRoomCode='',netConfig=null,netStarting=false,netRoomFull=false,netSnapshotSeq=0,netLastSnapshot=0,netConnectTimer=null;
+let gameMode='ai',localPlayer=0,netRole=null,netPeer=null,netConn=null,netRoomCode='',netConfig=null,netStarting=false,netRoomFull=false,netSnapshotSeq=0,netLastSnapshot=0,netConnectTimer=null,netIceServers=null,netIceState='new',netIceConfigured=false;
 const other=p=>1-p;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const rand=a=>a[Math.floor(Math.random()*a.length)];
@@ -1030,19 +1048,86 @@ function showP2PLobby(title,message,code=''){
 function hideP2PLobby(){$('p2pLobby').classList.remove('active');}
 function randomRoomCode(privateRoom=false){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',len=privateRoom?13:7;let out='';for(let i=0;i<len;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out;}
 function showGameShell(){ $('mainMenu').classList.add('hidden');$('gameApp').classList.add('active');document.body.classList.add('in-game'); }
-function createPeer(peerId){
- // Configuración explícita: STUN para descubrir rutas directas y TURN de PeerJS
- // como respaldo cuando la red móvil/NAT no permite una conexión directa.
- const options={debug:2,host:'0.peerjs.com',port:443,path:'/',secure:true,config:{
-  iceServers:[
-   {urls:'stun:stun.l.google.com:19302'},
-   {urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'}
-  ],sdpSemantics:'unified-plan'
- }};
+const DEFAULT_ICE_SERVERS=[
+ {urls:'stun:stun.l.google.com:19302'},
+ {urls:'stun:stun.cloudflare.com:3478'}
+];
+function normalizeIceServers(value){
+ let list=Array.isArray(value)?value:(value&&Array.isArray(value.iceServers)?value.iceServers:null);
+ if(!list&&value&&value.iceServers&&typeof value.iceServers==='object')list=[value.iceServers];
+ if(!list&&value&&value.iceServer)list=[value.iceServer];
+ if(!list&&value&&value.urls)list=[value];
+ if(!Array.isArray(list))return null;
+ const clean=list.filter(item=>item&&((typeof item.urls==='string'&&item.urls.trim())||(Array.isArray(item.urls)&&item.urls.some(u=>typeof u==='string'&&u.trim())))).map(item=>item.credential!==undefined?item:{...item,...(item.password!==undefined?{credential:item.password}:{})});
+ if(!clean.length||!clean.some(item=>[].concat(item.urls).some(url=>/^turns?:/i.test(url))))return null;
+ return clean;
+}
+function savedTurnIceServers(){
+ try{return normalizeIceServers(JSON.parse(localStorage.getItem('trucoArgTurnIceServers')||'null'));}catch{return null;}
+}
+function activeTurnIceServers(preferred=null){return normalizeIceServers(preferred)||normalizeIceServers(netIceServers)||savedTurnIceServers();}
+function parseTurnJson(raw){
+ const parsed=JSON.parse(raw);
+ const servers=normalizeIceServers(parsed);
+ if(!servers)throw new Error('El JSON no contiene servidores TURN válidos.');
+ return servers;
+}
+function updateTurnConfigStatus(message){
+ const el=$('turnConfigStatus');if(!el)return;
+ if(message){el.textContent=message;return;}
+ const servers=savedTurnIceServers();
+ el.textContent=servers?'TURN guardado. Se adjuntará automáticamente al código de invitación.':'Sin TURN personalizado: se intentará conexión directa con STUN.';
+}
+function encodeRoomInvite(peerId,iceServers){
+ const servers=normalizeIceServers(iceServers);
+ if(!servers)return peerId;
+ const payload=btoa(unescape(encodeURIComponent(JSON.stringify(servers)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+ return `TRUCO2:${peerId}:${payload}`;
+}
+function decodeRoomInvite(raw){
+ const value=String(raw||'').trim();
+ const match=value.match(/^TRUCO2:([A-Za-z0-9_-]{6,100}):([A-Za-z0-9_-]+)$/i);
+ if(!match)return {peerId:value.toUpperCase(),iceServers:null,embedded:false};
+ try{
+  const token=match[2].replace(/-/g,'+').replace(/_/g,'/');
+  const padded=token+'='.repeat((4-token.length%4)%4);
+  const decoded=decodeURIComponent(escape(atob(padded)));
+  const servers=normalizeIceServers(JSON.parse(decoded));
+  if(!servers)throw new Error('TURN no válido');
+  return {peerId:match[1].toUpperCase(),iceServers:servers,embedded:true};
+ }catch(e){return {peerId:'',iceServers:null,embedded:false,error:'El código de invitación está incompleto o dañado. Copialo nuevamente.'};}
+}
+function createPeer(peerId,preferredIceServers=null){
+ const turnServers=activeTurnIceServers(preferredIceServers);
+ const iceServers=[...DEFAULT_ICE_SERVERS,...(turnServers||[])];
+ netIceConfigured=!!turnServers;
+ netIceState='new';
+ // PeerJS Cloud solo gestiona señalización. El relé TURN se configura aparte;
+ // los antiguos TURN públicos de PeerJS dejaron de ser una dependencia válida.
+ const options={debug:2,host:'0.peerjs.com',port:443,path:'/',secure:true,config:{iceServers,sdpSemantics:'unified-plan'}};
  return peerId?new Peer(peerId,options):new Peer(options);
 }
+function attachIceDiagnostics(conn){
+ let tries=0;
+ const attach=()=>{
+  const pc=conn.peerConnection;
+  if(!pc){if(tries++<24)setTimeout(attach,250);return;}
+  const update=()=>{
+   netIceState=pc.iceConnectionState||pc.connectionState||'unknown';
+   if(netIceState==='failed')setP2PStatus(`WebRTC informó ICE FAILED. TURN ${netIceConfigured?'configurado':'sin configurar'}; revisá las credenciales o la red.`);
+  };
+  pc.addEventListener('iceconnectionstatechange',update);
+  pc.addEventListener('connectionstatechange',update);
+  update();
+ };
+ attach();
+}
+function p2pConnectFailureMessage(){
+ const relay=netIceConfigured?'TURN cargado en esta conexión.':'No hay TURN cargado; solo se intentó conexión directa.';
+ return `No se abrió el canal WebRTC (ICE: ${netIceState}). ${relay} Probá generar credenciales TURN y compartir el código completo de invitación.`;
+}
 function clearNetConnectTimer(){if(netConnectTimer)clearTimeout(netConnectTimer);netConnectTimer=null;}
-function closeNetwork(){clearNetConnectTimer();try{if(netConn&&netConn.open)netConn.close();}catch{}try{if(netPeer&&!netPeer.destroyed)netPeer.destroy();}catch{}netPeer=null;netConn=null;netRole=null;netRoomCode='';netStarting=false;netRoomFull=false;netSnapshotSeq=0;netLastSnapshot=0;hideP2PLobby();}
+function closeNetwork(){clearNetConnectTimer();try{if(netConn&&netConn.open)netConn.close();}catch{}try{if(netPeer&&!netPeer.destroyed)netPeer.destroy();}catch{}netPeer=null;netConn=null;netRole=null;netRoomCode='';netStarting=false;netRoomFull=false;netSnapshotSeq=0;netLastSnapshot=0;netIceServers=null;netIceState='new';netIceConfigured=false;hideP2PLobby();}
 function sendNetworkAction(action,payload){if(!netConn||!netConn.open){setStatus('Se perdió la conexión con la sala.');return;}try{netConn.send({type:'action',action,payload});}catch(e){setStatus('No se pudo enviar la jugada. Revisá la conexión.');}}
 function dispatchAction(action,payload){
  if(gameMode==='p2p'&&netRole==='client'){sendNetworkAction(action,payload);return;}
@@ -1078,7 +1163,7 @@ function handleNetworkAction(msg){
  else if(a==='callEnvido'){if(state.turn===p)callEnvido(p,x.type);}else if(a==='raiseEnvido')raiseEnvido(p,x.type);else if(a==='callFlor')callFlor(p);else if(a==='raiseFlor')raiseFlor(p,x.level);else if(a==='resolveFlor')resolveFlor(p,!!x.accept);else if(a==='resolveEnvido')resolveEnvido(p,!!x.accept);else if(a==='callTruco'){if(state.turn===p)callTruco(p,x.level);}else if(a==='resolveTruco')resolveTruco(p,!!x.accept);else if(a==='fold')foldHand(p);else if(a==='nextHand'&&state.handOver&&!state.gameOver){$('overlay').classList.remove('show');startNextHand();}else if(a==='restart'&&state.gameOver)newGame(netConfig);
 }
 function setupPeerConnection(conn){
- netConn=conn;let opened=false;
+ netConn=conn;let opened=false;attachIceDiagnostics(conn);
  const onOpen=()=>{
   if(opened)return;opened=true;clearNetConnectTimer();
   if(netRole==='client'){
@@ -1124,41 +1209,53 @@ function setupPeerConnection(conn){
   if(netRole==='host'&&netPeer&&!netPeer.destroyed){showP2PLobby('Esperando al rival','El rival se desconectó. La sala sigue abierta.',netRoomCode);}
   setStatus('El rival se desconectó.');setP2PStatus('El rival se desconectó. Podés volver a compartir el código.');
  });
- conn.on('error',e=>{setP2PStatus('Error de conexión: '+(e?.type||'desconocido'));});
+ conn.on('error',e=>{setP2PStatus('Error del canal WebRTC: '+(e?.type||e?.message||'desconocido'));});
  if(conn.open)onOpen();
 }
 function createP2PRoom(){
  if(!window.Peer){setP2PStatus('No se pudo cargar PeerJS. Revisá tu conexión a Internet.');return;}
  closeNetwork();if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
- gameMode='p2p';localPlayer=0;netRole='host';netRoomFull=false;netConfig=readConfig();netStarting=false;
+ gameMode='p2p';localPlayer=0;netRole='host';netRoomFull=false;netConfig=readConfig();netStarting=false;netIceServers=savedTurnIceServers();
  netRoomCode=randomRoomCode($('p2pVisibility').value==='private');$('p2pRoomCode').value=netRoomCode;
  showGameShell();showP2PLobby('Creando sala','Registrando el código en el servidor de conexión…',netRoomCode);setP2PStatus('Creando sala…');
  try{
-  netPeer=createPeer(netRoomCode);
-  netPeer.on('open',id=>{netRoomCode=id;$('p2pRoomCode').value=id;$('p2pLobbyCode').value=id;setP2PStatus('Sala creada. Compartí el código y esperá a que se una tu rival.');});
+  netPeer=createPeer(netRoomCode,netIceServers);
+  netPeer.on('open',id=>{
+   netRoomCode=id;
+   const invite=encodeRoomInvite(id,netIceServers);
+   $('p2pRoomCode').value=invite;$('p2pLobbyCode').value=invite;
+   setP2PStatus(netIceServers?'Sala creada con TURN. Compartí el código completo de invitación.':'Sala creada. Compartí el código y esperá a que se una tu rival.');
+  });
   netPeer.on('connection',conn=>{
    if(netConn&&netConn.open){conn.on('open',()=>{try{conn.send({type:'full'});}catch{}setTimeout(()=>conn.close(),180);});return;}
    setupPeerConnection(conn);
   });
-  netPeer.on('error',e=>{setP2PStatus(e.type==='unavailable-id'?'Ese código ya está ocupado. Volvé al menú y creá otra sala.':`Error de señalización (${e.type||'desconocido'}). Revisá Internet o probá otro código.`);});
+  netPeer.on('error',e=>{setP2PStatus(e.type==='unavailable-id'?'Ese código ya está ocupado. Volvé al menú y creá otra sala.':`Error del servidor de señalización (${e.type||'desconocido'}). Revisá Internet o probá otro código.`);});
   netPeer.on('disconnected',()=>{if(netPeer&&!netPeer.destroyed){try{netPeer.reconnect();}catch{}}});
   netConnectTimer=setTimeout(()=>{if(netRole==='host'&&!netConn){setP2PStatus('La sala sigue abierta. Todavía no se conectó ningún rival.');}},25000);
  }catch(e){setP2PStatus('No se pudo crear la sala. Revisá que PeerJS esté cargado y volvé a intentar.');}
 }
 function joinP2PRoom(){
  if(!window.Peer){setP2PStatus('No se pudo cargar PeerJS. Revisá tu conexión a Internet.');return;}
- const code=$('p2pRoomCode').value.trim().toUpperCase();if(code.length<6){setP2PStatus('Ingresá un código de sala válido.');return;}
+ const rawCode=$('p2pRoomCode').value.trim();
+ const invite=decodeRoomInvite(rawCode);
+ if(invite.error){setP2PStatus(invite.error);return;}
+ const code=invite.peerId;
+ if(code.length<6||code.length>100){setP2PStatus('Ingresá un código de sala válido.');return;}
  closeNetwork();if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
- gameMode='p2p';localPlayer=1;netRole='client';netRoomFull=false;netStarting=false;showGameShell();
- $('gameConfigLine').textContent='P2P · conectando…';showP2PLobby('Conectando con la sala','Buscando al anfitrión…',code);setStatus('Conectando con la sala…');setP2PStatus('Conectando…');
+ gameMode='p2p';localPlayer=1;netRole='client';netRoomFull=false;netStarting=false;netIceServers=invite.iceServers||savedTurnIceServers();showGameShell();
+ $('gameConfigLine').textContent='P2P · conectando…';showP2PLobby('Conectando con la sala','Buscando al anfitrión…',rawCode);setStatus('Conectando con la sala…');setP2PStatus(invite.embedded?'Código con TURN detectado. Conectando…':'Conectando…');
  try{
-  netPeer=createPeer();
+  netPeer=createPeer(null,netIceServers);
   netPeer.on('open',()=>{
    const conn=netPeer.connect(code,{reliable:true,serialization:'json'});
-   clearNetConnectTimer();netConnectTimer=setTimeout(()=>{if(netRole==='client'&&!state&&netConn&&!netConn.open)setP2PStatus('El código fue localizado, pero no se completó la conexión directa. Puede ser una restricción de la red móvil/Wi-Fi o del NAT. Probá desactivar VPN, cambiar de red o volver a crear la sala.');},25000);
+   clearNetConnectTimer();netConnectTimer=setTimeout(()=>{if(netRole==='client'&&!state&&netConn&&!netConn.open)setP2PStatus(p2pConnectFailureMessage());},30000);
    setupPeerConnection(conn);
   });
-  netPeer.on('error',e=>setP2PStatus(`Error de señalización (${e.type||'desconocido'}). Revisá Internet, el código y que el anfitrión siga conectado.`));
+  netPeer.on('error',e=>{
+   const kind=e?.type||'desconocido';
+   setP2PStatus(kind==='peer-unavailable'?'No se encontró esa sala. Revisá que el anfitrión siga conectado y copiá el código completo.':`Error del servidor de señalización (${kind}). Revisá Internet, el código y que el anfitrión siga conectado.`);
+  });
  }catch(e){setP2PStatus('No se pudo iniciar la conexión. Revisá Internet y volvé a intentar.');}
 }
 function readConfig(){return {targetPoints:Number($('targetPoints').value)||30,withFlor:$('florEnabled').checked,difficulty:$('menuDifficulty').value||'medium'};}
@@ -1760,10 +1857,18 @@ $('playerHand').addEventListener('click',ev=>{const card=ev.target.closest('.car
 $('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
 $('gameMode').addEventListener('change',syncModeMenuUI);
 $('createRoomBtn').addEventListener('click',createP2PRoom);$('joinRoomBtn').addEventListener('click',joinP2PRoom);
+$('saveTurnConfig').addEventListener('click',()=>{
+ const raw=$('turnIceInput').value.trim();
+ if(!raw){updateTurnConfigStatus('Pegá primero el JSON de credenciales TURN.');return;}
+ try{const servers=parseTurnJson(raw);localStorage.setItem('trucoArgTurnIceServers',JSON.stringify(servers));netIceServers=servers;updateTurnConfigStatus('TURN guardado correctamente. La próxima sala incluirá las credenciales temporales en el código de invitación.');}
+ catch(e){updateTurnConfigStatus(e.message||'No pude leer esas credenciales. Pegá el JSON completo.');}
+});
+$('clearTurnConfig').addEventListener('click',()=>{try{localStorage.removeItem('trucoArgTurnIceServers');}catch{}$('turnIceInput').value='';netIceServers=null;updateTurnConfigStatus('TURN borrado. Se intentará conexión directa con STUN.');});
 $('copyRoomCodeBtn').addEventListener('click',async()=>{const code=$('p2pRoomCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{ $('p2pRoomCode').select();setP2PStatus('Seleccioné el código: copialo con Ctrl+C.');}});
 $('p2pLobbyCopy').addEventListener('click',async()=>{const code=$('p2pLobbyCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{$('p2pLobbyCode').select();setP2PStatus('Código seleccionado: copialo con Ctrl+C.');}});
 $('p2pLobbyCancel').addEventListener('click',openMainMenu);
-$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';syncModeMenuUI();
+$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';syncModeMenuUI();updateTurnConfigStatus();
+try{const saved=savedTurnIceServers();if(saved)$('turnIceInput').value=JSON.stringify({iceServers:saved},null,2);}catch{}
 })();
 </script>
 
