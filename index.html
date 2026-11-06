@@ -1,0 +1,1783 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#092b22">
+<title>Truco Argentino — Mano a mano</title>
+<style>
+:root{--felt:#0c4938;--felt2:#07382d;--gold:#d4b46e;--gold2:#f0d99e;--cream:#f3ead5;--ink:#1e211d;--muted:#a9bcb0;--red:#b84f46;--green:#65b78b;--panel:rgba(8,32,26,.73);--line:rgba(235,218,170,.18)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#071b17;color:#f5f1e7;font-family:'DM Sans',system-ui,sans-serif}body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;overflow-x:hidden;background:radial-gradient(ellipse at 50% 0%,#173c31 0%,#091c18 56%,#050f0d 100%)}button,select{font:inherit}button{cursor:pointer}
+.app{width:min(1180px,100%);min-height:min(900px,calc(100vh - 28px));display:flex;flex-direction:column;border:1px solid rgba(225,198,128,.27);border-radius:22px;overflow:hidden;background:linear-gradient(145deg,rgba(18,47,39,.97),rgba(6,25,20,.98));box-shadow:0 24px 90px #0009, inset 0 1px rgba(255,255,255,.05)}
+.topbar{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#102d25,#0b241e 60%,#102b24)}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:36px;height:42px;border-radius:6px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold2);font-family:Georgia,serif;font-size:23px;box-shadow:3px 3px 0 rgba(212,180,110,.2);transform:rotate(-5deg)}.brand-title{font:700 19px 'Playfair Display',Georgia,serif;letter-spacing:.04em}.brand-sub{font-size:9px;letter-spacing:.22em;color:#9aaf9f;text-transform:uppercase;margin-top:2px}.top-tools{display:flex;gap:10px;align-items:center}.select-wrap{display:flex;align-items:center;gap:8px;color:#adbdaf;font-size:11px}.select-wrap select{background:#122f27;color:#f6efdc;border:1px solid #446052;border-radius:8px;padding:8px 28px 8px 10px;outline:none}.new-btn{border:1px solid rgba(226,195,126,.55);background:linear-gradient(180deg,#d6bb7c,#b79551);color:#1d261d;border-radius:8px;padding:9px 13px;font-weight:800;font-size:11px;letter-spacing:.04em;box-shadow:0 3px 12px #0003}.new-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.scorebar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:12px 24px;background:rgba(0,0,0,.16);border-bottom:1px solid rgba(255,255,255,.05)}.score-side{display:flex;align-items:center;gap:12px}.score-side.right{justify-content:flex-end;text-align:right}.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#d8c28e,#8f7040);color:#17271e;font-size:13px;font-weight:900;border:1px solid #eddaa8;box-shadow:0 2px 8px #0006}.right .avatar{background:linear-gradient(145deg,#bac8c1,#61766e);border-color:#c4d4ca}.score-name{font-size:12px;font-weight:800;letter-spacing:.05em}.score-caption{font-size:9px;color:#9fb2a4;margin-top:2px}.score-num{font:700 25px 'Playfair Display',Georgia,serif;color:var(--gold2);min-width:28px}.right .score-num{color:#e5ece5}.center-score{font-size:9px;color:#8ca193;text-transform:uppercase;letter-spacing:.2em;text-align:center}.score-track{display:flex;gap:3px;margin-top:4px}.score-track i{width:5px;height:5px;border-radius:2px;background:#536b5e}.score-track i.on{background:var(--gold)}.score-track.right i.on{background:#cbd8ce}
+.table-wrap{flex:1;padding:16px 22px 12px;display:flex;flex-direction:column;min-height:0}.felt{position:relative;flex:1;min-height:380px;border-radius:18px;overflow:hidden;border:7px solid #4c3828;outline:1px solid rgba(239,211,152,.26);box-shadow:0 12px 30px #0008,inset 0 0 0 2px rgba(226,199,133,.23),inset 0 0 55px rgba(0,0,0,.37);background-color:var(--felt);background-image:radial-gradient(ellipse at 50% 44%,rgba(48,121,87,.35),transparent 61%),radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.24) 100%),repeating-linear-gradient(14deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px),repeating-linear-gradient(94deg,rgba(0,0,0,.045) 0 1px,transparent 1px 6px)}.felt:before{content:"";position:absolute;inset:13px;border:1px solid rgba(222,199,141,.19);border-radius:12px;pointer-events:none}.felt:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 25%,rgba(0,0,0,.12) 100%);pointer-events:none}
+.ai-zone{position:absolute;left:0;right:0;top:18px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1}.ai-info{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#d6dfd4}.ai-dot{width:6px;height:6px;border-radius:50%;background:#79c99a;box-shadow:0 0 9px #86e3a6}.ai-backs{height:60px;display:flex;justify-content:center;align-items:center}.back-card{width:40px;height:59px;border-radius:6px;border:1px solid #d7c28c;background:repeating-linear-gradient(45deg,#9d302c 0 4px,#711e20 4px 8px);box-shadow:0 3px 9px #001b14;position:relative;margin-left:-13px;transform:rotate(var(--r)) translateY(var(--y));animation:none}.back-card:first-child{margin-left:0}.back-card:before{content:"";position:absolute;inset:4px;border:1px solid #e0c98f;border-radius:3px;background:repeating-linear-gradient(-45deg,transparent 0 4px,rgba(255,222,156,.15) 4px 5px)}.back-card:after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#f1d89c;text-shadow:0 1px 4px #390e10;font-size:18px}
+.table-mid{position:absolute;inset:115px 20px 94px;z-index:2;display:flex;align-items:center;justify-content:center;gap:clamp(32px,9vw,110px)}.table-mid:before{content:"";position:absolute;width:min(66%,560px);height:1px;background:linear-gradient(90deg,transparent,rgba(229,211,161,.18),transparent);top:50%;left:17%;z-index:-1}.center-emblem{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:rgba(231,215,168,.25);pointer-events:none;white-space:nowrap}.center-emblem b{display:block;font:700 clamp(20px,3vw,30px) 'Playfair Display',Georgia,serif;letter-spacing:.23em}.center-emblem small{font-size:8px;letter-spacing:.35em;text-transform:uppercase}.play-column{width:clamp(92px,16vw,135px);min-height:166px;display:flex;flex-direction:column;align-items:center;gap:7px}.play-label{font-size:9px;text-transform:uppercase;letter-spacing:.17em;color:#b9cbb9}.play-slot{height:144px;width:100%;display:grid;place-items:center}.empty-slot{width:83px;height:126px;border:1px dashed rgba(221,215,184,.21);border-radius:8px;background:rgba(0,0,0,.055)}.card{position:relative;width:88px;height:136px;border-radius:7px;background:#f8f2e5;box-shadow:0 10px 20px #00140e99,0 2px 3px #00140e88;overflow:hidden;border:1px solid #e3d8c1;transform-origin:50% 90%;animation:none}.card img{width:100%;height:100%;display:block;object-fit:fill}.card .fallback{display:none;position:absolute;inset:0;color:#242721;background:linear-gradient(135deg,#fffdf5,#e8dfc8);font-family:Georgia,serif}.card.img-failed .fallback{display:flex;flex-direction:column;justify-content:space-between;padding:8px}.card.img-failed img{display:none}.fallback .rank{font-size:18px;font-weight:bold}.fallback .suit{font-size:42px;text-align:center;align-self:center;margin-top:-15px}.fallback .suitname{font-size:8px;letter-spacing:.1em;text-align:center;text-transform:uppercase}.fallback.red{color:#a32d2d}.card.tiny{width:37px;height:56px;border-radius:4px;box-shadow:0 2px 5px #00170f88}.card.tiny .fallback{padding:3px}.card.tiny .fallback .rank{font-size:9px}.card.tiny .fallback .suit{font-size:17px;margin-top:-7px}.card.tiny .fallback .suitname{font-size:4px}.played-card{animation:played .32s cubic-bezier(.18,.75,.2,1) both}.trick-history{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);display:flex;gap:9px;z-index:3;align-items:center}.history-pair{display:flex;align-items:center;gap:3px;padding:4px 6px;border:1px solid rgba(239,218,161,.16);border-radius:7px;background:rgba(0,0,0,.12);opacity:.73}.history-pair .history-mark{font-size:8px;color:#e9d6a0;margin-right:2px}.history-pair.won{border-color:rgba(236,209,141,.5);box-shadow:0 0 10px rgba(235,206,133,.12)}.round-pill{position:absolute;right:25px;top:22px;border:1px solid rgba(228,211,164,.25);border-radius:20px;padding:6px 10px;font-size:9px;color:#d6d0ae;letter-spacing:.12em;text-transform:uppercase;background:#062d2480;z-index:4}.status-line{position:absolute;left:50%;top:93px;transform:translateX(-50%);z-index:4;white-space:nowrap;color:#f2dfad;font-size:11px;font-weight:700;text-shadow:0 2px 7px #001b12;letter-spacing:.04em}.status-line.pulse{animation:pulseText .55s ease}
+.bottom-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,410px);align-items:end;gap:18px;padding-top:14px}.hand-side{display:flex;flex-direction:column;gap:9px;min-width:0}.hand-head{display:flex;align-items:center;justify-content:space-between;color:#c4d2c5;font-size:10px;letter-spacing:.14em;text-transform:uppercase}.turn-note{font-size:9px;color:var(--gold2);letter-spacing:.04em;text-transform:none}.hand-cards{display:flex;justify-content:center;align-items:flex-end;gap:clamp(5px,1.6vw,15px);min-height:148px}.hand-cards .card{width:clamp(72px,8vw,94px);height:clamp(111px,11.5vw,144px);cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s;flex:0 1 auto}.hand-cards .card:hover{transform:translateY(-12px) rotate(-1deg)!important;box-shadow:0 17px 23px #00130f99;filter:brightness(1.04);z-index:3}.hand-cards .card.disabled{cursor:not-allowed;filter:grayscale(.2) brightness(.78);opacity:.82}.hand-cards .card.disabled:hover{transform:none!important}.hand-empty{font-size:10px;color:#859c8c}
+.controls{display:flex;flex-direction:column;gap:9px;align-items:stretch}.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.action{border:1px solid rgba(219,199,144,.24);background:linear-gradient(180deg,#173e31,#0e2b22);color:#dfe9dc;border-radius:8px;padding:10px 5px;font-size:10px;font-weight:800;letter-spacing:.04em;transition:.17s;box-shadow:0 3px 8px #00110c44}.action:hover:not(:disabled){border-color:#d2b875;background:linear-gradient(180deg,#29503c,#163628);transform:translateY(-2px)}.action:disabled{opacity:.3;cursor:not-allowed;filter:saturate(.5)}.action.primary{background:linear-gradient(180deg,#d9c184,#b79653);color:#1c2a20;border-color:#f0dba8}.action.primary:hover:not(:disabled){background:linear-gradient(180deg,#f0d89b,#c4a15c)}.action.red{border-color:rgba(207,106,94,.4);color:#f1c5bc}.action .small{display:block;font-size:8px;font-weight:500;opacity:.72;margin-top:2px}.action-row{display:flex;gap:7px}.action-row .action{flex:1}.response-panel{border:1px solid rgba(229,204,145,.36);background:linear-gradient(145deg,rgba(18,57,43,.98),rgba(7,32,25,.98));border-radius:12px;padding:12px;box-shadow:0 10px 28px #0006;animation:none}.response-title{font:700 15px 'Playfair Display',Georgia,serif;text-align:center;color:#f0dda9}.response-sub{text-align:center;font-size:10px;color:#b5c5b7;margin:5px 0 10px}.response-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.response-actions .action{padding:9px 5px}.response-actions .action.wide{grid-column:span 2}.log{margin-top:11px;display:flex;align-items:center;gap:7px;min-height:23px;overflow:hidden;color:#8fa594;font-size:9px}.log-label{color:#d2bc82;text-transform:uppercase;letter-spacing:.14em;white-space:nowrap;font-size:8px}.log-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;border-top:1px solid var(--line);background:rgba(0,0,0,.16);font-size:9px;color:#80978a}.footer b{color:#b9c6b7;font-weight:600}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}.overlay.show{display:flex}.result-card{width:min(390px,100%);padding:25px;border:1px solid rgba(229,201,139,.48);border-radius:16px;background:linear-gradient(145deg,#183c30,#091f18);box-shadow:0 25px 80px #000b;text-align:center;animation:rise .25s ease}.result-kicker{font-size:9px;color:#d0b879;letter-spacing:.25em;text-transform:uppercase}.result-title{font:800 27px 'Playfair Display',Georgia,serif;margin:8px 0;color:#f5e5b6}.result-desc{font-size:12px;color:#c0cec1;line-height:1.6;margin-bottom:18px}.result-card .new-btn{min-width:130px}
+@keyframes dealIn{from{opacity:0;transform:translateY(-28px) rotate(var(--r)) scale(.82)}to{opacity:1;transform:rotate(var(--r)) translateY(var(--y)) scale(1)}}@keyframes cardLand{from{opacity:0;transform:translateY(-26px) rotate(-5deg) scale(.9)}to{opacity:1;transform:translateY(0) rotate(var(--tilt,0deg)) scale(1)}}@keyframes played{from{opacity:.3;transform:translateY(34px) rotate(8deg) scale(.9)}to{opacity:1;transform:translateY(0) rotate(var(--tilt,0deg)) scale(1)}}@keyframes pulseText{0%{transform:translateX(-50%) scale(.92);opacity:.3}50%{transform:translateX(-50%) scale(1.08)}100%{transform:translateX(-50%) scale(1);opacity:1}}@keyframes rise{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:760px){body{padding:0}.app{min-height:100vh;border-radius:0;border-left:0;border-right:0}.topbar{padding:0 13px;height:60px}.brand-title{font-size:16px}.brand-sub{font-size:8px}.select-wrap{font-size:0}.select-wrap select{font-size:10px;padding:7px 20px 7px 7px;max-width:94px}.new-btn{font-size:10px;padding:8px}.scorebar{padding:10px 15px;gap:7px}.score-name{font-size:10px}.score-caption{font-size:8px}.score-num{font-size:22px}.center-score{font-size:8px}.table-wrap{padding:11px 10px 8px}.felt{min-height:360px;border-width:5px}.ai-zone{top:15px}.table-mid{inset:110px 5px 82px;gap:20px}.play-column{width:90px;min-height:146px}.card{width:78px;height:120px}.play-slot{height:127px}.round-pill{right:12px;top:13px;font-size:8px}.status-line{top:83px;font-size:10px}.trick-history{bottom:9px}.bottom-area{grid-template-columns:1fr;gap:9px;padding-top:9px}.hand-side{order:0}.hand-head{padding:0 3px}.hand-cards{min-height:112px;gap:12px}.hand-cards .card{width:clamp(68px,20vw,86px);height:clamp(103px,30vw,130px)}.controls{order:1}.action-grid{grid-template-columns:repeat(3,1fr)}.action{padding:9px 3px;font-size:9px}.action .small{font-size:7px}.log{margin-top:4px}.footer{padding:9px 13px;font-size:8px}.ai-backs{height:51px}.back-card{width:33px;height:49px}.empty-slot{width:70px;height:107px}.card.tiny{width:32px;height:48px}}
+@media(max-width:390px){.brand-mark{width:30px;height:36px}.brand-title{font-size:14px}.brand{gap:7px}.top-tools{gap:5px}.scorebar{gap:4px}.avatar{width:27px;height:27px}.score-num{font-size:20px}.table-mid{gap:10px}.play-column{width:84px}.action-grid{gap:4px}}
+
+/* Presentación limpia: una mesa continua, sin paneles superpuestos. */
+html,body{min-height:100%;background:#24170f;color:#f3ead5}
+body{padding:0;background:radial-gradient(ellipse at 50% 8%,#62452b 0%,#392719 48%,#1d140e 100%);}
+.app{width:min(1160px,calc(100vw - 44px));min-height:100vh;margin:0 auto;border:0;border-radius:0;overflow:visible;background:transparent;box-shadow:none}
+.topbar{height:62px;padding:0 12px;border:0;background:transparent}
+.brand-mark{width:30px;height:35px;font-size:20px;border-color:rgba(226,198,132,.62);box-shadow:2px 2px 0 rgba(212,180,110,.13)}
+.brand-title{font-size:16px;letter-spacing:.09em}.brand-sub{font-size:8px;letter-spacing:.19em;color:#c0aa7d}
+.select-wrap{font-size:10px;color:#d4c39e}.select-wrap select{background:rgba(25,30,22,.42);border:1px solid rgba(224,197,137,.35);border-radius:5px;padding:7px 24px 7px 9px;color:#f5e9ce}
+.new-btn{padding:8px 11px;border-radius:5px;font-size:10px;box-shadow:0 3px 8px #170d08a0}
+.scorebar{padding:8px 20px 12px;background:transparent;border:0;gap:18px}
+.score-side{gap:9px}.avatar{width:27px;height:27px;font-size:10px;box-shadow:0 2px 5px #0005}
+.score-name{font-size:11px;letter-spacing:.12em}.score-caption{font-size:8px;color:#bba982}
+.score-num{font-size:25px;color:#f0d79b}.right .score-num{color:#f3ead5}
+.center-score{font-size:9px;letter-spacing:.17em;color:#d2bf91}.score-track{display:none}
+.table-wrap{position:relative;padding:15px 25px 10px;gap:0;border:14px solid #50331e;outline:1px solid rgba(238,201,132,.22);border-radius:210px/82px;overflow:hidden;background-color:#0c503b;background-image:radial-gradient(ellipse at 50% 38%,rgba(67,135,94,.3),transparent 63%),radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.2) 100%),repeating-linear-gradient(13deg,rgba(255,255,255,.017) 0 1px,transparent 1px 4px),repeating-linear-gradient(93deg,rgba(0,0,0,.04) 0 1px,transparent 1px 7px);box-shadow:0 22px 42px #100a06a8,0 5px 0 #2a1b10,inset 0 0 0 2px rgba(238,203,135,.2),inset 0 0 60px rgba(0,0,0,.28)}
+.felt{flex:1 0 auto;min-height:330px;height:min(47vh,480px);border:0;outline:0;border-radius:0;box-shadow:none;background:transparent;overflow:visible}
+.felt:before,.felt:after{display:none}
+.ai-zone{top:23px;gap:0}.ai-info{display:none}.ai-backs{height:68px}
+.back-card{width:43px;height:63px;margin-left:-17px;border-radius:5px;box-shadow:0 5px 9px #00221899}
+.back-card:first-child{margin-left:0}
+.table-mid{inset:90px 16px 45px;gap:clamp(54px,14vw,180px)}
+.table-mid:before,.center-emblem,.round-pill,.status-line,.trick-history{display:none}
+.play-column{width:clamp(100px,15vw,145px);min-height:160px;gap:0}
+.play-label{display:none}.play-slot{height:160px;width:100%;}
+.empty-slot{display:none}
+.card{width:100px;height:154px;border-radius:6px;border:1px solid #e4d8bf;box-shadow:0 14px 23px #00150f99,0 3px 5px #00130e88}
+.card img{object-fit:fill}
+.played-card.from-you{animation:throwFromYou .42s cubic-bezier(.16,.82,.22,1) both}
+.played-card.from-ai{animation:throwFromAI .42s cubic-bezier(.16,.82,.22,1) both}
+.call-effects{position:absolute;inset:0;z-index:12;overflow:hidden;pointer-events:none}
+.gold-call{position:absolute;left:calc(50% + var(--drift,0px));top:51%;transform:translate(-50%,-50%);white-space:nowrap;color:#f4d78e;font:700 clamp(23px,3.7vw,38px) Georgia,serif;letter-spacing:.18em;text-shadow:0 1px 0 #815a26,0 2px 8px #261405,0 0 22px rgba(238,193,98,.4);animation:goldAscend 2.45s cubic-bezier(.18,.65,.28,1) forwards}
+.bottom-area{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 0 14px}
+.hand-side{width:100%;gap:5px}.hand-head{justify-content:center;color:#e4d5af;font-size:9px;letter-spacing:.2em}.turn-note{display:none}
+.hand-cards{min-height:155px;gap:clamp(8px,1.8vw,18px);padding:5px 0 0}
+.hand-cards .card{width:clamp(82px,8.5vw,104px);height:clamp(124px,12vw,158px);box-shadow:0 11px 20px #160e08a8,0 2px 4px #0b170f99}
+.hand-cards .card:hover{transform:translateY(-9px) rotate(-1deg)!important}
+.hand-cards .card.disabled{filter:brightness(.84);opacity:.88}
+.controls{width:min(660px,100%);gap:8px;align-items:center;min-height:38px}
+.action-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+.action{min-width:94px;border:1px solid rgba(235,211,158,.34);background:rgba(10,42,31,.83);border-radius:5px;padding:9px 15px;font-size:10px;letter-spacing:.1em;box-shadow:0 3px 8px #0004}
+.action:hover:not(:disabled){background:#1d5a40;border-color:#e5cb8d;transform:translateY(-1px)}
+.action.primary{background:linear-gradient(#e2c98f,#b99554);border-color:#f1dfa9;color:#22251a}
+.action.red{border-color:rgba(219,124,104,.55);color:#ffd0c3}
+.action .small{display:none}
+.response-panel{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;animation:none}
+.response-title{font:700 10px Georgia,serif;letter-spacing:.14em;color:#f2d796}
+.response-sub{display:none}.response-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.response-actions .action{min-width:100px;padding:8px 14px}
+.log,.footer{display:none}
+.overlay{background:rgba(14,11,7,.64);backdrop-filter:blur(2px)}
+.result-card{border-radius:9px;background:linear-gradient(145deg,#244a37,#10281e);box-shadow:0 22px 60px #000a}
+@keyframes throwFromYou{0%{opacity:0;transform:translate(0,95px) rotate(12deg) scale(.94)}65%{opacity:1;transform:translate(0,-5px) rotate(-3deg) scale(1.015)}100%{opacity:1;transform:translate(0,0) rotate(-2deg) scale(1)}}
+@keyframes throwFromAI{0%{opacity:0;transform:translate(0,-95px) rotate(-12deg) scale(.94)}65%{opacity:1;transform:translate(0,5px) rotate(3deg) scale(1.015)}100%{opacity:1;transform:translate(0,0) rotate(2deg) scale(1)}}
+@keyframes goldAscend{0%{opacity:0;transform:translate(-50%,-20%) scale(.9);filter:blur(2px)}13%{opacity:1;filter:blur(0);transform:translate(-50%,-45%) scale(1)}55%{opacity:.86;transform:translate(-50%,-155%) scale(1.02)}100%{opacity:0;transform:translate(-50%,-265%) scale(1.05);filter:blur(1.5px)}}
+@media(max-width:760px){
+ .app{width:100%;min-height:100vh;padding:0 10px}.topbar{height:57px;padding:0 2px}.brand-title{font-size:14px}.brand-sub{font-size:7px}.brand-mark{width:26px;height:31px;font-size:17px}.top-tools{gap:6px}.select-wrap{font-size:0}.select-wrap select{font-size:9px;max-width:92px;padding:7px 17px 7px 6px}.new-btn{font-size:9px;padding:8px}
+ .scorebar{padding:7px 5px 10px;gap:8px}.score-name{font-size:9px}.score-caption{font-size:7px}.score-num{font-size:22px}.avatar{width:24px;height:24px;font-size:9px}.center-score{font-size:8px}
+ .table-wrap{padding:10px 10px 8px;border-width:9px;border-radius:125px/55px}.felt{height:clamp(330px,43vh,420px);min-height:330px}.ai-zone{top:19px}.ai-backs{height:56px}.back-card{width:36px;height:53px}
+ .table-mid{inset:79px 5px 28px;gap:clamp(24px,9vw,65px)}.play-column{width:clamp(84px,25vw,112px);min-height:130px}.play-slot{height:140px}.card{width:88px;height:136px}
+ .bottom-area{padding:9px 0 12px;gap:5px}.hand-cards{min-height:130px;gap:clamp(5px,2.5vw,12px)}.hand-cards .card{width:clamp(70px,23vw,91px);height:clamp(106px,34vw,138px)}.action{min-width:86px;padding:8px 10px;font-size:9px}.response-actions .action{min-width:91px}
+}
+@media(max-width:390px){.brand{gap:6px}.brand-title{font-size:12px}.top-tools{gap:4px}.table-wrap{border-radius:90px/42px;padding:8px 7px 7px}.felt{height:330px;min-height:330px}.table-mid{gap:20px}.play-column{width:80px}.play-slot{height:126px}.card{width:76px;height:118px}.hand-cards .card{width:68px;height:103px}.action{min-width:78px;padding:7px 8px}}
+@media(prefers-reduced-motion:reduce){.gold-call,.played-card,.back-card,.card{animation-duration:.01ms!important;transition:none!important}}
+
+
+/* Menú principal separado del paño */
+body{display:block;min-height:100vh;padding:0;}
+.menu-screen{min-height:100vh;width:100%;display:grid;place-items:center;padding:28px 16px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#24533e 0%,#102f25 48%,#081914 100%);}
+.menu-screen:before{content:"";position:absolute;inset:0;opacity:.22;background-image:repeating-linear-gradient(14deg,rgba(255,255,255,.03) 0 1px,transparent 1px 5px),repeating-linear-gradient(94deg,rgba(0,0,0,.08) 0 1px,transparent 1px 7px);pointer-events:none}
+.menu-backdrop{position:absolute;width:min(1000px,90vw);height:min(650px,78vh);border-radius:50%;border:1px solid rgba(221,190,121,.10);box-shadow:0 0 0 18px rgba(221,190,121,.018),0 0 0 42px rgba(221,190,121,.012);pointer-events:none}
+.menu-card{position:relative;z-index:1;width:min(460px,100%);max-height:calc(100vh - 20px);overflow-y:auto;padding:38px 42px 28px;border:1px solid rgba(222,193,131,.34);border-radius:13px;background:linear-gradient(155deg,rgba(18,53,39,.97),rgba(7,27,21,.98));box-shadow:0 28px 90px #0009,inset 0 1px rgba(255,255,255,.055);text-align:center}
+.menu-mark{width:46px;height:52px;margin:0 auto 16px;display:grid;place-items:center;border:1px solid #c5a567;border-radius:7px;color:#f0d79a;font:30px Georgia,serif;transform:rotate(-5deg);box-shadow:3px 4px 0 rgba(194,159,91,.19)}
+.menu-kicker{color:#c5ad78;font-size:9px;letter-spacing:.28em;text-transform:uppercase}
+.menu-card h1{margin:11px 0 4px;color:#f5e8c9;font:700 clamp(31px,7vw,43px) Georgia,serif;letter-spacing:.11em;text-shadow:0 3px 12px #0008}
+.menu-card h1 span{display:block;font-size:.72em;letter-spacing:.24em;color:#d6bd86;margin-top:5px}
+.menu-intro{margin:10px 0 20px;color:#a9bcaa;font:italic 14px Georgia,serif}
+.menu-rule{height:1px;background:linear-gradient(90deg,transparent,rgba(220,191,129,.48),transparent);margin:0 0 22px}
+.menu-options{display:grid;gap:13px;text-align:left}
+.menu-field{display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:12px;color:#d5c49b;font-size:9px;letter-spacing:.16em;font-weight:800}
+.menu-field select{width:100%;appearance:none;color:#f2ead7;background:rgba(0,0,0,.23);border:1px solid rgba(218,194,143,.28);border-radius:6px;padding:11px 34px 11px 12px;font-size:12px;letter-spacing:.02em;outline:none;background-image:linear-gradient(45deg,transparent 50%,#d8c18c 50%),linear-gradient(135deg,#d8c18c 50%,transparent 50%);background-position:calc(100% - 16px) 15px,calc(100% - 11px) 15px;background-size:5px 5px;background-repeat:no-repeat}
+.menu-field select:focus{border-color:#d8bd7e}
+.flor-option{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 13px;border:1px solid rgba(218,194,143,.22);border-radius:7px;background:rgba(0,0,0,.15);cursor:pointer;position:relative}
+.flor-copy{display:flex;flex-direction:column;gap:4px}.flor-copy b{font-size:10px;color:#e6d2a1;letter-spacing:.17em}.flor-copy small{font-size:10px;color:#9eb29f;letter-spacing:0;font-weight:400}
+.flor-option input{position:absolute;opacity:0;pointer-events:none}.toggle-ui{width:39px;height:22px;border-radius:20px;background:#34463a;border:1px solid #60705a;position:relative;flex:none;transition:.2s}.toggle-ui:after{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;border-radius:50%;background:#e4ddc9;box-shadow:0 1px 3px #0007;transition:.2s}.flor-option input:checked+.toggle-ui{background:#9b7a3e;border-color:#d0b16e}.flor-option input:checked+.toggle-ui:after{transform:translateX(17px);background:#fff0c7}
+.start-btn{width:100%;margin-top:22px;padding:14px 18px;border:1px solid #ecd99f;border-radius:6px;background:linear-gradient(180deg,#e7d29b,#b99453);color:#20281d;font-size:12px;font-weight:900;letter-spacing:.2em;box-shadow:0 6px 18px #0004;transition:.18s}
+.start-btn span{font-size:17px;margin-left:10px}.start-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.menu-foot{margin-top:22px;color:#718b78;font-size:8px;letter-spacing:.24em}
+.menu-screen.hidden{display:none}
+.app{display:none;width:min(1160px,calc(100vw - 44px));min-height:100vh;margin:0 auto;border:0;border-radius:0;overflow:visible;background:transparent;box-shadow:none}
+.app.active{display:flex}
+.topbar{height:62px;padding:0 12px;border:0;background:transparent}.menu-return{background:rgba(13,43,32,.64);border-color:rgba(230,207,154,.35);color:#f0e2c2;box-shadow:none}
+.event-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:0 22px 11px;}
+.event-strip>div{min-width:0;display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(228,203,151,.13);border-radius:5px;background:rgba(10,32,23,.32);font-size:9px;overflow:hidden}
+.event-strip b{flex:none;color:#d4bc83;font-size:8px;letter-spacing:.14em}.event-strip span{color:#d1d8c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.table-wrap{margin:0 0 14px;}
+.card.sweep-left{animation:sweepLeft .46s cubic-bezier(.55,.02,.82,.48) forwards!important;pointer-events:none}
+.card.sweep-right{animation:sweepRight .46s cubic-bezier(.55,.02,.82,.48) forwards!important;pointer-events:none}
+@keyframes sweepLeft{0%{opacity:1;transform:translate(0,0) rotate(-2deg) scale(1)}35%{opacity:1;transform:translate(-18px,-4px) rotate(-9deg) scale(.98)}100%{opacity:0;transform:translate(-480px,28px) rotate(-28deg) scale(.72)}}
+@keyframes sweepRight{0%{opacity:1;transform:translate(0,0) rotate(2deg) scale(1)}35%{opacity:1;transform:translate(18px,-4px) rotate(9deg) scale(.98)}100%{opacity:0;transform:translate(480px,28px) rotate(28deg) scale(.72)}}
+.gold-call{animation:goldAscendFast 1.62s cubic-bezier(.18,.65,.28,1) forwards;font-size:clamp(24px,4vw,42px);letter-spacing:.16em}
+@keyframes goldAscendFast{0%{opacity:0;transform:translate(-50%,5%) scale(.86);filter:blur(2px)}14%{opacity:1;filter:blur(0);transform:translate(-50%,-22%) scale(1)}52%{opacity:.9;transform:translate(-50%,-112%) scale(1.02)}100%{opacity:0;transform:translate(-50%,-200%) scale(1.04);filter:blur(1.3px)}}
+@media(max-width:760px){.menu-card{padding:31px 23px 24px}.app{width:100%;padding:0 10px}.event-strip{padding:0 2px 9px;gap:4px}.event-strip>div{display:block;padding:6px 7px}.event-strip b{display:block;margin-bottom:3px}.event-strip span{font-size:8px}.table-wrap{margin:0 0 8px}}
+@media(max-width:390px){.menu-field{grid-template-columns:1fr;gap:6px}.menu-field select{padding:10px}.event-strip{gap:3px}.event-strip>div{padding:5px}.event-strip b{font-size:7px}.event-strip span{font-size:7px}.menu-return{padding:7px 9px;font-size:8px}}
+
+
+/* Ritmo y movimientos de mesa: las cartas viajan desde cada mano al centro. */
+.played-card.from-you{animation:throwFromYou .72s cubic-bezier(.18,.78,.22,1) both!important;will-change:transform,opacity}
+.played-card.from-ai{animation:throwFromAI .72s cubic-bezier(.18,.78,.22,1) both!important;will-change:transform,opacity}
+@keyframes throwFromYou{0%{opacity:0;transform:translate(var(--throw-x,0px),var(--throw-y,290px)) rotate(13deg) scale(var(--throw-scale,.88))}58%{opacity:1;transform:translate(-3px,-7px) rotate(-3deg) scale(1.025)}100%{opacity:1;transform:translate(0,0) rotate(-2deg) scale(1)}}
+@keyframes throwFromAI{0%{opacity:0;transform:translate(var(--throw-x,0px),var(--throw-y,-150px)) rotate(-13deg) scale(var(--throw-scale,.48))}58%{opacity:1;transform:translate(3px,7px) rotate(3deg) scale(1.025)}100%{opacity:1;transform:translate(0,0) rotate(2deg) scale(1)}}
+.card.sweep-left{animation:sweepLeft .66s cubic-bezier(.5,.02,.8,.45) forwards!important}
+.card.sweep-right{animation:sweepRight .66s cubic-bezier(.5,.02,.8,.45) forwards!important}
+@keyframes sweepLeft{0%{opacity:1;transform:translate(0,0) rotate(-2deg) scale(1)}32%{opacity:1;transform:translate(-22px,-5px) rotate(-8deg) scale(.98)}100%{opacity:0;transform:translate(-520px,35px) rotate(-30deg) scale(.68)}}
+@keyframes sweepRight{0%{opacity:1;transform:translate(0,0) rotate(2deg) scale(1)}32%{opacity:1;transform:translate(22px,-5px) rotate(8deg) scale(.98)}100%{opacity:0;transform:translate(520px,35px) rotate(30deg) scale(.68)}}
+.call-effects{z-index:30;overflow:visible}
+.gold-call{position:absolute;left:50%;top:50%;z-index:40;max-width:94%;white-space:nowrap;text-align:center;color:#f7dfa0;font:800 clamp(30px,5vw,52px) Georgia,serif;letter-spacing:.16em;text-shadow:0 2px 0 #795425,0 5px 18px #140e06,0 0 32px rgba(250,205,103,.55);pointer-events:none;animation:goldCallRise 2.35s cubic-bezier(.2,.64,.22,1) forwards!important}
+@keyframes goldCallRise{0%{opacity:0;transform:translate(-50%,12%) scale(.88);filter:blur(2px)}12%{opacity:1;transform:translate(-50%,-10%) scale(1);filter:blur(0)}67%{opacity:.96;transform:translate(-50%,-110%) scale(1.02)}100%{opacity:0;transform:translate(-50%,-190%) scale(1.04);filter:blur(1.5px)}}
+.envido-reveal{position:absolute;inset:0;z-index:28;pointer-events:none;transition:opacity .35s ease}
+.envido-reveal.fade-out{opacity:0}
+.envido-bubble{position:absolute;left:50%;min-width:150px;max-width:80%;transform:translateX(-50%) scale(.92);opacity:0;padding:8px 16px 9px;border:1px solid rgba(245,215,151,.7);border-radius:8px;background:linear-gradient(145deg,rgba(12,36,26,.95),rgba(3,20,15,.94));box-shadow:0 9px 24px #00160f99,0 0 25px rgba(228,190,104,.18);color:#f6e2b4;text-align:center;text-shadow:0 2px 5px #000a}
+.envido-bubble.reveal-ai{top:27%}.envido-bubble.reveal-you{bottom:20%}
+.envido-bubble strong{display:block;font:800 clamp(22px,4vw,34px) Georgia,serif;letter-spacing:.08em;color:#f6d991}
+.envido-bubble small{display:block;margin-top:3px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#c6d3c2}
+.envido-bubble.show{animation:revealPop .42s cubic-bezier(.18,.8,.2,1) forwards}
+@keyframes revealPop{0%{opacity:0;transform:translateX(-50%) translateY(12px) scale(.9)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+@media(max-width:760px){.envido-bubble.reveal-ai{top:29%}.envido-bubble.reveal-you{bottom:17%}.gold-call{font-size:clamp(27px,7vw,40px);letter-spacing:.1em}}
+@media(prefers-reduced-motion:reduce){.gold-call,.played-card,.envido-bubble.show{animation-duration:.01ms!important}}
+
+
+/* Render estable: las actualizaciones de estado no vuelven a animar elementos ya visibles. */
+.back-card,.card:not(.played-card),.action-grid .action,.response-panel,.response-panel .action{animation:none!important}
+.card.played-card.from-you,.card.played-card.from-ai{animation:throwFromYou .72s cubic-bezier(.18,.78,.22,1) both!important}
+.card.played-card.from-ai{animation-name:throwFromAI!important}
+
+/* CAPA DE ANUNCIOS: fija al viewport, por encima de todos los elementos del juego. */
+#callEffects{position:fixed!important;inset:0!important;width:100vw;height:100vh;z-index:10020!important;overflow:visible!important;pointer-events:none!important;isolation:isolate}
+.gold-call{position:fixed!important;left:50vw!important;top:53vh!important;z-index:10021!important;display:block!important;max-width:min(94vw,1000px)!important;white-space:normal!important;text-align:center!important;line-height:1.12!important;color:#f8dfa0!important;font:800 clamp(30px,5.1vw,58px) Georgia,serif!important;letter-spacing:.13em!important;text-shadow:0 2px 0 #785021,0 5px 18px #120b04,0 0 34px rgba(250,205,103,.58)!important;pointer-events:none!important;will-change:transform,opacity;animation:none!important;}
+#envidoReveal{position:fixed!important;inset:0!important;z-index:10010!important;pointer-events:none!important;overflow:visible!important;transition:opacity .32s ease!important;}
+#envidoReveal .envido-bubble{position:fixed!important;left:50vw!important;min-width:175px!important;max-width:min(84vw,380px)!important;transform:translateX(-50%) scale(.94);}
+#envidoReveal .envido-bubble.reveal-ai{top:31vh!important;bottom:auto!important;}
+#envidoReveal .envido-bubble.reveal-you{bottom:30vh!important;top:auto!important;}
+#envidoReveal .envido-bubble.show{animation:envidoRevealIn .42s cubic-bezier(.18,.78,.22,1) both!important;}
+@keyframes envidoRevealIn{from{opacity:0;transform:translateX(-50%) translateY(16px) scale(.92)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+.card.played-card.from-you,.card.played-card.from-ai{animation:none!important;visibility:visible;}
+.card-flight{border-radius:7px;overflow:hidden;box-shadow:0 16px 34px #00140ecc,0 3px 8px #0008;will-change:transform,opacity;}
+.flight-back{position:absolute;inset:0;border:1px solid #dfc58b;border-radius:6px;background:repeating-linear-gradient(45deg,#9d302c 0 4px,#711e20 4px 8px);box-shadow:inset 0 0 0 4px rgba(245,222,166,.3);}
+.flight-back:after{content:'✦';position:absolute;inset:0;display:grid;place-items:center;color:#f1d89c;font-size:25px;text-shadow:0 1px 4px #390e10;}
+#playerHand .card{animation:none!important;}
+
+
+
+/* PRESENTACIÓN ADAPTABLE: el viewport cambia con el zoom del navegador. */
+:root{--hand-card-h:clamp(66px,min(16vh,136px),136px);--table-card-h:clamp(66px,min(15vh,124px),124px)}
+html,body{width:100%;height:100%;min-height:0;overflow:hidden}
+body.in-game{height:100vh;height:100dvh;min-height:0;display:flex;align-items:stretch;justify-content:center;overflow:hidden}
+body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
+.app.active{display:flex;flex:1 1 auto;flex-direction:column;width:min(1320px,100vw);height:100vh;height:100dvh;min-height:0;max-height:100dvh;margin:0;overflow:hidden;padding:0 clamp(4px,1.1vw,14px);}
+.topbar{flex:0 0 auto;height:clamp(44px,7vh,62px);min-height:0;padding:0 clamp(5px,1.2vw,16px)}
+.scorebar{flex:0 0 auto;min-height:0;padding:clamp(4px,.9vh,9px) clamp(5px,1.6vw,22px) clamp(5px,1vh,10px);gap:clamp(4px,1.2vw,18px)}
+.event-strip{flex:0 0 auto;min-height:0;padding:0 clamp(4px,1.2vw,18px) clamp(4px,.8vh,8px);gap:clamp(3px,.6vw,8px)}
+.event-strip>div{min-width:0;padding:clamp(4px,.7vh,7px) clamp(5px,.8vw,10px)}
+.table-wrap{flex:1 1 0;min-height:0;max-height:none;margin:0 0 clamp(2px,.5vh,7px);padding:clamp(4px,.8vh,12px) clamp(5px,1.3vw,18px) clamp(3px,.7vh,10px);overflow:hidden;border-width:clamp(6px,1.1vw,14px);border-radius:clamp(78px,15vw,210px)/clamp(34px,7vh,82px)}
+.felt{flex:1 1 0;height:auto!important;min-height:0!important;max-height:none;overflow:hidden}
+.ai-zone{top:clamp(5px,1.6vh,22px)}
+.ai-backs{height:clamp(32px,7vh,66px)}
+.back-card{width:clamp(25px,3.2vw,43px);height:clamp(37px,5.1vh,63px);margin-left:clamp(-17px,-1.25vw,-8px)}
+.table-mid{inset:clamp(62px,13vh,104px) 8px clamp(10px,3.2vh,42px);gap:clamp(10px,8vw,112px)}
+.play-column{width:clamp(65px,11vw,132px);min-height:0;gap:3px}
+.play-slot{height:var(--table-card-h);min-height:0}
+.card{width:auto;height:var(--table-card-h);aspect-ratio:5/7.7}
+.bottom-area{flex:0 0 auto;min-height:0;display:flex;flex-direction:column;align-items:center;gap:clamp(2px,.65vh,8px);padding:clamp(3px,.8vh,9px) 0 clamp(2px,.55vh,7px)}
+.hand-side{width:100%;min-width:0;gap:clamp(2px,.45vh,5px)}
+.hand-head{font-size:clamp(8px,.72vw,10px);min-height:12px}
+.hand-cards{height:var(--hand-card-h);min-height:0;padding:0;gap:clamp(4px,1.35vw,17px);align-items:flex-end}
+.hand-cards .card{width:auto;height:var(--hand-card-h);aspect-ratio:5/7.7;flex:0 1 auto;max-width:30vw}
+.hand-cards .card:hover{transform:translateY(-5px) rotate(-1deg)!important}
+.controls{width:min(720px,100%);min-height:0;gap:clamp(2px,.5vh,6px)}
+.action-grid{gap:clamp(3px,.55vw,7px)}
+.action{min-width:clamp(65px,7.3vw,94px);padding:clamp(5px,.8vh,9px) clamp(5px,.95vw,14px);font-size:clamp(8px,.72vw,10px)}
+.response-panel{gap:clamp(3px,.6vw,8px)}
+.response-actions{gap:clamp(3px,.55vw,7px)}
+.response-actions .action{min-width:clamp(70px,8vw,100px);padding:clamp(5px,.8vh,8px) clamp(6px,.9vw,12px)}
+.log{display:flex!important;flex:0 0 16px;width:min(100%,850px);min-height:16px;max-height:16px;margin:0 auto;justify-content:center;font-size:clamp(7px,.65vw,9px)}
+.footer{display:none!important}
+
+/* Globos de diálogo del envido: aparecen de uno en uno, junto al lado que habla. */
+#envidoReveal{position:fixed!important;inset:0!important;width:100vw;height:100vh;height:100dvh;z-index:10030!important;pointer-events:none!important;overflow:visible!important;opacity:1!important;transition:none!important}
+#envidoReveal.fade-out{opacity:1!important}
+#envidoReveal .envido-bubble{position:fixed!important;left:50vw!important;right:auto!important;min-width:min(220px,calc(100vw - 34px))!important;width:max-content!important;max-width:min(88vw,420px)!important;padding:13px 23px 14px!important;border:2px solid #d6b66f!important;border-radius:28px 28px 24px 24px!important;background:linear-gradient(155deg,#fff8e5 0%,#eadcb9 100%)!important;box-shadow:0 10px 30px #0008,0 0 0 5px rgba(241,218,161,.12),inset 0 2px 0 #fff!important;color:#233c2e!important;text-align:center!important;text-shadow:none!important;opacity:0;transform:translateX(-50%) translateY(10px) scale(.9)!important;filter:drop-shadow(0 5px 6px #0005);}
+#envidoReveal .envido-bubble.reveal-ai{top:clamp(84px,19vh,205px)!important;bottom:auto!important}
+#envidoReveal .envido-bubble.reveal-you{bottom:clamp(112px,22vh,230px)!important;top:auto!important}
+#envidoReveal .envido-bubble:after{content:"";position:absolute;width:0;height:0;border-style:solid}
+#envidoReveal .envido-bubble.reveal-ai:after{left:68%;bottom:-19px;border-width:19px 13px 0 13px;border-color:#eadcb9 transparent transparent transparent;filter:drop-shadow(0 2px 0 #d6b66f)}
+#envidoReveal .envido-bubble.reveal-you:after{left:27%;top:-19px;border-width:0 13px 19px 13px;border-color:transparent transparent #fff4da transparent;filter:drop-shadow(0 -1px 0 #d6b66f)}
+#envidoReveal .envido-bubble strong{display:block;color:#183c2d!important;font:900 clamp(23px,4.2vw,38px) Georgia,serif!important;letter-spacing:.055em!important;line-height:1.05}
+#envidoReveal .envido-bubble small{display:block;margin-top:5px;color:#6a5837!important;font-size:clamp(8px,.8vw,10px)!important;font-weight:800;letter-spacing:.11em!important;text-transform:uppercase}
+#envidoReveal .envido-bubble.show{opacity:1!important;animation:talkBubbleIn .42s cubic-bezier(.18,.82,.24,1) both!important}
+#envidoReveal .envido-bubble.hide{animation:talkBubbleOut .28s ease-in forwards!important}
+@keyframes talkBubbleIn{0%{opacity:0;transform:translateX(-50%) translateY(15px) scale(.84)}65%{opacity:1;transform:translateX(-50%) translateY(-3px) scale(1.025)}100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+@keyframes talkBubbleOut{0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}100%{opacity:0;transform:translateX(-50%) translateY(-9px) scale(.94)}}
+
+@media(max-width:760px){
+ .app.active{width:100vw;padding:0 5px}
+ .topbar{height:clamp(42px,6.6vh,56px);padding:0 4px}
+ .brand-title{font-size:clamp(11px,3.3vw,15px)}.brand-sub{font-size:7px}.brand-mark{width:24px;height:29px;font-size:16px}
+ .menu-return{font-size:8px;padding:7px 8px}
+ .scorebar{padding:4px 2px 6px;gap:3px}.score-side{gap:5px}.avatar{width:22px;height:22px;font-size:8px}.score-name{font-size:8px}.score-caption{font-size:7px}.score-num{font-size:clamp(17px,5vw,22px);min-width:18px}.center-score{font-size:7px;letter-spacing:.1em}
+ .event-strip{padding:0 1px 5px;gap:3px}.event-strip>div{display:block;padding:4px 5px}.event-strip b{display:block;font-size:7px;margin-bottom:2px}.event-strip span{display:block;font-size:7px;line-height:1.1}
+ .table-wrap{margin:0;border-radius:clamp(58px,16vw,125px)/clamp(28px,8vh,55px);padding:5px 5px 4px}
+ .table-mid{inset:clamp(54px,11vh,80px) 2px clamp(5px,1.5vh,18px);gap:clamp(8px,5vw,35px)}
+ .play-column{width:clamp(58px,21vw,95px)}
+ .bottom-area{padding:4px 0 3px;gap:3px}
+ .hand-head{font-size:8px}
+ .hand-cards{gap:clamp(2px,1.5vw,9px)}
+ .hand-cards .card{max-width:29vw}
+ .action-grid{gap:3px}.action{min-width:clamp(54px,17vw,83px);padding:5px 5px;font-size:8px;letter-spacing:.025em}.response-actions .action{min-width:clamp(65px,20vw,90px)}
+ .log{font-size:7px;min-height:14px;max-height:14px;flex-basis:14px}
+ #envidoReveal .envido-bubble.reveal-ai{top:clamp(72px,16vh,125px)!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:clamp(100px,20vh,170px)!important}
+}
+@media(max-height:700px){
+ :root{--hand-card-h:clamp(58px,min(13vh,94px),94px);--table-card-h:clamp(55px,min(12.5vh,92px),92px)}
+ .topbar{height:clamp(39px,6vh,52px)}.scorebar{padding-top:3px;padding-bottom:4px}.event-strip{padding-bottom:3px}
+ .ai-zone{top:4px}.ai-backs{height:clamp(28px,5.5vh,42px)}.back-card{width:clamp(23px,2.8vw,34px);height:clamp(34px,4.8vh,47px)}
+ .table-mid{inset:clamp(47px,9.5vh,68px) 4px 4px}
+ .bottom-area{gap:2px;padding-top:3px;padding-bottom:1px}
+ .controls{gap:2px}.action{padding-top:4px;padding-bottom:4px}.response-actions .action{padding-top:4px;padding-bottom:4px}
+ .log{min-height:12px;max-height:12px;flex-basis:12px}
+ #envidoReveal .envido-bubble.reveal-ai{top:clamp(64px,15vh,105px)!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:clamp(91px,19vh,145px)!important}
+}
+@media(max-height:520px){
+ :root{--hand-card-h:clamp(50px,11vh,70px);--table-card-h:clamp(48px,10vh,64px)}
+ .topbar{height:36px}.brand-mark{width:21px;height:25px}.scorebar{padding:2px 2px 3px}.event-strip{padding-bottom:2px}
+ .ai-zone{top:0}.ai-backs{height:24px}.back-card{width:20px;height:29px;margin-left:-7px}
+ .table-mid{inset:35px 2px 1px}.bottom-area{gap:1px;padding:1px 0}.hand-head{min-height:10px}
+ .action-grid,.response-actions{gap:2px}.action{min-width:58px;padding:3px 4px;font-size:7px}.response-actions .action{min-width:63px;padding:3px 4px}
+ .log{display:none!important}
+ #envidoReveal .envido-bubble.reveal-ai{top:48px!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:80px!important}
+}
+@media(max-width:390px){.event-strip>div{padding:3px}.score-name{font-size:7px}.score-caption{font-size:6px}.table-mid{gap:5px}.play-column{width:clamp(55px,19vw,74px)}.action{min-width:0;flex:1 1 0}.action-grid{width:100%}}
+#envidoReveal .envido-bubble.reveal-ai{top:clamp(150px,24vh,230px)!important}
+#envidoReveal .envido-bubble.reveal-you{bottom:clamp(165px,30vh,270px)!important}
+#envidoReveal .envido-bubble.reveal-ai:before{content:"";position:absolute;left:74%;bottom:-29px;width:8px;height:8px;border-radius:50%;background:#eadcb9;box-shadow:12px 8px 0 -3px #eadcb9}
+#envidoReveal .envido-bubble.reveal-you:before{content:"";position:absolute;left:23%;top:-29px;width:8px;height:8px;border-radius:50%;background:#fff4da;box-shadow:-12px -8px 0 -3px #fff4da}
+@media(max-width:760px){
+ #envidoReveal .envido-bubble.reveal-ai{top:clamp(130px,24vh,205px)!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:clamp(140px,27vh,230px)!important}
+}
+@media(max-height:520px){
+ #envidoReveal .envido-bubble.reveal-ai{top:clamp(68px,21vh,108px)!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:clamp(98px,22vh,122px)!important}
+}
+@media(prefers-reduced-motion:reduce){#envidoReveal .envido-bubble.show,#envidoReveal .envido-bubble.hide{animation-duration:.01ms!important}}
+
+
+/* v5 — interfaz compacta, cartas protagonistas y menos espacio vacío */
+:root{
+ --hand-card-h:clamp(112px,min(20vh,156px),156px);
+ --table-card-h:clamp(102px,min(18vh,140px),140px);
+}
+.app.active{width:min(1200px,100vw);padding:0 clamp(4px,.8vw,10px)}
+.topbar{height:46px!important;flex-basis:46px!important;padding:0 8px!important}
+.brand{gap:8px!important}.brand-mark{width:28px!important;height:33px!important;font-size:18px!important}
+.brand-title{font-size:15px!important;letter-spacing:.035em!important}.brand-sub{font-size:7px!important;letter-spacing:.17em!important}
+.top-tools{gap:5px!important}.menu-return{padding:6px 9px!important;font-size:8px!important}
+.scorebar{padding:4px 13px 5px!important;gap:8px!important}
+.score-side{gap:7px!important}.avatar{width:26px!important;height:26px!important;font-size:10px!important}
+.score-name{font-size:9px!important}.score-caption{font-size:7px!important}.score-num{font-size:21px!important;min-width:22px!important}
+.center-score{font-size:7px!important;letter-spacing:.15em!important}.score-track{margin-top:2px!important}.score-track i{width:4px!important;height:4px!important}
+.event-strip{padding:0 12px 5px!important;gap:5px!important}
+.event-strip>div{padding:5px 8px!important;gap:6px!important;font-size:8px!important;line-height:1.05!important}
+.event-strip b{font-size:7px!important;letter-spacing:.11em!important}.event-strip span{font-size:8px!important}
+.table-wrap{padding:4px 8px 5px!important;margin:0 0 3px!important;border-width:6px!important;border-radius:clamp(48px,8vw,120px)/clamp(26px,5vh,52px)!important}
+.felt{border-width:0!important}
+.ai-zone{top:7px!important;gap:4px!important}.ai-info{font-size:8px!important;gap:6px!important}.ai-backs{height:clamp(38px,6vh,51px)!important}
+.back-card{width:clamp(27px,2.8vw,36px)!important;height:clamp(40px,5vh,53px)!important;margin-left:-9px!important}
+.table-mid{inset:clamp(54px,9vh,82px) 8px clamp(0px,1vh,10px)!important;gap:clamp(22px,6vw,76px)!important}
+.play-column{width:clamp(88px,10vw,112px)!important;min-height:0!important;gap:2px!important}
+.play-label{font-size:7px!important;letter-spacing:.13em!important}.play-slot{height:var(--table-card-h)!important}
+.empty-slot{width:calc(var(--table-card-h)*.65)!important;height:var(--table-card-h)!important}
+.round-pill{right:17px!important;top:13px!important;padding:4px 7px!important;font-size:7px!important}
+.status-line{top:63px!important;font-size:9px!important;letter-spacing:.02em!important}
+.trick-history{bottom:7px!important;gap:5px!important}.history-pair{padding:2px 4px!important;gap:2px!important}.history-pair .history-mark{font-size:7px!important}
+.bottom-area{gap:3px!important;padding:2px 0 3px!important}
+.hand-side{gap:2px!important}.hand-head{font-size:8px!important;min-height:10px!important}.turn-note{font-size:8px!important}
+.hand-cards{height:var(--hand-card-h)!important;gap:clamp(6px,1vw,12px)!important}
+.hand-cards .card{height:var(--hand-card-h)!important;max-width:29vw!important}
+.hand-cards .card:hover{transform:translateY(-4px) rotate(-1deg)!important}
+.controls{width:min(650px,100%)!important;gap:3px!important}
+.action-grid,.response-actions{gap:4px!important}.action{min-width:0!important;padding:5px 8px!important;font-size:8px!important;line-height:1.1!important;letter-spacing:.015em!important}
+.action .small{font-size:7px!important}.response-panel{gap:3px!important}.response-title{font-size:9px!important}.response-sub{font-size:8px!important}
+.response-actions .action{min-width:0!important;padding:5px 8px!important}
+.log{flex-basis:12px!important;min-height:12px!important;max-height:12px!important;font-size:7px!important;line-height:12px!important}
+.gold-call{font-size:clamp(17px,2.2vw,27px)!important;letter-spacing:.11em!important}
+#envidoReveal .envido-bubble{min-width:150px!important;padding:9px 15px 10px!important;border-width:1.5px!important}
+#envidoReveal .envido-bubble strong{font-size:clamp(19px,2.8vw,27px)!important;letter-spacing:.035em!important}
+#envidoReveal .envido-bubble small{font-size:8px!important;margin-top:3px!important}
+
+@media(max-width:760px){
+ :root{--hand-card-h:clamp(104px,min(19vh,142px),142px);--table-card-h:clamp(92px,min(17vh,128px),128px)}
+ .app.active{padding:0 5px!important}.topbar{height:42px!important;flex-basis:42px!important;padding:0 3px!important}
+ .brand-mark{width:23px!important;height:27px!important;font-size:15px!important}.brand-title{font-size:12px!important}.brand-sub{font-size:6px!important}
+ .menu-return{padding:5px 7px!important;font-size:7px!important}
+ .scorebar{padding:3px 2px 4px!important;gap:3px!important}.score-side{gap:4px!important}.avatar{width:21px!important;height:21px!important;font-size:8px!important}
+ .score-name{font-size:7px!important}.score-caption{font-size:6px!important}.score-num{font-size:18px!important;min-width:17px!important}.center-score{font-size:6px!important;letter-spacing:.08em!important}
+ .event-strip{padding:0 1px 4px!important;gap:3px!important}.event-strip>div{padding:4px 4px!important}.event-strip b{font-size:6px!important;margin-bottom:2px!important}.event-strip span{font-size:7px!important;line-height:1.1!important}
+ .table-wrap{padding:4px!important;margin:0 0 2px!important;border-width:5px!important;border-radius:clamp(48px,14vw,100px)/clamp(23px,5vh,42px)!important}
+ .ai-zone{top:5px!important}.ai-backs{height:clamp(34px,5.5vh,45px)!important}.back-card{width:25px!important;height:37px!important}
+ .table-mid{inset:clamp(48px,9vh,68px) 2px 0!important;gap:clamp(5px,3vw,20px)!important}
+ .play-column{width:clamp(75px,22vw,92px)!important}.play-label{font-size:6px!important}.play-slot{height:var(--table-card-h)!important}
+ .status-line{top:54px!important;font-size:8px!important}.round-pill{right:8px!important;top:8px!important;font-size:6px!important;padding:3px 5px!important}
+ .bottom-area{padding:2px 0!important;gap:2px!important}.hand-head{font-size:7px!important}.turn-note{font-size:7px!important}
+ .hand-cards{gap:clamp(3px,1.1vw,7px)!important}.hand-cards .card{max-width:29vw!important}
+ .controls{gap:2px!important}.action-grid,.response-actions{gap:3px!important}.action,.response-actions .action{padding:5px 4px!important;font-size:7px!important}
+ .log{font-size:6px!important;flex-basis:10px!important;min-height:10px!important;max-height:10px!important;line-height:10px!important}
+ .gold-call{font-size:clamp(16px,5vw,23px)!important}.envido-bubble strong{font-size:clamp(18px,5vw,24px)!important}
+ #envidoReveal .envido-bubble.reveal-ai{top:clamp(88px,16vh,130px)!important}
+ #envidoReveal .envido-bubble.reveal-you{bottom:clamp(105px,19vh,155px)!important}
+}
+@media(max-height:700px){
+ :root{--hand-card-h:clamp(92px,min(18vh,126px),126px);--table-card-h:clamp(82px,min(17vh,118px),118px)}
+ .topbar{height:39px!important;flex-basis:39px!important}.scorebar{padding-top:2px!important;padding-bottom:3px!important}.event-strip{padding-bottom:3px!important}
+ .ai-backs{height:35px!important}.table-mid{inset:48px 5px 0!important}.bottom-area{gap:2px!important;padding-top:2px!important;padding-bottom:1px!important}
+}
+@media(max-height:520px){
+ :root{--hand-card-h:clamp(66px,min(15vh,86px),86px);--table-card-h:clamp(60px,min(14vh,80px),80px)}
+ .topbar{height:33px!important;flex-basis:33px!important}.scorebar{padding:1px 2px!important}.event-strip{padding-bottom:1px!important}
+ .ai-zone{top:1px!important}.ai-backs{height:22px!important}.back-card{width:18px!important;height:27px!important}
+ .table-mid{inset:29px 2px 0!important}.status-line{top:31px!important}.bottom-area{gap:1px!important;padding:0!important}
+ .hand-head{min-height:8px!important}.action,.response-actions .action{padding:2px 4px!important;font-size:6px!important}.log{display:none!important}
+}
+@media(max-width:390px){
+ :root{--hand-card-h:clamp(96px,min(17vh,126px),126px)}
+ .hand-cards{gap:2px!important}.hand-cards .card{max-width:30vw!important}
+ .play-column{width:clamp(72px,22vw,84px)!important}.table-mid{gap:4px!important}
+}
+
+
+/* v6 — escala fija de interfaz; el zoom se aplica principalmente a las cartas */
+:root{--card-zoom:1;--hand-card-base:clamp(112px,20vh,156px);--played-card-base:136px}
+/* Mantener encabezado, marcador y paño con medidas estables; no usar vw/vh para escalar sus textos. */
+.app.active{width:min(1200px,100%)}
+.topbar{height:46px!important;flex-basis:46px!important}
+.table-wrap{flex:1 1 auto;min-height:0}
+.felt{min-height:280px}
+/* Las cartas crecen con el nivel de zoom, con un tope para no invadir el resto de la mesa. */
+.hand-cards{min-height:calc(var(--hand-card-base)*var(--card-zoom));height:calc(var(--hand-card-base)*var(--card-zoom));gap:clamp(5px,1vw,12px)!important}
+.hand-cards .card{width:calc(var(--hand-card-base)*.647*var(--card-zoom))!important;height:calc(var(--hand-card-base)*var(--card-zoom))!important;max-width:min(31vw,calc((100vw - 34px)/3.15))!important;flex:0 1 auto}
+.play-slot{height:calc(var(--played-card-base)*var(--card-zoom))!important}
+.play-slot .card,.play-slot .empty-slot{width:calc(88px*var(--card-zoom))!important;height:calc(var(--played-card-base)*var(--card-zoom))!important;max-width:min(25vw,120px)!important}
+.empty-slot{width:calc(88px*var(--card-zoom))!important;height:calc(var(--played-card-base)*var(--card-zoom))!important}
+/* La zona central reserva espacio para las cartas ampliadas. */
+.table-mid{gap:clamp(24px,5vw,70px)!important}
+.play-column{width:clamp(88px,10vw,116px)!important}
+/* Textos y controles no escalan junto con las cartas. */
+.gold-call{font-size:clamp(17px,2vw,25px)!important}
+#envidoReveal .envido-bubble strong{font-size:clamp(18px,2.2vw,25px)!important}
+@media(max-width:760px){
+ :root{--hand-card-base:clamp(104px,18vh,136px);--played-card-base:120px}
+ .topbar{height:42px!important;flex-basis:42px!important}
+ .hand-cards .card{max-width:min(31vw,calc((100vw - 24px)/3.12))!important}
+ .table-mid{gap:clamp(7px,2vw,18px)!important}
+ .play-column{width:clamp(76px,22vw,94px)!important}
+}
+@media(max-height:520px){
+ :root{--hand-card-base:clamp(82px,17vh,108px);--played-card-base:94px}
+ .felt{min-height:210px}
+}
+
+
+
+/* Ajustes solicitados: cantos más lentos, cartas proporcionadas y registro visual de bazas. */
+:root{
+ --hand-card-h:clamp(68px,min(17vh,144px),144px);
+ --table-card-h:clamp(68px,min(16vh,132px),132px);
+}
+/* El reverso conserva proporción de naipe incluso en pantallas anchas y apaisadas. */
+.ai-backs{height:clamp(52px,7.7vh,76px)!important;min-height:0;overflow:visible;align-items:center;}
+.back-card{
+ width:auto!important;height:clamp(52px,7.7vh,76px)!important;aspect-ratio:5 / 7.7!important;
+ flex:0 0 auto;min-width:0;border:1.5px solid #ead59d;border-radius:7px;
+ margin-left:clamp(-17px,-1.25vw,-9px);box-shadow:0 6px 11px #00170fbb,0 1px 2px #0008;
+ background:linear-gradient(145deg,#a63734 0%,#8d292b 48%,#681b20 100%);
+}
+.back-card:before{inset:4px;border:1px solid rgba(248,224,165,.9);border-radius:4px;background:repeating-linear-gradient(-45deg,transparent 0 4px,rgba(255,226,169,.2) 4px 5px),repeating-linear-gradient(45deg,transparent 0 7px,rgba(40,5,8,.12) 7px 8px);box-shadow:inset 0 0 0 2px rgba(246,220,157,.08)}
+.back-card:after{font-size:clamp(17px,2.6vh,25px);text-shadow:0 1px 4px #390e10,0 0 8px #e2b96a66}
+/* Un toque de proximidad adicional sin cambiar el tamaño del encabezado ni de la mesa. */
+.hand-cards .card{filter:drop-shadow(0 2px 2px #140b06aa)}
+.play-slot .card{transform:scale(1.035);}
+
+.event-strip>div.baza-record{display:flex!important;align-items:center;gap:clamp(3px,.55vw,7px);}
+.event-strip .baza-record>b{display:inline-block;margin:0;flex:none;}
+.event-strip .baza-record>span{display:block;flex:1 1 auto;min-width:0;}
+.baza-dots{display:flex;align-items:center;justify-content:flex-end;gap:clamp(3px,.35vw,5px);flex:0 0 auto;margin-left:auto;}
+.baza-dots .baza-dot{display:block;width:9px;height:9px;flex:0 0 9px;border-radius:50%;border:1px solid rgba(236,225,192,.44);background:rgba(225,224,204,.15);box-shadow:inset 0 1px 2px #0007;transition:background .22s,border-color .22s,box-shadow .22s;}
+.baza-dots .baza-dot.won{background:#31b96e;border-color:#a0edbd;box-shadow:0 0 8px #35d77c88,inset 0 1px 2px #eaffee66;}
+.baza-dots .baza-dot.lost{background:#d44743;border-color:#ffaaa0;box-shadow:0 0 8px #e44c4688,inset 0 1px 2px #ffe5e266;}
+.baza-dots .baza-dot.draw{background:#438fe0;border-color:#a8d3ff;box-shadow:0 0 8px #438fe088,inset 0 1px 2px #e2f3ff66;}
+@media(max-width:760px){
+ .event-strip>div.baza-record{display:flex!important;gap:3px;padding:4px 4px;}
+ .event-strip .baza-record>b{display:inline-block;margin:0;font-size:7px;}
+ .event-strip .baza-record>span{font-size:7px;line-height:1.1;}
+ .baza-dots{gap:3px;}
+ .baza-dots .baza-dot{width:7px;height:7px;flex-basis:7px;}
+}
+@media(max-width:390px){
+ .event-strip>div.baza-record{gap:2px;padding:3px 3px;}
+ .event-strip .baza-record>b{font-size:6px;letter-spacing:.08em;}
+ .event-strip .baza-record>span{font-size:6px;}
+ .baza-dots{gap:2px;}
+ .baza-dots .baza-dot{width:6px;height:6px;flex-basis:6px;}
+}
+@media(max-height:520px){
+ .ai-backs{height:clamp(40px,10vh,50px)!important;}
+ .back-card{height:clamp(40px,10vh,50px)!important;}
+ .table-mid{inset:clamp(43px,11vh,58px) 2px 1px!important;}
+}
+.score-name .player-role{font-size:8px;font-weight:700;color:#cbb98d;letter-spacing:.08em;margin-left:5px;white-space:nowrap;}
+.play-label .player-role{display:block;font-size:7px;letter-spacing:.12em;color:#cbb98d;margin-top:1px;}
+.p2p-lobby{display:none;position:fixed;inset:0;z-index:20000;place-items:center;padding:18px;background:rgba(2,13,9,.78);backdrop-filter:blur(7px);}
+.p2p-lobby.active{display:grid;}
+.p2p-lobby-card{width:min(430px,100%);padding:clamp(20px,5vw,30px);border:1px solid rgba(229,204,146,.42);border-radius:16px;background:linear-gradient(145deg,#173d2d,#09251b 72%);box-shadow:0 24px 80px #000b;text-align:center;color:#f1e5c7;}
+.p2p-lobby-kicker{font-size:9px;letter-spacing:.24em;color:#d2b979;text-transform:uppercase;}
+.p2p-lobby-card h2{margin:10px 0 7px;font:700 clamp(22px,5vw,29px) 'Playfair Display',Georgia,serif;}
+.p2p-lobby-status{min-height:34px;margin:0 auto 16px;max-width:340px;font-size:12px;line-height:1.5;color:#c3d2c5;}
+.p2p-lobby-code{display:grid;gap:7px;margin:0 0 18px;padding:12px;border:1px solid rgba(226,204,153,.22);border-radius:10px;background:#061a13aa;text-align:left;}
+.p2p-lobby-code>span{font-size:8px;letter-spacing:.17em;color:#c5b17e;}
+.p2p-lobby-code-row{display:flex;gap:7px;}
+.p2p-lobby-code-row input{flex:1;min-width:0;border:1px solid rgba(225,202,145,.25);border-radius:7px;background:#102c22;color:#fff0c9;padding:10px;font:700 17px ui-monospace,monospace;letter-spacing:.14em;text-align:center;}
+.p2p-lobby-code-row button,.p2p-lobby-cancel{border:1px solid rgba(225,202,145,.35);border-radius:8px;padding:10px 13px;background:#234633;color:#f4e5c2;font:700 10px inherit;letter-spacing:.08em;cursor:pointer;}
+.p2p-lobby-cancel{width:100%;background:rgba(255,255,255,.05);}
+@media(max-width:440px){.score-name .player-role{display:block;margin:2px 0 0;font-size:7px;}.play-label .player-role{font-size:6px;}.p2p-lobby-card{padding:19px 15px;}}
+
+
+/* Salida de las cartas jugadas: salen hacia los laterales y abandonan la mesa. */
+.card.played-card.from-you.sweep-left{
+ animation:tableExitLeft .86s cubic-bezier(.42,.02,.78,.35) forwards!important;
+ pointer-events:none!important;will-change:transform,opacity;
+}
+.card.played-card.from-ai.sweep-right{
+ animation:tableExitRight .86s cubic-bezier(.42,.02,.78,.35) forwards!important;
+ pointer-events:none!important;will-change:transform,opacity;
+}
+@keyframes tableExitLeft{
+ 0%{opacity:1;transform:translate3d(0,0,0) rotate(-2deg) scale(1)}
+ 28%{opacity:1;transform:translate3d(-24px,-3px,0) rotate(-7deg) scale(.99)}
+ 100%{opacity:0;transform:translate3d(-110vw,24px,0) rotate(-25deg) scale(.78)}
+}
+@keyframes tableExitRight{
+ 0%{opacity:1;transform:translate3d(0,0,0) rotate(2deg) scale(1)}
+ 28%{opacity:1;transform:translate3d(24px,-3px,0) rotate(7deg) scale(.99)}
+ 100%{opacity:0;transform:translate3d(110vw,24px,0) rotate(25deg) scale(.78)}
+}
+
+
+/* Indicador discreto de deliberación de la IA */
+.ai-zone.is-thinking .ai-info{display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid rgba(225,202,145,.22);border-radius:20px;background:rgba(4,25,18,.74);color:#e4d4a7;font-size:9px;letter-spacing:.14em;box-shadow:0 3px 10px #00180f66}
+.ai-zone.is-thinking .ai-dot{animation:aiPulse 1.05s ease-in-out infinite}
+@keyframes aiPulse{0%,100%{opacity:.45;transform:scale(.82);box-shadow:0 0 2px #86e3a6}50%{opacity:1;transform:scale(1.25);box-shadow:0 0 12px #86e3a6}}
+
+
+/* Selector de modalidad y salas P2P */
+.mode-field{display:flex;flex-direction:column;gap:7px;color:#d8c9a5;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.mode-field select,.p2p-panel input,.p2p-panel select{width:100%;border:1px solid rgba(225,202,145,.3);border-radius:9px;background:#102c22;color:#f3e6c7;padding:11px 12px;font:inherit;letter-spacing:.04em;outline:none}
+.p2p-panel{display:none;gap:10px;padding:13px;border:1px solid rgba(225,202,145,.2);border-radius:12px;background:rgba(4,23,17,.55)}
+.p2p-panel.active{display:grid}
+.p2p-panel label{display:flex;flex-direction:column;gap:6px;color:#d8c9a5;font-size:9px;letter-spacing:.12em}
+.p2p-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.p2p-actions button{border:1px solid rgba(225,202,145,.32);border-radius:8px;padding:10px 7px;background:#183d2d;color:#f1dfb8;font:700 10px inherit;letter-spacing:.08em;cursor:pointer}
+.p2p-actions button.primary{background:linear-gradient(135deg,#c69d55,#8c642d);color:#1b160d}
+.p2p-code-row{display:flex;gap:6px;align-items:center}
+.p2p-code-row input{min-width:0;text-transform:uppercase;letter-spacing:.16em;text-align:center}
+.p2p-hint{font-size:9px;line-height:1.5;color:#9eb4a2;letter-spacing:0;text-transform:none}
+.p2p-status{font-size:10px;line-height:1.45;color:#e4d4a7;min-height:14px;text-align:center}
+@media(max-width:440px){.p2p-actions{grid-template-columns:1fr}.p2p-panel{padding:9px}}
+
+/* FIX DEFINITIVO DE ANUNCIOS MÓVILES: capas fuera del contenedor con overflow y animación CSS nativa. */
+#callEffects{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:2147483000!important;display:block!important;overflow:visible!important;pointer-events:none!important;isolation:isolate!important;clip-path:none!important;}
+.gold-call{position:fixed!important;left:50vw!important;top:49vh!important;top:49dvh!important;display:block!important;visibility:visible!important;opacity:0;z-index:2147483001!important;width:max-content!important;max-width:92vw!important;padding:8px 13px!important;white-space:normal!important;text-align:center!important;line-height:1.12!important;font:800 clamp(25px,6vw,48px) Georgia,serif!important;letter-spacing:.09em!important;color:#ffe6a6!important;text-shadow:0 2px 0 #68451c,0 5px 16px #000d,0 0 24px #f4c66b88!important;background:rgba(15,37,25,.88)!important;border:1px solid rgba(244,211,145,.72)!important;border-radius:12px!important;box-shadow:0 10px 35px #0009!important;transform:translate(-50%,12px) scale(.96);pointer-events:none!important;animation:none!important;}
+.gold-call.gold-call-visible{animation:goldCallMobileSafe 2.65s cubic-bezier(.2,.58,.24,1) both!important;}
+@keyframes goldCallMobileSafe{0%{opacity:0;transform:translate(-50%,12px) scale(.96)}13%{opacity:1;transform:translate(-50%,0) scale(1)}68%{opacity:1;transform:translate(-50%,-18px) scale(1.01)}100%{opacity:0;transform:translate(-50%,-38px) scale(1.015)}}
+#envidoReveal{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;z-index:2147482990!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:visible!important;pointer-events:none!important;clip-path:none!important;}
+#envidoReveal .envido-bubble{position:fixed!important;left:50vw!important;right:auto!important;display:block!important;visibility:visible!important;z-index:2147482991!important;min-width:min(190px,calc(100vw - 28px))!important;width:max-content!important;max-width:88vw!important;opacity:0!important;transform:translateX(-50%) translateY(12px) scale(.94)!important;}
+#envidoReveal .envido-bubble.show{opacity:1!important;visibility:visible!important;animation:talkBubbleIn .42s cubic-bezier(.18,.82,.24,1) both!important;}
+#envidoReveal .envido-bubble.hide{animation:talkBubbleOut .28s ease-in forwards!important;}
+.back-card{overflow:hidden!important;}
+.back-card .back-card-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block;border-radius:inherit;}
+.back-card:not(.back-css-fallback):has(.back-card-art){background:transparent!important;}
+.back-card:not(.back-css-fallback):has(.back-card-art):before,.back-card:not(.back-css-fallback):has(.back-card-art):after{display:none!important;}
+@media(max-width:760px){
+ #callEffects{inset:0!important;height:100dvh!important;}
+ .gold-call{top:47dvh!important;max-width:90vw!important;padding:9px 12px!important;font-size:clamp(24px,7vw,36px)!important;letter-spacing:.055em!important;border-radius:10px!important;}
+ #envidoReveal{height:100dvh!important;}
+ #envidoReveal .envido-bubble.reveal-ai{top:max(env(safe-area-inset-top),82px)!important;bottom:auto!important;}
+ #envidoReveal .envido-bubble.reveal-you{top:auto!important;bottom:max(calc(env(safe-area-inset-bottom) + 108px),108px)!important;}
+ #envidoReveal .envido-bubble strong{font-size:clamp(22px,6vw,31px)!important;}
+}
+@media(max-height:520px) and (max-width:900px){
+ .gold-call{top:43dvh!important;font-size:clamp(20px,5vw,28px)!important;padding:5px 9px!important;}
+ #envidoReveal .envido-bubble.reveal-ai{top:45px!important;}
+ #envidoReveal .envido-bubble.reveal-you{bottom:70px!important;}
+}
+
+
+/* CAPAS FINALES: anuncios de canto en el viewport; tantos relativos a la mesa. */
+#callEffects{
+ position:fixed!important;inset:0!important;left:0!important;top:0!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;
+ display:block!important;visibility:visible!important;opacity:1!important;
+ z-index:2147483647!important;overflow:visible!important;pointer-events:none!important;
+ isolation:isolate!important;transform:none!important;filter:none!important;contain:none!important;clip-path:none!important;
+}
+#callEffects .gold-call{
+ position:absolute!important;left:50%!important;top:49%!important;
+ display:block!important;visibility:visible!important;z-index:2147483647!important;
+ width:max-content!important;max-width:calc(100vw - 24px)!important;
+ margin:0!important;padding:0!important;white-space:normal!important;overflow-wrap:anywhere!important;
+ text-align:center!important;line-height:1.15!important;
+ color:#ffe7ad!important;font:800 clamp(25px,5.4vw,46px) Georgia,serif!important;
+ letter-spacing:.075em!important;text-shadow:0 2px 5px #06150dcc,0 0 15px #f0c66b66!important;
+ background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;
+ opacity:0!important;transform:translate(-50%,12px) scale(.98)!important;
+ transition:opacity .22s ease,transform .22s ease!important;animation:none!important;
+ pointer-events:none!important;will-change:opacity,transform;
+}
+#callEffects .gold-call.gold-call-visible{
+ opacity:1!important;visibility:visible!important;transform:translate(-50%,0) scale(1)!important;animation:none!important;
+}
+#callEffects .gold-call.gold-call-hide{
+ opacity:0!important;transform:translate(-50%,-9px) scale(1)!important;animation:none!important;
+}
+
+/* El reveal de tantos se ancla a #felt: no se posiciona respecto del viewport. */
+#felt > #envidoReveal{
+ position:absolute!important;inset:0!important;left:0!important;top:0!important;
+ width:auto!important;height:auto!important;z-index:28!important;
+ display:block!important;visibility:visible!important;opacity:1!important;
+ overflow:visible!important;pointer-events:none!important;transform:none!important;filter:none!important;contain:none!important;clip-path:none!important;
+}
+#felt > #envidoReveal.fade-out{opacity:1!important;}
+#felt > #envidoReveal .envido-bubble{
+ position:absolute!important;left:50%!important;right:auto!important;
+ width:max-content!important;min-width:0!important;max-width:calc(100% - 24px)!important;
+ margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+ background:transparent!important;box-shadow:none!important;filter:none!important;
+ color:#fff0c8!important;text-align:center!important;
+ text-shadow:0 2px 6px #00170fdd,0 0 14px #f0c66b55!important;
+}
+#felt > #envidoReveal .envido-bubble.reveal-ai{top:27%!important;bottom:auto!important;}
+#felt > #envidoReveal .envido-bubble.reveal-you{top:auto!important;bottom:20%!important;}
+#felt > #envidoReveal .envido-bubble:before,#felt > #envidoReveal .envido-bubble:after{display:none!important;content:none!important;}
+#felt > #envidoReveal .envido-bubble.show{
+ opacity:1!important;visibility:visible!important;animation:revealPop .42s cubic-bezier(.18,.8,.2,1) forwards!important;
+}
+#felt > #envidoReveal .envido-bubble.hide{
+ opacity:0!important;visibility:visible!important;animation:talkBubbleOut .28s ease-in forwards!important;
+}
+#felt > #envidoReveal .envido-bubble strong{
+ display:block!important;margin:0!important;padding:0!important;color:#ffe3a0!important;
+ font:800 clamp(24px,5.8vw,34px) Georgia,serif!important;letter-spacing:.045em!important;line-height:1.1!important;
+ background:transparent!important;text-shadow:0 2px 6px #00170fee!important;
+}
+#felt > #envidoReveal .envido-bubble small{
+ display:block!important;margin:5px 0 0!important;padding:0!important;color:#f6f1e5!important;
+ font:700 10px/1.3 system-ui,sans-serif!important;letter-spacing:.13em!important;background:transparent!important;
+ text-shadow:0 2px 5px #00170fee!important;
+}
+@media(max-width:760px){
+ #callEffects .gold-call{top:48%!important;max-width:calc(100vw - 22px)!important;font-size:clamp(23px,7vw,34px)!important;letter-spacing:.035em!important;line-height:1.18!important;}
+ #felt > #envidoReveal .envido-bubble.reveal-ai{top:29%!important;}
+ #felt > #envidoReveal .envido-bubble.reveal-you{bottom:17%!important;}
+ #felt > #envidoReveal .envido-bubble strong{font-size:clamp(22px,6.3vw,29px)!important;}
+ #felt > #envidoReveal .envido-bubble small{font-size:9px!important;letter-spacing:.09em!important;}
+}
+@media(max-height:520px) and (max-width:900px){
+ #callEffects .gold-call{top:44%!important;font-size:clamp(19px,5vw,27px)!important;}
+ #felt > #envidoReveal .envido-bubble.reveal-ai{top:22%!important;}
+ #felt > #envidoReveal .envido-bubble.reveal-you{bottom:15%!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ #callEffects .gold-call,#felt > #envidoReveal .envido-bubble{transition:none!important;animation:none!important;}
+}
+
+
+/* TRANSICIONES SUAVES Y UNIFICADAS PARA ANUNCIOS Y TANTOS (PC + móvil). */
+#callEffects .gold-call{
+ opacity:0!important;
+ transform:translate(-50%,8px) scale(.99)!important;
+ transition:opacity .48s ease,transform .48s cubic-bezier(.2,.65,.25,1)!important;
+ animation:none!important;
+}
+#callEffects .gold-call.gold-call-visible{
+ opacity:1!important;
+ transform:translate(-50%,0) scale(1)!important;
+}
+#callEffects .gold-call.gold-call-hide{
+ opacity:0!important;
+ transform:translate(-50%,-5px) scale(.995)!important;
+}
+#felt > #envidoReveal .envido-bubble{
+ opacity:0!important;
+ transform:translateX(-50%) translateY(7px) scale(.99)!important;
+ transition:opacity .48s ease,transform .48s cubic-bezier(.2,.65,.25,1)!important;
+ animation:none!important;
+}
+#felt > #envidoReveal .envido-bubble.show{
+ opacity:1!important;
+ visibility:visible!important;
+ transform:translateX(-50%) translateY(0) scale(1)!important;
+ animation:none!important;
+}
+#felt > #envidoReveal .envido-bubble.hide{
+ opacity:0!important;
+ visibility:visible!important;
+ transform:translateX(-50%) translateY(-5px) scale(.995)!important;
+ animation:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+ #callEffects .gold-call{transition:opacity .48s ease!important;transform:translate(-50%,0)!important;}
+ #callEffects .gold-call.gold-call-visible,#callEffects .gold-call.gold-call-hide{transform:translate(-50%,0)!important;}
+ #felt > #envidoReveal .envido-bubble{transition:opacity .48s ease!important;transform:translateX(-50%)!important;}
+ #felt > #envidoReveal .envido-bubble.show,#felt > #envidoReveal .envido-bubble.hide{transform:translateX(-50%)!important;}
+}
+
+
+/* Anuncios breves sobre el paño verde, por encima de las cartas. */
+#felt{isolation:isolate;}
+#felt > #callEffects{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ z-index:80!important;display:block!important;overflow:hidden!important;pointer-events:none!important;
+}
+#felt > #callEffects .gold-call{
+ position:absolute!important;left:50%!important;top:50%!important;z-index:81!important;
+ display:block!important;visibility:visible!important;width:max-content!important;
+ max-width:calc(100% - 24px)!important;padding:0!important;margin:0!important;
+ white-space:normal!important;text-align:center!important;line-height:1.08!important;
+ font:800 clamp(23px,4.2vw,43px) Georgia,serif!important;letter-spacing:.075em!important;
+ color:#ffe6a6!important;background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;filter:none!important;
+ text-shadow:0 2px 5px #00170f,0 0 12px rgba(0,0,0,.9),0 0 18px rgba(255,220,145,.3)!important;
+ opacity:0!important;transform:translate(-50%,-50%) translateY(7px) scale(.985)!important;
+ pointer-events:none!important;animation:none!important;
+}
+#felt > #callEffects .gold-call.gold-call-visible{
+ animation:feltCalloutBrief 1.6s cubic-bezier(.2,.65,.25,1) both!important;
+}
+@keyframes feltCalloutBrief{
+ 0%{opacity:0;transform:translate(-50%,-50%) translateY(7px) scale(.985)}
+ 18%{opacity:1;transform:translate(-50%,-50%) translateY(0) scale(1)}
+ 58%{opacity:1;transform:translate(-50%,-50%) translateY(-2px) scale(1)}
+ 100%{opacity:0;transform:translate(-50%,-50%) translateY(-8px) scale(1.005)}
+}
+@media(max-width:760px){
+ #felt > #callEffects .gold-call{font-size:clamp(22px,6.5vw,34px)!important;letter-spacing:.045em!important;max-width:calc(100% - 18px)!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ #felt > #callEffects .gold-call.gold-call-visible{animation:feltCalloutBrief 1.6s linear both!important;}
+}
+
+
+/* ANUNCIOS: capa independiente en el centro de la pantalla (nunca sobre las cartas). */
+#callEffects{
+ position:fixed!important;inset:0!important;left:0!important;top:0!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;
+ display:block!important;visibility:visible!important;opacity:1!important;
+ z-index:2147483647!important;overflow:visible!important;pointer-events:none!important;
+ isolation:isolate!important;transform:none!important;filter:none!important;contain:none!important;clip-path:none!important;
+}
+#callEffects .gold-call{
+ position:fixed!important;left:50vw!important;top:50vh!important;top:50dvh!important;
+ display:block!important;visibility:visible!important;z-index:2147483647!important;
+ width:max-content!important;max-width:min(92vw,900px)!important;margin:0!important;padding:0!important;
+ white-space:normal!important;overflow-wrap:anywhere!important;text-align:center!important;line-height:1.12!important;
+ color:#ffe8b0!important;font:800 clamp(25px,5vw,46px) Georgia,serif!important;
+ letter-spacing:.065em!important;
+ text-shadow:0 2px 2px #000,0 4px 9px rgba(0,0,0,.98),0 0 18px rgba(0,0,0,.85),0 0 24px rgba(245,202,111,.38)!important;
+ background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:none!important;
+ opacity:0!important;transform:translate(-50%,-50%) translateY(6px) scale(.985)!important;
+ transition:opacity .24s ease-out,transform .24s ease-out!important;
+ pointer-events:none!important;will-change:opacity,transform;animation:none!important;
+}
+#callEffects .gold-call.gold-call-visible{
+ opacity:1!important;visibility:visible!important;
+ transform:translate(-50%,-50%) translateY(0) scale(1)!important;
+}
+#callEffects .gold-call.gold-call-hide{
+ opacity:0!important;visibility:visible!important;
+ transform:translate(-50%,-50%) translateY(-4px) scale(.995)!important;
+ transition:opacity .42s ease-in,transform .42s ease-in!important;
+}
+@media(max-width:760px){
+ #callEffects .gold-call{max-width:90vw!important;font-size:clamp(23px,7vw,35px)!important;letter-spacing:.035em!important;}
+}
+@media(max-height:520px) and (max-width:900px){
+ #callEffects .gold-call{font-size:clamp(19px,5vw,28px)!important;}
+}
+@media(prefers-reduced-motion:reduce){
+ #callEffects .gold-call{transition:opacity .18s linear!important;transform:translate(-50%,-50%)!important;}
+ #callEffects .gold-call.gold-call-hide{transition:opacity .24s linear!important;}
+}
+
+
+/* Cuando el panel de resultado ocupa el centro, el anuncio se eleva automáticamente. */
+#callEffects .gold-call.gold-call-above{
+ top:27dvh!important;
+ transform:translate(-50%,-50%) translateY(0) scale(1)!important;
+}
+#callEffects .gold-call.gold-call-above.gold-call-hide{
+ transform:translate(-50%,-50%) translateY(-5px) scale(.995)!important;
+}
+@media(max-height:520px){
+ #callEffects .gold-call.gold-call-above{top:19dvh!important;}
+}
+
+</style>
+</head>
+<body>
+<section class="menu-screen" id="mainMenu">
+  <div class="menu-backdrop"></div>
+  <div class="menu-card">
+    <div class="menu-mark">♠</div>
+    <div class="menu-kicker">BARAJA española · 40 naipes</div>
+    <h1>TRUCO <span>ARGENTINO</span></h1>
+    <p class="menu-intro">Una mesa, tres cartas y una buena mentira.</p>
+    <div class="menu-rule"></div>
+    <div class="menu-options">
+      <label class="mode-field"><span>MODO DE JUEGO</span><select id="gameMode"><option value="ai">VS. IA</option><option value="p2p">P2P · 2 JUGADORES</option></select></label>
+      <div class="p2p-panel" id="p2pOptions">
+        <label>TIPO DE SALA<select id="p2pVisibility"><option value="public">Pública · código compartible</option><option value="private">Privada · código secreto</option></select></label>
+        <div class="p2p-hint">Pública: cualquiera que tenga el código puede entrar. Privada: usa un código más largo y difícil de adivinar. Se necesita Internet y el segundo jugador entra pegando el código. No hay un listado público de salas.</div>
+        <div class="p2p-actions"><button class="primary" id="createRoomBtn">CREAR SALA</button><button id="joinRoomBtn">UNIRSE A SALA</button></div>
+        <label>CÓDIGO DE SALA<div class="p2p-code-row"><input id="p2pRoomCode" maxlength="16" placeholder="PEGÁ EL CÓDIGO" autocomplete="off" spellcheck="false"><button type="button" id="copyRoomCodeBtn" aria-label="Copiar código" style="border:1px solid rgba(225,202,145,.3);border-radius:8px;padding:10px;background:#183d2d;color:#f1dfb8;cursor:pointer">COPIAR</button></div></label>
+        <div class="p2p-status" id="p2pStatus">Creá una sala o ingresá el código de tu rival.</div>
+      </div>
+      <label class="menu-field"><span>PARTIDA A</span><select id="targetPoints"><option value="15">15 puntos</option><option value="30" selected>30 puntos</option><option value="40">40 puntos</option></select></label>
+      <label class="menu-field"><span>DIFICULTAD DE LA IA</span><select id="menuDifficulty"><option value="easy">Fácil</option><option value="medium" selected>Medio</option><option value="hard">Difícil</option><option value="impossible">Imposible</option></select></label>
+      <label class="flor-option" for="florEnabled"><span class="flor-copy"><b>FLOR</b><small>Activa flor, contra flor y contra flor al resto.</small></span><input id="florEnabled" type="checkbox"><i class="toggle-ui"></i></label>
+    </div>
+    <button class="start-btn" id="startGame">JUGAR <span>→</span></button>
+    <div class="menu-foot">TRUCO CRIOLLO · MANO A MANO</div>
+  </div>
+</section>
+<div class="app" id="gameApp">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">♠</div><div><div class="brand-title">TRUCO ARGENTINO</div><div class="brand-sub" id="gameConfigLine">Mano a mano · 30 puntos · Sin flor</div></div></div>
+    <div class="top-tools"><button class="new-btn menu-return" id="menuBtn">MENÚ PRINCIPAL</button></div>
+  </header>
+  <section class="scorebar">
+    <div class="score-side"><div class="avatar">TÚ</div><div><div class="score-name">VOS</div><div class="score-caption" id="you-half">MALAS</div></div><div class="score-num" id="scoreYou">0</div></div>
+    <div class="center-score"><div id="targetLabel">PARTIDA A 30</div><div class="score-track" id="trackYou"></div><div class="score-track right" id="trackAI"></div></div>
+    <div class="score-side right"><div class="score-num" id="scoreAI">0</div><div><div class="score-name">LA IA</div><div class="score-caption" id="ai-half">MALAS</div></div><div class="avatar">IA</div></div>
+  </section>
+  <section class="event-strip" aria-live="polite">
+    <div><b>ENVIDO</b><span id="eventEnvido">Sin cantar</span></div>
+    <div class="baza-record"><b>BAZA</b><span id="eventBaza">En juego</span><div class="baza-dots" id="trickDots" role="img" aria-label="Resultados de las tres bazas"><i></i><i></i><i></i></div></div>
+    <div><b>MANO</b><span id="eventHand">En juego</span></div>
+  </section>
+  <main class="table-wrap">
+    <section class="felt" id="felt">
+      <div class="call-effects" id="callEffects" aria-live="polite"></div>
+      <div class="envido-reveal" id="envidoReveal" aria-live="polite">
+        <div class="envido-bubble reveal-ai" id="revealAI"></div>
+        <div class="envido-bubble reveal-you" id="revealYou"></div>
+      </div>
+      <div class="ai-zone"><div class="ai-info"><span class="ai-dot"></span><span>LA IA</span><span id="ai-turn-label" style="color:#9bb4a1">· esperando</span></div><div class="ai-backs" id="aiBacks"></div></div>
+      <div class="round-pill" id="roundPill">MANO 01 · BAZA 1</div>
+      <div class="status-line" id="statusLine">Repartiendo las cartas…</div>
+      <div class="table-mid">
+        <div class="center-emblem"><b>TRUCO</b><small>baraja española · 40 naipes</small></div>
+        <div class="play-column"><div class="play-label">VOS</div><div class="play-slot" id="slotYou"><div class="empty-slot"></div></div></div>
+        <div class="play-column"><div class="play-label">LA IA</div><div class="play-slot" id="slotAI"><div class="empty-slot"></div></div></div>
+      </div>
+      <div class="trick-history" id="trickHistory"></div>
+    </section>
+    <section class="bottom-area">
+      <div class="hand-side"><div class="hand-head"><span>TUS CARTAS</span><span class="turn-note" id="turnNote">Tu turno</span></div><div class="hand-cards" id="playerHand"></div></div>
+      <div class="controls"><div class="action-grid" id="actionGrid"></div><div id="responseHost"></div></div>
+      <div class="log"><span class="log-label">MESA</span><span class="log-text" id="logText">La partida está por comenzar.</span></div>
+    </section>
+  </main>
+  <footer class="footer"><span><b>TRUCO CRIOLLO</b> · Reglas argentinas clásicas</span><span>SVG locales → CDN de respaldo → cartas CSS · anuncios solo texto · VS. IA sin conexión · P2P requiere Internet</span></footer>
+</div>
+<div class="p2p-lobby" id="p2pLobby" role="dialog" aria-modal="true" aria-labelledby="p2pLobbyTitle">
+  <div class="p2p-lobby-card">
+    <div class="p2p-lobby-kicker">CONEXIÓN ENTRE JUGADORES</div>
+    <h2 id="p2pLobbyTitle">Esperando al rival</h2>
+    <p class="p2p-lobby-status" id="p2pLobbyStatus">Preparando la sala…</p>
+    <div class="p2p-lobby-code" id="p2pLobbyCodeBlock">
+      <span>CÓDIGO DE SALA</span>
+      <div class="p2p-lobby-code-row"><input id="p2pLobbyCode" readonly value=""><button id="p2pLobbyCopy" type="button">COPIAR</button></div>
+    </div>
+    <button class="p2p-lobby-cancel" id="p2pLobbyCancel" type="button">CANCELAR Y VOLVER AL MENÚ</button>
+  </div>
+</div>
+<div class="overlay" id="overlay"><div class="result-card"><div class="result-kicker" id="resultKicker">FIN DE LA MANO</div><div class="result-title" id="resultTitle">¡Bien jugado!</div><div class="result-desc" id="resultDesc"></div><button class="new-btn" id="overlayButton">CONTINUAR</button></div></div>
+<script defer src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js'"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+// Los anuncios se dibujan en una capa independiente, centrada en el viewport.
+const callEffectLayer=$('callEffects');
+if(callEffectLayer&&callEffectLayer.parentElement!==document.documentElement)document.documentElement.appendChild(callEffectLayer);
+// Si aparece el panel de fin de mano/partida, desplaza el anuncio por encima del panel.
+const resultOverlay=$('overlay');
+function syncCalloutPosition(){
+ if(!activeFloat?.node)return;
+ const overlayOpen=!!resultOverlay?.classList.contains('show');
+ activeFloat.node.classList.toggle('gold-call-above',overlayOpen);
+}
+if(resultOverlay&&typeof MutationObserver!=='undefined'){
+ const overlayObserver=new MutationObserver(syncCalloutPosition);
+ overlayObserver.observe(resultOverlay,{attributes:true,attributeFilter:['class']});
+}
+const suitMeta={espadas:{file:'swords',glyph:'♠',name:'Espadas',red:false},bastos:{file:'clubs',glyph:'♣',name:'Bastos',red:false},oros:{file:'coins',glyph:'●',name:'Oros',red:true},copas:{file:'cups',glyph:'♥',name:'Copas',red:true}};
+const ranks=[1,2,3,4,5,6,7,10,11,12];
+const deckBase=[];
+for(const suit of Object.keys(suitMeta)) for(const rank of ranks){
+ let strength=rank===1?(suit==='espadas'?14:suit==='bastos'?13:8):rank===7?(suit==='espadas'?12:suit==='oros'?11:4):rank===3?10:rank===2?9:rank===12?7:rank===11?6:rank===10?5:rank===6?3:rank===5?2:1;
+ deckBase.push({id:suit+'-'+rank,suit,rank,strength,envido:rank<=7?rank:0});
+}
+const CARD_DIR='cards/';
+const difficultyNames={easy:'Fácil',medium:'Medio',hard:'Difícil',impossible:'Imposible'};
+let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null,pendingRemoteEnvidoReveal=null;
+let gameMode='ai',localPlayer=0,netRole=null,netPeer=null,netConn=null,netRoomCode='',netConfig=null,netStarting=false,netRoomFull=false,netSnapshotSeq=0,netLastSnapshot=0,netConnectTimer=null;
+const other=p=>1-p;
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const rankLabel=r=>r===1?'AS':r===10?'SOTA':r===11?'CAB.':r===12?'REY':String(r);
+function cardFile(c){return `card_${suitMeta[c.suit].file}_${String(c.rank).padStart(2,'0')}.svg`;}
+function cardUrl(c){return CARD_DIR+cardFile(c);}
+const CARD_CDN='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
+function cardMarkup(c,opts={}){
+ const tiny=opts.tiny?' tiny':'';const cls=opts.cls||'';const meta=suitMeta[c.suit];const file=cardFile(c);
+ // Orden de carga: SVG local -> mismo SVG desde CDN -> carta CSS de emergencia.
+ return `<div class="card${tiny} ${cls}" style="--tilt:${opts.tilt||0}deg" data-card="${c.id}"><img src="${CARD_DIR+file}" data-remote-src="${CARD_CDN+file}" alt="${rankLabel(c.rank)} de ${meta.name}" referrerpolicy="no-referrer" onload="this.dataset.loaded='1';this.parentElement.classList.remove('img-failed')" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.dataset.loaded='1';this.parentElement.classList.add('img-failed')}"><div class="fallback ${meta.red?'red':''}"><span class="rank">${rankLabel(c.rank)}</span><span class="suit">${meta.glyph}</span><span class="suitname">${meta.name}</span></div></div>`;
+}
+function log(msg){state.log=msg;const el=$('logText');if(el)el.textContent=msg;}
+function setStatus(msg,pulse=false){const el=$('statusLine');if(!el)return;el.textContent=msg;if(pulse){el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}}
+function floatCall(label){
+ const host=$('callEffects');if(!host)return;
+ const message=String(label);
+ // En P2P el anfitrión debe enviar el anuncio: el cliente solo recibía el estado de la mesa.
+ if(gameMode==='p2p'&&netRole==='host'&&netConn?.open){
+  try{netConn.send({type:'callout',label:message});}catch{}
+ }
+ if(activeFloat){clearTimeout(activeFloat.timer);clearTimeout(activeFloat.removeTimer);activeFloat.node.remove();activeFloat=null;}
+ const node=document.createElement('div');
+ node.className='gold-call';node.textContent=message;
+ node.setAttribute('role','status');node.setAttribute('aria-live','assertive');
+ host.appendChild(node);
+ // Fuerza un primer render; la visibilidad no depende de keyframes ni de Web Animations.
+ void node.offsetWidth;
+ node.classList.add('gold-call-visible');
+ const entry={node,timer:0,removeTimer:0};
+ entry.timer=setTimeout(()=>{
+  node.classList.remove('gold-call-visible');
+  node.classList.add('gold-call-hide');
+ },920);
+ entry.removeTimer=setTimeout(()=>{
+  node.remove();
+  if(activeFloat===entry)activeFloat=null;
+ },1420);
+ activeFloat=entry;
+ syncCalloutPosition();
+}
+
+function eventText(id,text){const el=$(id);if(el)el.textContent=text;}
+function playerName(p){return gameMode==='p2p'?`Jugador ${p+1}`:p===localPlayer?'Vos':'La IA';}
+function winnerPhrase(p){return p===localPlayer?'Ganaste vos':gameMode==='p2p'?'Ganó tu rival':'Ganó la IA';}
+function hasFlor(hand){return !!hand&&hand.length===3&&hand.every(c=>c.suit===hand[0].suit);}
+function florPoints(hand){return hasFlor(hand)?20+hand.reduce((sum,c)=>sum+c.envido,0):0;}
+function mustAnnounceFlor(player){return state.withFlor&&!state.florDone&&!state.florPending&&hasFlor(state.hands[player]);}
+function activateCardFallbacks(root){if(!root)return;root.querySelectorAll('.card img').forEach(img=>{if(img.complete){if(!img.naturalWidth)img.parentElement.classList.add('img-failed');return;}if(img.dataset.fallbackTimer)return;img.dataset.fallbackTimer='1';setTimeout(()=>{if(img.isConnected&&!img.dataset.loaded&&!img.naturalWidth)img.parentElement.classList.add('img-failed');},2300);});}
+function scoreTrack(score){return Array.from({length:state.targetPoints},(_,i)=>`<i class="${i<score?'on':''}"></i>`).join('');}
+function renderScore(){
+ const you=state.scores[localPlayer],opp=state.scores[other(localPlayer)];
+ $('scoreYou').textContent=you;$('scoreAI').textContent=opp;
+ $('you-half').textContent=you>=state.targetPoints/2?'BUENAS':'MALAS';$('ai-half').textContent=opp>=state.targetPoints/2?'BUENAS':'MALAS';
+ $('trackYou').innerHTML=scoreTrack(you);$('trackAI').innerHTML=scoreTrack(opp);
+ const sides=document.querySelectorAll('.score-side');
+ const setSideName=(side,player,isLocal)=>{
+  if(!side)return;
+  const name=side.querySelector('.score-name'),avatar=side.querySelector('.avatar');
+  if(gameMode==='p2p'){
+   name.textContent='';
+   const main=document.createElement('span');main.textContent=`JUGADOR ${player+1}`;
+   const role=document.createElement('small');role.className='player-role';role.textContent=isLocal?'(TÚ)':'(RIVAL)';
+   name.append(main,role);avatar.textContent=`J${player+1}`;
+  }else{name.textContent=isLocal?'VOS':'LA IA';avatar.textContent=isLocal?'TÚ':'IA';}
+ };
+ setSideName(sides[0],localPlayer,true);setSideName(sides[1],other(localPlayer),false);
+}
+function currentTrickSlot(p){const play=state.currentTrick.find(x=>x.player===p);return play?cardMarkup(play.card,{cls:'played-card from-'+(p===localPlayer?'you':'ai'),tilt:p===localPlayer?-2:2}):'<div class="empty-slot"></div>';}
+function renderHistory(){
+ const root=$('trickHistory');
+ const html=state.tricks.map((t,i)=>`<div class="history-pair ${t.winner===null?'': 'won'}"><span class="history-mark">${i+1}</span>${t.cards.map(x=>cardMarkup(x.card,{tiny:true,tilt:x.player===localPlayer?-2:2})).join('')}</div>`).join('');
+ if(root.dataset.html!==html){root.innerHTML=html;root.dataset.html=html;}
+ const dots=$('trickDots');
+ if(dots){
+  const labels=['ganaste vos',gameMode==='p2p'?'ganó tu rival':'ganó la IA','baza empatada'];
+  const dotsHtml=Array.from({length:3},(_,i)=>{
+   const t=state.tricks[i];
+   const kind=!t?'':t.winner===null?'draw':t.winner===localPlayer?'won':'lost';
+   const label=!t?`Baza ${i+1}: pendiente`:`Baza ${i+1}: ${t.winner===null?labels[2]:t.winner===localPlayer?labels[0]:labels[1]}`;
+   return `<i class="baza-dot ${kind}" title="${label}" aria-label="${label}"></i>`;
+  }).join('');
+  if(dots.dataset.html!==dotsHtml){dots.innerHTML=dotsHtml;dots.dataset.html=dotsHtml;}
+ }
+}
+function syncAIBacks(){
+ const root=$('aiBacks'),wanted=state.hands[other(localPlayer)].length;
+ while(root.children.length>wanted)root.lastElementChild.remove();
+ while(root.children.length<wanted){const el=document.createElement('div');el.className='back-card';el.innerHTML=`<img class="back-card-art" src="${CARD_DIR}card_back.svg" data-remote-src="${CARD_CDN}card_back.svg" alt="Reverso de carta" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.remove();this.parentElement.classList.add('back-css-fallback')}">`;root.appendChild(el);}
+ [...root.children].forEach((el,i)=>{el.style.setProperty('--r',`${(i-1)*5}deg`);el.style.setProperty('--y',`${Math.abs(i-1)*-2}px`);});
+}
+function syncPlayerHand(yourTurn){
+ const root=$('playerHand'),wanted=state.hands[localPlayer],existing=new Map([...root.children].map(el=>[el.dataset.card,el])),keep=new Set(),ordered=[];
+ wanted.forEach((c,i)=>{
+  let el=existing.get(c.id);
+  if(!el){const t=document.createElement('template');t.innerHTML=cardMarkup(c,{tilt:(i-1)*2});el=t.content.firstElementChild;}
+  keep.add(el);el.dataset.index=String(i);el.dataset.card=c.id;el.style.setProperty('--tilt',`${(i-1)*2}deg`);el.classList.toggle('disabled',!yourTurn);ordered.push(el);
+ });
+ [...root.children].forEach(el=>{if(!keep.has(el))el.remove();});
+ ordered.forEach((el,i)=>{const at=root.children[i];if(at!==el)root.insertBefore(el,at||null);});
+ activateCardFallbacks(root);
+}
+function syncPlayedSlot(player){
+ const root=$(player===localPlayer?'slotYou':'slotAI'),play=state.currentTrick.find(x=>x.player===player),current=root.querySelector('.played-card');
+ if(!play){if(!root.querySelector('.empty-slot'))root.innerHTML='<div class="empty-slot"></div>';return;}
+ if(current&&current.dataset.card===play.card.id)return;
+ root.innerHTML=currentTrickSlot(player);
+}
+function render(){
+ if(!state)return;
+ renderScore();syncAIBacks();syncPlayedSlot(0);syncPlayedSlot(1);renderHistory();if(state.log)$('logText').textContent=state.log;
+ $('roundPill').textContent=`MANO ${String(state.handNo).padStart(2,'0')} · BAZA ${Math.min(3,state.tricks.length+1)}`;
+ const waitingOpponentFlor=gameMode==='p2p'&&state.withFlor&&!state.florDone&&!state.florPending&&hasFlor(state.hands[other(localPlayer)]);
+ const yourTurn=state.turn===localPlayer&&!state.handOver&&!state.gameOver&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending&&!mustAnnounceFlor(localPlayer)&&!waitingOpponentFlor;
+ $('turnNote').textContent=state.handOver?'Mano terminada':yourTurn?'Tu turno':state.envidoPending||state.trucoPending?'Respondé el canto':gameMode==='p2p'?'Esperando al rival':'La IA está jugando';
+ $('ai-turn-label').textContent=state.aiThinking?'· analizando':state.turn===other(localPlayer)&&!state.handOver?(gameMode==='p2p'?'· rival jugando':'· pensando'):'· esperando';
+ const aiZone=$('aiBacks').parentElement;if(aiZone)aiZone.classList.toggle('is-thinking',!!state.aiThinking);
+ const names=document.querySelectorAll('.play-label');const setPlayName=(el,player,isLocal)=>{if(!el)return;if(gameMode==='p2p'){el.textContent='';const main=document.createElement('span');main.textContent=`JUGADOR ${player+1}`;const role=document.createElement('small');role.className='player-role';role.textContent=isLocal?'(TÚ)':'(RIVAL)';el.append(main,role);}else el.textContent=isLocal?'VOS':'LA IA';};setPlayName(names[0],localPlayer,true);setPlayName(names[1],other(localPlayer),false);
+ const aiInfo=document.querySelector('.ai-info');if(aiInfo){const spans=aiInfo.querySelectorAll('span');if(spans[1])spans[1].textContent=gameMode==='p2p'?`JUGADOR ${other(localPlayer)+1} · RIVAL`:'LA IA';}
+ syncPlayerHand(yourTurn);renderActions();activateCardFallbacks($('felt'));
+ if(state.resolvingTrick){document.querySelectorAll('#slotYou .played-card,#slotAI .played-card').forEach(el=>{const cls=el.closest('#slotYou')?'sweep-left':'sweep-right';if(!el.classList.contains(cls))el.classList.add(cls);});}
+ if(gameMode==='p2p'&&netRole==='host')sendNetworkSnapshot();
+ if(gameMode==='p2p'&&netRole==='client'&&state.handOver&&!$('overlay').classList.contains('show')){
+  showOverlay(state.gameOver?'PARTIDA TERMINADA':`FIN DE LA MANO ${state.handNo}`,state.gameOver?(state.scores[localPlayer]>=state.targetPoints?'¡GANASTE!':'GANÓ TU RIVAL'):(state.scores[localPlayer]>state.scores[other(localPlayer)]?'¡La mano es tuya!':'Tu rival se lleva la mano'),state.log||`Marcador: ${state.scores[localPlayer]} — ${state.scores[other(localPlayer)]}.`,state.gameOver?'VOLVER AL MENÚ':'SIGUIENTE MANO',()=>{if(state.gameOver)openMainMenu();else{$('overlay').classList.remove('show');sendNetworkAction('nextHand',{});}});
+ }
+}
+
+function envidoOpen(){return !state.envidoDone&&!state.florPending&&(!state.withFlor||state.florDone)&&state.tricks.length===0&&state.currentTrick.length===0&&state.hands[0].length===3&&state.hands[1].length===3;}
+function canRaiseTruco(player){if(state.trucoPending||state.handOver||state.gameOver||state.turn!==player)return false;if(state.trucoLevel===0)return true;return state.escalateBy===player&&state.trucoLevel<3;}
+function nextTrucoLabel(){return state.trucoLevel===0?'Truco':state.trucoLevel===1?'Retruco':'Vale cuatro';}
+function renderActions(){
+ const grid=$('actionGrid'),host=$('responseHost'),me=localPlayer,opp=other(me);
+ const sig=JSON.stringify({gameOver:state.gameOver,handOver:state.handOver,turn:state.turn,animatingCard:state.animatingCard,envidoRevealing:state.envidoRevealing,envidoPending:state.envidoPending,trucoPending:state.trucoPending,florPending:state.florPending,withFlor:state.withFlor,florDone:state.florDone,envidoDone:state.envidoDone,trucoLevel:state.trucoLevel,escalateBy:state.escalateBy,mano:state.mano,tricks:state.tricks.length,hand:state.hands[me].map(c=>c.id),mode:gameMode,localPlayer});
+ if(grid.dataset.signature===sig)return;grid.dataset.signature=sig;grid.innerHTML='';host.innerHTML='';
+ if(state.gameOver){grid.innerHTML='<button class="action primary" id="againBtn">Nueva partida</button>'; $('againBtn').onclick=()=>gameMode==='p2p'?sendNetworkAction('restart',{}):newGame();return;}
+ if(state.handOver){grid.innerHTML='<button class="action" disabled>Mano terminada</button>';return;}
+ const myTurn=state.turn===me&&!state.animatingCard&&!state.envidoRevealing&&!state.envidoPending&&!state.trucoPending&&!state.florPending;
+ if(state.florPending&&state.florPending.caller===opp){
+  if(hasFlor(state.hands[me]))host.appendChild(responsePanel(state.florPending.level===1?'FLOR':state.florPending.level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO',`${gameMode==='p2p'?'Tu rival':'La IA'} cantó flor. ¿Cómo respondés?`,[['Quiero','primary',()=>dispatchAction('resolveFlor',{accept:true})],['No quiero','red',()=>dispatchAction('resolveFlor',{accept:false})],...(state.florPending.level===1?[['Contra flor','',()=>dispatchAction('raiseFlor',{level:2})],['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:state.florPending.level===2?[['Contra flor al resto','red',()=>dispatchAction('raiseFlor',{level:3})]]:[])]));
+  else host.appendChild(responsePanel('FLOR',`${gameMode==='p2p'?'Tu rival':'La IA'} tiene flor y vos no.`,[['No tengo','primary',()=>dispatchAction('resolveFlor',{accept:false})]]));
+  return;
+ }
+ if(state.florPending&&state.florPending.caller===me)return;
+ if(mustAnnounceFlor(me)){const b=document.createElement('button');b.className='action primary';b.textContent='Flor';b.title='Tenés tres cartas del mismo palo';b.onclick=()=>dispatchAction('callFlor',{});grid.appendChild(b);return;}
+ if(gameMode==='p2p'&&!state.florDone&&!state.florPending&&hasFlor(state.hands[opp])){const b=document.createElement('button');b.className='action';b.disabled=true;b.textContent='Esperando que el rival cante flor…';grid.appendChild(b);return;}
+ if(myTurn){
+  const cardsOk=envidoOpen();
+  const actions=[{label:'Envido',sub:'2 puntos',type:'envido',enabled:cardsOk},{label:'Real envido',sub:'3 puntos',type:'real',enabled:cardsOk},{label:'Falta envido',sub:'a la partida',type:'falta',enabled:cardsOk},{label:'Truco',sub:'vale 2',type:'truco',enabled:canRaiseTruco(me)&&state.trucoLevel===0,primary:true},{label:'Retruco',sub:'vale 3',type:'retruco',enabled:canRaiseTruco(me)&&state.trucoLevel===1},{label:'Vale cuatro',sub:'vale 4',type:'vale4',enabled:canRaiseTruco(me)&&state.trucoLevel===2},{label:'Irse al mazo',sub:'Abandonar la mano',type:'fold',enabled:true}];
+  actions.filter(a=>a.enabled).forEach(a=>{const b=document.createElement('button');b.className='action'+(a.primary?' primary':'')+(a.type==='vale4'||a.type==='fold'?' red':'');b.textContent=a.label;b.title=a.sub;b.onclick=()=>{if(['envido','real','falta'].includes(a.type))dispatchAction('callEnvido',{type:a.type});else if(a.type==='fold')dispatchAction('fold',{});else dispatchAction('callTruco',{level:a.type==='truco'?1:a.type==='retruco'?2:3});};grid.appendChild(b);});
+ }
+ if(state.envidoPending&&state.envidoPending.caller===opp){const p=state.envidoPending;host.appendChild(responsePanel(p.type==='falta'?'FALTA ENVIDO':p.type==='real'?'REAL ENVIDO':'ENVIDO',`${gameMode==='p2p'?'Tu rival':'La IA'} te canta ${typeName(p.type)}.`,[['Quiero','primary',()=>dispatchAction('resolveEnvido',{accept:true})],['No quiero','red',()=>dispatchAction('resolveEnvido',{accept:false})],...envidoRaiseOptions(p.type,p.chain).map(t=>[typeName(t),'',()=>dispatchAction('raiseEnvido',{type:t})])]));}
+ else if(state.trucoPending&&state.trucoPending.caller===opp){const p=state.trucoPending;const opts=[['Quiero','primary',()=>dispatchAction('resolveTruco',{accept:true})],['No quiero','red',()=>dispatchAction('resolveTruco',{accept:false})]];if(envidoOpen())opts.push(['Envido','',()=>dispatchAction('callEnvido',{type:'envido'})]);if(state.withFlor&&!state.florDone&&hasFlor(state.hands[me]))opts.push(['Flor','',()=>dispatchAction('callFlor',{})]);host.appendChild(responsePanel(p.level===1?'TRUCO':p.level===2?'RETRUCO':'VALE CUATRO',`${gameMode==='p2p'?'Tu rival':'La IA'} canta ${p.level===1?'¡Truco!':p.level===2?'¡Retruco!':'¡Vale cuatro!'}.`,opts));}
+}
+
+function responsePanel(title,sub,opts){
+ const el=document.createElement('div');el.className='response-panel';el.innerHTML=`<div class="response-title">${title}</div><div class="response-sub">${sub}</div><div class="response-actions"></div>`;
+ const box=el.querySelector('.response-actions');opts.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='action '+cls;b.textContent=label;b.onclick=fn;box.appendChild(b);});return el;
+}
+function typeName(t){return t==='envido'?'Envido':t==='real'?'Real envido':'Falta envido';}
+function envidoRaiseOptions(t,chain=1){if(t==='envido')return chain===1?['envido','real','falta']:['real','falta'];if(t==='real')return ['falta'];return [];}
+function setP2PStatus(msg){
+ const el=$('p2pStatus');if(el)el.textContent=msg;
+ const lobbyStatus=$('p2pLobbyStatus');if(lobbyStatus&&$('p2pLobby').classList.contains('active'))lobbyStatus.textContent=msg;
+ if($('gameApp').classList.contains('active'))setStatus(msg);
+}
+function syncModeMenuUI(){
+ const p2p=$('gameMode').value==='p2p';
+ $('p2pOptions').classList.toggle('active',p2p);
+ $('menuDifficulty').closest('.menu-field').style.display=p2p?'none':'grid';
+ $('startGame').style.display=p2p?'none':'block';
+}
+function showP2PLobby(title,message,code=''){
+ $('p2pLobbyTitle').textContent=title;
+ $('p2pLobbyStatus').textContent=message;
+ $('p2pLobbyCode').value=code||'';
+ $('p2pLobbyCodeBlock').style.display=code?'grid':'none';
+ $('p2pLobby').classList.add('active');
+}
+function hideP2PLobby(){$('p2pLobby').classList.remove('active');}
+function randomRoomCode(privateRoom=false){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',len=privateRoom?13:7;let out='';for(let i=0;i<len;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out;}
+function showGameShell(){ $('mainMenu').classList.add('hidden');$('gameApp').classList.add('active');document.body.classList.add('in-game'); }
+function clearNetConnectTimer(){if(netConnectTimer)clearTimeout(netConnectTimer);netConnectTimer=null;}
+function closeNetwork(){clearNetConnectTimer();try{if(netConn&&netConn.open)netConn.close();}catch{}try{if(netPeer&&!netPeer.destroyed)netPeer.destroy();}catch{}netPeer=null;netConn=null;netRole=null;netRoomCode='';netStarting=false;netRoomFull=false;netSnapshotSeq=0;netLastSnapshot=0;hideP2PLobby();}
+function sendNetworkAction(action,payload){if(!netConn||!netConn.open){setStatus('Se perdió la conexión con la sala.');return;}try{netConn.send({type:'action',action,payload});}catch(e){setStatus('No se pudo enviar la jugada. Revisá la conexión.');}}
+function dispatchAction(action,payload){
+ if(gameMode==='p2p'&&netRole==='client'){sendNetworkAction(action,payload);return;}
+ const p=localPlayer;
+ if(action==='play'){const i=state.hands[p].findIndex(c=>c.id===payload.cardId);if(i>=0)playCardFor(p,i);}
+ else if(action==='callEnvido')callEnvido(p,payload.type);else if(action==='raiseEnvido')raiseEnvido(p,payload.type);else if(action==='callFlor')callFlor(p);else if(action==='raiseFlor')raiseFlor(p,payload.level);else if(action==='resolveFlor')resolveFlor(p,payload.accept);else if(action==='resolveEnvido')resolveEnvido(p,payload.accept);else if(action==='callTruco')callTruco(p,payload.level);else if(action==='resolveTruco')resolveTruco(p,payload.accept);else if(action==='fold')foldHand(p);
+}
+function updateP2PClientStatus(){
+ if(netRole!=='client'||!state)return;
+ if(state.handOver){setStatus(state.gameOver?'Partida terminada.':'Mano terminada.');return;}
+ const pending=state.florPending||state.envidoPending||state.trucoPending;
+ if(pending){setStatus(pending.caller===localPlayer?'Esperando la respuesta del rival…':'El rival cantó. Respondé desde los botones.');return;}
+ if(state.animatingCard||state.resolvingTrick){setStatus('La jugada está en curso…');return;}
+ setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':'Esperando al rival…');
+}
+function sendNetworkSnapshot(){
+ if(!netConn||!netConn.open||netRole!=='host'||!state)return;
+ const snap=JSON.parse(JSON.stringify(state));snap.deck=[];snap.hands[0]=Array.from({length:state.hands[0].length},(_,i)=>({id:'hidden-'+i}));
+ try{netConn.send({type:'snapshot',seq:++netSnapshotSeq,state:snap,config:{targetPoints:state.targetPoints,withFlor:state.withFlor}});}catch(e){setP2PStatus('No se pudo sincronizar la partida.');}
+}
+function beginP2PHostGame(){
+ if(netRole!=='host'||!netConn||!netConn.open)return;
+ clearNetConnectTimer();
+ $('gameConfigLine').textContent=`P2P · ${netConfig.targetPoints} puntos · ${netConfig.withFlor?'Con flor':'Sin flor'}`;
+ showGameShell();hideP2PLobby();
+ if(!netStarting||!state){netStarting=true;newGame(netConfig||readConfig());}
+ else sendNetworkSnapshot();
+}
+function handleNetworkAction(msg){
+ if(netRole!=='host'||!msg||msg.type!=='action'||!state)return;
+ const p=1,a=msg.action,x=msg.payload||{};
+ if(a==='play'){if(state.turn!==p||mustAnnounceFlor(p))return;const i=state.hands[p].findIndex(c=>c.id===x.cardId);if(i>=0&&!state.animatingCard&&!state.envidoPending&&!state.trucoPending&&!state.florPending){const c=state.hands[p].splice(i,1)[0];placeCard(p,c,null);}}
+ else if(a==='callEnvido'){if(state.turn===p)callEnvido(p,x.type);}else if(a==='raiseEnvido')raiseEnvido(p,x.type);else if(a==='callFlor')callFlor(p);else if(a==='raiseFlor')raiseFlor(p,x.level);else if(a==='resolveFlor')resolveFlor(p,!!x.accept);else if(a==='resolveEnvido')resolveEnvido(p,!!x.accept);else if(a==='callTruco'){if(state.turn===p)callTruco(p,x.level);}else if(a==='resolveTruco')resolveTruco(p,!!x.accept);else if(a==='fold')foldHand(p);else if(a==='nextHand'&&state.handOver&&!state.gameOver){$('overlay').classList.remove('show');startNextHand();}else if(a==='restart'&&state.gameOver)newGame(netConfig);
+}
+function setupPeerConnection(conn){
+ netConn=conn;let opened=false;
+ const onOpen=()=>{
+  if(opened)return;opened=true;clearNetConnectTimer();
+  if(netRole==='client'){
+   setP2PStatus('Conectado. Esperando que el anfitrión inicie…');
+   try{conn.send({type:'hello'});}catch(e){setP2PStatus('Conectó, pero no pudo iniciar el saludo.');}
+   // Reintento de saludo por si el primer mensaje llegó antes de que el host terminara de preparar la sala.
+   setTimeout(()=>{if(netRole==='client'&&!state&&conn.open){try{conn.send({type:'hello'});}catch{}}},650);
+  }else{
+   setP2PStatus('Rival conectado. Repartiendo cartas…');
+   beginP2PHostGame();
+  }
+ };
+ conn.on('open',onOpen);
+ conn.on('data',msg=>{
+  if(netRole==='host'){
+   if(msg?.type==='hello'){beginP2PHostGame();sendNetworkSnapshot();return;}
+   if(msg?.type==='snapshot-ack')return;
+   handleNetworkAction(msg);
+  }else if(msg?.type==='callout'&&typeof msg.label==='string'){
+   floatCall(msg.label);
+  }else if(msg?.type==='envidoReveal'){
+   if(state)showEnvidoDeclaration(msg.firstCaller,msg.your,msg.ai,msg.winner,msg.pts,msg.detail);
+   else pendingRemoteEnvidoReveal=msg;
+  }else if(msg?.type==='full'){
+   netRoomFull=true;clearNetConnectTimer();setP2PStatus('La sala ya tiene dos jugadores.');
+  }else if(msg?.type==='snapshot'&&msg.state){
+   if(Number.isFinite(msg.seq)&&msg.seq<netLastSnapshot)return;
+   netLastSnapshot=Number.isFinite(msg.seq)?msg.seq:netLastSnapshot+1;
+   const wasEmpty=!state;state=msg.state;state.deck=[];
+   if(!state.handOver)$('overlay').classList.remove('show');
+   $('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;
+   $('gameConfigLine').textContent=`P2P · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'}`;
+   showGameShell();hideP2PLobby();render();updateP2PClientStatus();
+   if(state.log)log(state.log);
+   if(pendingRemoteEnvidoReveal){const reveal=pendingRemoteEnvidoReveal;pendingRemoteEnvidoReveal=null;showEnvidoDeclaration(reveal.firstCaller,reveal.your,reveal.ai,reveal.winner,reveal.pts,reveal.detail);}
+   try{conn.send({type:'snapshot-ack',seq:netLastSnapshot});}catch{}
+  }
+ });
+ conn.on('close',()=>{
+  if(netConn!==conn)return;
+  clearNetConnectTimer();netConn=null;
+  if(netRoomFull){setP2PStatus('La sala ya tiene dos jugadores.');return;}
+  if(netRole==='host'&&netPeer&&!netPeer.destroyed){showP2PLobby('Esperando al rival','El rival se desconectó. La sala sigue abierta.',netRoomCode);}
+  setStatus('El rival se desconectó.');setP2PStatus('El rival se desconectó. Podés volver a compartir el código.');
+ });
+ conn.on('error',e=>{setP2PStatus('Error de conexión: '+(e?.type||'desconocido'));});
+ if(conn.open)onOpen();
+}
+function createP2PRoom(){
+ if(!window.Peer){setP2PStatus('No se pudo cargar PeerJS. Revisá tu conexión a Internet.');return;}
+ closeNetwork();if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
+ gameMode='p2p';localPlayer=0;netRole='host';netRoomFull=false;netConfig=readConfig();netStarting=false;
+ netRoomCode=randomRoomCode($('p2pVisibility').value==='private');$('p2pRoomCode').value=netRoomCode;
+ showGameShell();showP2PLobby('Creando sala','Registrando el código en el servidor de conexión…',netRoomCode);setP2PStatus('Creando sala…');
+ try{
+  netPeer=new Peer(netRoomCode,{debug:1});
+  netPeer.on('open',id=>{netRoomCode=id;$('p2pRoomCode').value=id;$('p2pLobbyCode').value=id;setP2PStatus('Sala creada. Compartí el código y esperá a que se una tu rival.');});
+  netPeer.on('connection',conn=>{
+   if(netConn&&netConn.open){conn.on('open',()=>{try{conn.send({type:'full'});}catch{}setTimeout(()=>conn.close(),180);});return;}
+   setupPeerConnection(conn);
+  });
+  netPeer.on('error',e=>{setP2PStatus(e.type==='unavailable-id'?'Ese código ya está ocupado. Volvé al menú y creá otra sala.':`No se pudo crear la sala (${e.type}). Revisá Internet o probá otro código.`);});
+  netPeer.on('disconnected',()=>{if(netPeer&&!netPeer.destroyed){try{netPeer.reconnect();}catch{}}});
+  netConnectTimer=setTimeout(()=>{if(netRole==='host'&&!netConn){setP2PStatus('La sala sigue abierta. Todavía no se conectó ningún rival.');}},25000);
+ }catch(e){setP2PStatus('No se pudo crear la sala. Revisá que PeerJS esté cargado y volvé a intentar.');}
+}
+function joinP2PRoom(){
+ if(!window.Peer){setP2PStatus('No se pudo cargar PeerJS. Revisá tu conexión a Internet.');return;}
+ const code=$('p2pRoomCode').value.trim().toUpperCase();if(code.length<6){setP2PStatus('Ingresá un código de sala válido.');return;}
+ closeNetwork();if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;state=null;
+ gameMode='p2p';localPlayer=1;netRole='client';netRoomFull=false;netStarting=false;showGameShell();
+ $('gameConfigLine').textContent='P2P · conectando…';showP2PLobby('Conectando con la sala','Buscando al anfitrión…',code);setStatus('Conectando con la sala…');setP2PStatus('Conectando…');
+ try{
+  netPeer=new Peer(undefined,{debug:1});
+  netPeer.on('open',()=>{
+   const conn=netPeer.connect(code,{reliable:true,serialization:'json'});
+   clearNetConnectTimer();netConnectTimer=setTimeout(()=>{if(netRole==='client'&&!state&&netConn&&!netConn.open)setP2PStatus('No se pudo establecer la conexión. Verificá el código y que el anfitrión siga en la sala.');},18000);
+   setupPeerConnection(conn);
+  });
+  netPeer.on('error',e=>setP2PStatus(`No se pudo conectar (${e.type}). Verificá el código y que el anfitrión siga conectado.`));
+ }catch(e){setP2PStatus('No se pudo iniciar la conexión. Revisá Internet y volvé a intentar.');}
+}
+function readConfig(){return {targetPoints:Number($('targetPoints').value)||30,withFlor:$('florEnabled').checked,difficulty:$('menuDifficulty').value||'medium'};}
+function startConfiguredGame(){const cfg=readConfig();closeNetwork();gameMode='ai';localPlayer=0;netRole=null;hideP2PLobby();showGameShell();newGame(cfg);}
+function openMainMenu(){envidoRevealRun++;const returnMode=gameMode==='p2p'?'p2p':$('gameMode').value;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;if(gameMode==='p2p')closeNetwork();gameMode='ai';localPlayer=0;if(state)state.aiThinking=false;$('overlay').classList.remove('show');hideP2PLobby();if(state){$('targetPoints').value=state.targetPoints;$('florEnabled').checked=state.withFlor;if(state.difficulty)$('menuDifficulty').value=state.difficulty;}$('gameMode').value=returnMode;syncModeMenuUI();$('gameApp').classList.remove('active');$('mainMenu').classList.remove('hidden');document.body.classList.remove('in-game');}
+function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=gameMode==='p2p'?`P2P · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'}`:`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
+function startHand(){
+ state.handNo++;state.deck=shuffle(deckBase.map(c=>({...c})));state.hands=[[],[]];
+ for(let i=0;i<6;i++)state.hands[i%2].push(state.deck.pop());
+ state.turn=state.mano;state.lead=state.mano;state.currentTrick=[];state.tricks=[];state.publicPlayed=[];state.trucoLevel=0;state.escalateBy=null;state.trucoPending=null;state.envidoPending=null;state.florPending=null;state.heldTruco=null;state.envidoDone=false;state.florDone=!state.withFlor;state.handOver=false;state.gameOver=false;state.resolvingTrick=false;state.animatingCard=false;state.aiThinking=false;aiPlanCache=null;state.envidoRevealing=false;state.foldedBy=null;state.foldPoints=0;
+ eventText('eventEnvido','Sin cantar');eventText('eventBaza','Baza 1 · en juego');eventText('eventHand','En juego');
+ setStatus('Las cartas están en la mesa.');log(`Mano ${state.handNo}: ${playerName(state.mano)} es mano.`);render();
+ if(state.withFlor){
+  if(gameMode==='ai'){
+   if(hasFlor(state.hands[1])){callFlor(1);return;}
+   if(!hasFlor(state.hands[0])){state.florDone=true;render();}
+  }else{
+   // En P2P cada jugador anuncia su propia flor; nunca se debe cantar por el rival.
+   state.florDone=!(hasFlor(state.hands[0])||hasFlor(state.hands[1]));render();
+  }
+ }
+ if(gameMode==='ai'&&state.turn===1)scheduleAI(1050);
+}
+function startNextHand(){if(state.gameOver)return;state.mano=1-state.mano;startHand();}
+function envidoPoints(hand){
+ let best=0;for(const suit of Object.keys(suitMeta)){const vals=hand.filter(c=>c.suit===suit).map(c=>c.envido).sort((a,b)=>b-a);if(vals.length>=2)best=Math.max(best,20+vals[0]+vals[1]);else if(vals.length===1)best=Math.max(best,vals[0]);}return best;
+}
+function faltaValueForWinner(winner,committed=0){const half=state.targetPoints/2,a=state.scores[0],b=state.scores[1];if(a<half&&b<half)return Math.max(0,state.targetPoints-state.scores[winner]-committed);return Math.max(0,state.targetPoints-Math.max(a,b)-committed);}
+function offerValue(type){return type==='envido'?2:type==='real'?3:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));}
+function callEnvido(player,type){
+ if(!envidoOpen()||state.handOver)return;
+ if(state.trucoPending){state.heldTruco=state.trucoPending;state.trucoPending=null;}
+ floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+typeName(type).toUpperCase());const value=offerValue(type);state.envidoPending={caller:player,firstCaller:player,type,committed:0,offeredValue:value,chain:1};
+ setStatus(player===localPlayer?`Cantaste ${typeName(type).toLowerCase()}.`:`${gameMode==='p2p'?'Tu rival':'La IA'} cantó ${typeName(type).toLowerCase()}.`,true);log(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${typeName(type).toLowerCase()}.`);render();
+ if(gameMode==='ai'&&player===0)scheduleAIResponse('envido',1050);else render();
+}
+function raiseEnvido(player,type){
+ const p=state.envidoPending;if(!p||p.caller===player||!envidoRaiseOptions(p.type,p.chain).includes(type))return;
+ floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+typeName(type).toUpperCase());const committed=p.committed+p.offeredValue;state.envidoPending={caller:player,firstCaller:p.firstCaller??p.caller,type,committed,offeredValue:offerValue(type),chain:p.chain+1};
+ setStatus(`${player===localPlayer?'Vos':gameMode==='p2p'?'Tu rival':'La IA'} sube a ${typeName(type)}.`,true);log(`${player===localPlayer?'Subiste':gameMode==='p2p'?'Tu rival subió':'La IA subió'} a ${typeName(type).toLowerCase()}.`);render();
+ if(gameMode==='ai'&&player===0)scheduleAIResponse('envido',1050);else render();
+}
+function callFlor(player){
+ if(!state.withFlor||state.florDone||state.florPending||!hasFlor(state.hands[player])||state.handOver)return;
+ if(state.trucoPending){state.heldTruco=state.trucoPending;state.trucoPending=null;}
+ state.envidoDone=true;state.florPending={caller:player,level:1};
+ floatCall('FLOR');const message=player===localPlayer?'Cantaste flor.':`${gameMode==='p2p'?'Tu rival':'La IA'} cantó flor.`;setStatus(message,true);log(message);eventText('eventEnvido',message);render();
+ if(gameMode==='ai'&&player===0)scheduleAIResponse('flor',950);
+ else if(gameMode==='ai'&&player===1&&!hasFlor(state.hands[0]))setTimeout(()=>resolveFlor(0,false),650);
+}
+function raiseFlor(player,level){
+ const p=state.florPending;if(!p||p.caller===player||!hasFlor(state.hands[player])||level<=p.level||level>3)return;
+ state.florPending={caller:player,level};floatCall(level===2?'CONTRA FLOR':'CONTRA FLOR AL RESTO');setStatus(player===localPlayer?`Cantaste ${level===2?'contra flor':'contra flor al resto'}.`:`${gameMode==='p2p'?'Tu rival':'La IA'} canta ${level===2?'contra flor':'contra flor al resto'}.`,true);eventText('eventEnvido',`${playerName(player)} sube a ${level===2?'contra flor':'contra flor al resto'}`);render();
+ if(gameMode==='ai'&&player===0)scheduleAIResponse('flor',950);
+}
+function resolveFlor(responder,accept){
+ const p=state.florPending;if(!p||p.caller===responder)return;
+ const hasOther=hasFlor(state.hands[responder]);let winner,pts;
+ if(!accept){winner=p.caller;pts=p.level===1?3:p.level===2?6:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));floatCall(hasOther?'NO QUIERO':'NO TENGO FLOR');}
+ else{
+  const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);winner=a===b?state.mano:a>b?0:1;
+  pts=p.level===1?3:p.level===2?6:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));floatCall('¡QUIERO!');
+ }
+ state.scores[winner]+=pts;state.florPending=null;state.florDone=true;state.envidoDone=true;
+ const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);const refusal=hasOther?(responder===localPlayer?'no quisiste el canto':`${gameMode==='p2p'?'tu rival':'la IA'} no quiso el canto`):(responder===localPlayer?'no tenés flor':`${gameMode==='p2p'?'tu rival':'la IA'} no tiene flor`);const detail=accept?`Flor: ${playerName(0)} ${a} · ${playerName(1)} ${b}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`:`${refusal}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
+ eventText('eventEnvido',detail);log(detail);setStatus(detail,true);renderScore();render();
+ if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);return;}
+ if(state.heldTruco){state.trucoPending=state.heldTruco;state.heldTruco=null;setStatus('Se resolvió la flor. Respondé el truco.',true);render();return;}
+ continueTurn();
+}
+function aiRespondFlor(){
+ const p=state.florPending;if(!p||p.caller!==0)return;
+ if(!hasFlor(state.hands[1])){resolveFlor(1,false);return;}
+ const val=florPoints(state.hands[1]),d=state.difficulty;
+ if((d==='hard'||d==='impossible')&&val>=32&&p.level===1)raiseFlor(1,2);
+ else if(d==='impossible'&&val>=34&&p.level===2)raiseFlor(1,3);
+ else resolveFlor(1,true);
+}
+function restoreAfterEnvido(){
+ state.envidoDone=true;
+ if(state.heldTruco){state.trucoPending=state.heldTruco;state.heldTruco=null;setStatus('Se resolvió el envido. Respondé el truco.',true);render();return;}
+ continueTurn();
+}
+let envidoRevealRun=0;
+function showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail){
+ const host=$('envidoReveal');if(!host)return;
+ if(gameMode==='p2p'&&netRole==='host'&&netConn?.open){
+  try{netConn.send({type:'envidoReveal',firstCaller,your,ai,winner,pts,detail});}catch{}
+ }
+ const run=++envidoRevealRun;
+ state.envidoRevealing=true;host.classList.remove('fade-out');
+ const firstValue=firstCaller===0?your:ai,other=1-firstCaller;
+ const firstNode=$(firstCaller===0?'revealYou':'revealAI'),otherNode=$(other===0?'revealYou':'revealAI');
+ const youNode=$('revealYou'),aiNode=$('revealAI');
+ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const speak=(node,big,small)=>{
+  node.innerHTML=`<strong>${big}</strong><small>${small}</small>`;
+  node.classList.remove('hide','show');
+  void node.offsetWidth;
+  node.classList.add('show');
+ };
+ const dismiss=async node=>{
+  node.classList.remove('show');node.classList.add('hide');
+  await pause(560);
+  node.classList.remove('hide');node.innerHTML='';
+ };
+ youNode.classList.remove('show','hide');aiNode.classList.remove('show','hide');
+ youNode.innerHTML='';aiNode.innerHTML='';
+ setStatus(`${playerName(firstCaller)} declara ${firstValue} tantos.`,true);
+ log(`${playerName(firstCaller)} declara ${firstValue} tantos de envido.`);
+ speak(firstNode,`${firstValue} TANTOS`,`${playerName(firstCaller).toUpperCase()} · CANTA PRIMERO`);
+ (async()=>{
+  await pause(1450);if(run!==envidoRevealRun)return;
+  await dismiss(firstNode);if(run!==envidoRevealRun)return;
+  const otherValue=other===0?your:ai;
+  const canBeat=otherValue>firstValue||(otherValue===firstValue&&other===state.mano);
+  let big,small;
+  if(canBeat){big=`${otherValue} TANTOS`;small=otherValue===firstValue?'EMPATE · GANA POR SER MANO':'SUPERA EL TANTO';}
+  else{big='SON BUENAS';small=`${playerName(other).toUpperCase()} · NO SUPERA LOS ${firstValue}`;}
+  speak(otherNode,big,small);
+  eventText('eventEnvido',detail);setStatus(`${winnerPhrase(winner)} el envido · ${pts} puntos.`,true);log(detail);
+  await pause(1500);if(run!==envidoRevealRun)return;
+  await dismiss(otherNode);if(run!==envidoRevealRun)return;
+  state.envidoRevealing=false;
+  if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);render();return;}
+  restoreAfterEnvido();render();
+ })();
+}
+
+function resolveEnvido(responder,accept){
+ const p=state.envidoPending;if(!p||p.caller===responder)return;
+ state.envidoPending=null;
+ floatCall(accept?'¡QUIERO!':'NO QUIERO');
+ if(!accept){
+  const pts=Math.max(1,p.committed);state.scores[p.caller]+=pts;
+  const detail=`Envido no querido: ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;
+  eventText('eventEnvido',detail);setStatus(detail,true);log(detail);renderScore();state.envidoRevealing=true;render();
+  setTimeout(()=>{state.envidoRevealing=false;if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}else restoreAfterEnvido();render();},850);
+  return;
+ }
+ const your=envidoPoints(state.hands[0]),ai=envidoPoints(state.hands[1]);
+ const winner=your===ai?state.mano:your>ai?0:1;
+ const firstCaller=p.firstCaller??p.caller;
+ const pts=p.committed+(p.type==='falta'?faltaValueForWinner(winner,p.committed):p.offeredValue);
+ state.scores[winner]+=pts;state.envidoRevealing=true;
+ const detail=`Envido: ${playerName(0)} ${your} · ${playerName(1)} ${ai} — ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
+ log(detail);renderScore();render();
+ showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail);
+}
+function aiThinkDelay(kind='play'){
+ const d=state.difficulty;
+ // Los tiempos representan deliberación visible: la dificultad alta tarda más porque analiza más líneas.
+ const range={
+  easy:[90,300],
+  medium:[520,1550],
+  hard:[1650,3150],
+  impossible:[3100,5050]
+ }[d]||[520,1550];
+ let min=range[0],max=range[1];
+ if(d==='medium'&&Math.random()<.24){min=1550;max=2450;}
+ if(d==='hard'&&Math.random()<.18){min=2850;max=3650;}
+ if(d==='impossible'&&Math.random()<.22){min=4700;max=5900;}
+ // Responder a un canto también requiere evaluar el riesgo, aunque suele tener menos líneas posibles.
+ if(kind==='response'){min*=.82;max*=.88;}
+ // Una mano con más cartas ofrece más posibilidades que una decisión final.
+ const remaining=Math.max(1,state.hands?.[1]?.length||1);
+ const complexity=remaining===3?1:remaining===2?.91:.78;
+ min*=complexity;max*=complexity;
+ return Math.round(min+Math.random()*(max-min));
+}
+function scheduleAIResponse(kind,delay){
+ if(aiTimer)clearTimeout(aiTimer);
+ state.aiThinking=true;render();setStatus('La IA está analizando su respuesta…');
+ aiTimer=setTimeout(()=>{
+  aiTimer=null;
+  if(state.handOver||state.gameOver){state.aiThinking=false;return;}
+  state.aiThinking=false;render();
+  if(kind==='envido')aiRespondEnvido();else if(kind==='flor')aiRespondFlor();else aiRespondTruco();
+ },aiThinkDelay('response'));
+}
+function sampleUnknownCards(){const known=new Set([...state.hands[1].map(c=>c.id),...state.publicPlayed.map(x=>x.card.id)]);return deckBase.filter(c=>!known.has(c.id));}
+function estimateOpponentEnvido(samples=260){const pool=sampleUnknownCards();let vals=[];for(let i=0;i<samples;i++){const hand=shuffle(pool.slice()).slice(0,3);vals.push(envidoPoints(hand));}return vals;}
+function probabilityAIEnvidoWins(){const ai=envidoPoints(state.hands[1]),vals=estimateOpponentEnvido(260);let wins=0;for(const v of vals){if(ai>v||(ai===v&&state.mano===1))wins++;}return wins/vals.length;}
+function aiRespondEnvido(){
+ const p=state.envidoPending;if(!p||p.caller!==0)return;
+ const diff=state.difficulty,aiScore=envidoPoints(state.hands[1]);
+ const prob=clamp(probabilityAIEnvidoWins(),0,1);
+ const canRaise=envidoRaiseOptions(p.type,p.chain);let raise=null;
+ // La IA sólo sube cuando el tanto y la probabilidad justifican el riesgo adicional.
+ if(canRaise.length&&p.chain<3){
+  if(p.type==='envido'&&aiScore>=31&&prob>=({easy:.82,medium:.79,hard:.76,impossible:.73}[diff]))raise='real';
+  else if((p.type==='envido'||p.type==='real')&&aiScore>=33&&prob>=({easy:.90,medium:.87,hard:.84,impossible:.81}[diff])){
+   const faltaPoints=p.committed+faltaValueForWinner(1,p.committed);
+   const faltaWouldWin=state.scores[1]+faltaPoints>=state.targetPoints;
+   if(faltaWouldWin||(state.scores[0]<state.targetPoints-4&&state.scores[1]<=state.scores[0]+2))raise='falta';
+  }
+ }
+ if(raise){raiseEnvido(1,raise);return;}
+ const winPoints=p.committed+(p.type==='falta'?faltaValueForWinner(1,p.committed):p.offeredValue);
+ const losePoints=p.committed+(p.type==='falta'?faltaValueForWinner(0,p.committed):p.offeredValue);
+ // Rechazar entrega al rival lo ya comprometido. Aceptar conviene cuando su valor esperado supera ese costo.
+ const refusePoints=Math.max(1,p.committed);
+ let threshold=(losePoints-refusePoints)/Math.max(1,winPoints+losePoints);
+ const margin={easy:.13,medium:.075,hard:.035,impossible:.012}[diff];
+ threshold+=margin;
+ if(state.scores[0]+refusePoints>=state.targetPoints)threshold-=.10;
+ if(state.scores[1]+winPoints>=state.targetPoints)threshold-=.035;
+ if(state.scores[0]>=state.targetPoints-2&&state.scores[0]+losePoints>=state.targetPoints)threshold+=.035;
+ threshold=clamp(threshold,.08,.78);
+ resolveEnvido(1,prob>=threshold);
+}
+function aiShouldCallEnvido(){
+ const d=state.difficulty,score=envidoPoints(state.hands[1]),p=probabilityAIEnvidoWins();
+ // No canta por costumbre: exige tanto razonable y una ventaja estadística real.
+ const threshold={easy:.69,medium:.65,hard:.62,impossible:.59}[d];
+ if(score>=30&&p>=threshold-.055)return true;
+ if(score>=27&&p>=threshold)return true;
+ if(score>=25&&p>=threshold+.105&&d!=='easy')return true;
+ return false;
+}
+function aiInitialEnvidoType(){
+ const d=state.difficulty,v=envidoPoints(state.hands[1]),p=probabilityAIEnvidoWins();
+ const faltaPoints=faltaValueForWinner(1,0);
+ if(v>=33&&p>=({easy:.94,medium:.91,hard:.88,impossible:.85}[d])&&(state.scores[1]+faltaPoints>=state.targetPoints||(state.scores[0]<state.targetPoints-4&&state.scores[1]<=state.scores[0]+2)))return 'falta';
+ if(v>=31&&p>=({easy:.87,medium:.84,hard:.81,impossible:.78}[d]))return 'real';
+ return 'envido';
+}
+function callTruco(player,level){
+ if(!canRaiseTruco(player))return;
+ state.trucoPending={caller:player,level};floatCall((player!==localPlayer?(gameMode==='p2p'?'RIVAL · ':'LA IA · '):'')+(level===1?'TRUCO':level===2?'RETRUCO':'VALE CUATRO'));eventText('eventHand',`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}`);setStatus(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'¡truco!':level===2?'¡retruco!':'¡vale cuatro!'}`,true);log(`${player===localPlayer?'Cantaste':gameMode==='p2p'?'Tu rival cantó':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}.`);render();
+ if(gameMode==='ai'&&player===0)scheduleAIResponse('truco',1000);
+}
+function simulatedHandWinner(results){
+ if(results.length<2)return null;
+ const first=results[0],second=results[1];
+ if(first===null){if(second!==null)return second;return state.mano;}
+ if(second===first||second===null)return first;
+ if(results.length<3)return null;
+ return results[2]===null?first:results[2];
+}
+function simulatedTrickWinner(a,b){
+ if(a.card.strength>b.card.strength)return a.player;
+ if(b.card.strength>a.card.strength)return b.player;
+ return null;
+}
+function simulatedPickIndex(hand,opposingCard,player,rng){
+ const ordered=hand.map((card,index)=>({card,index})).sort((a,b)=>a.card.strength-b.card.strength);
+ if(opposingCard){
+  const winning=ordered.filter(x=>x.card.strength>opposingCard.strength||(x.card.strength===opposingCard.strength&&player===state.mano));
+  if(winning.length){
+   // La respuesta habitual es ganar gastando lo mínimo; el rival varía ocasionalmente su elección.
+   if(player===0&&winning.length>1&&rng()<.09)return winning[1].index;
+   return winning[0].index;
+  }
+ }
+ // Al salir, suele cuidarse la carta alta. El jugador humano simulado introduce algo de variación.
+ if(player===0&&ordered.length>1&&rng()<.18)return ordered[1].index;
+ return ordered[0].index;
+}
+function simulateRemainingHand(aiHand,humanHand,results,current,nextPlayer,rng){
+ let safety=0;
+ while(results.length<3&&safety++<8){
+  if(current.length===0){
+   const player=nextPlayer,hand=player===1?aiHand:humanHand;
+   if(!hand.length)break;
+   const index=simulatedPickIndex(hand,null,player,rng),card=hand.splice(index,1)[0];
+   current=[{player,card}];
+  }else{
+   const player=other(current[0].player),hand=player===1?aiHand:humanHand;
+   if(!hand.length)break;
+   const index=simulatedPickIndex(hand,current[0].card,player,rng),card=hand.splice(index,1)[0];
+   const winner=simulatedTrickWinner(current[0],{player,card});
+   results.push(winner);current=[];
+   const handResult=simulatedHandWinner(results);
+   if(handResult!==null)return handResult;
+   nextPlayer=winner===null?state.mano:winner;
+  }
+ }
+ const result=simulatedHandWinner(results);
+ return result===null?state.mano:result;
+}
+function simulateCurrentHand(aiHand,humanHand,rng=Math.random){
+ const results=state.tricks.map(t=>t.winner),current=state.currentTrick.slice();
+ let nextPlayer=Number.isInteger(state.turn)?state.turn:state.lead;
+ if(current.length>=2){
+  const winner=simulatedTrickWinner(current[0],current[1]);results.push(winner);
+  const resolved=simulatedHandWinner(results);if(resolved!==null)return resolved;
+  current.length=0;nextPlayer=winner===null?state.mano:winner;
+ }else if(current.length===1){nextPlayer=other(current[0].player);}
+ return simulateRemainingHand(aiHand.slice(),humanHand.slice(),results,current,nextPlayer,rng);
+}
+function simulateAfterAIChoice(candidate,humanHand,rng=Math.random){
+ const aiHand=state.hands[1].filter(c=>c.id!==candidate.id),results=state.tricks.map(t=>t.winner);
+ let current=state.currentTrick.slice(),nextPlayer=0;
+ if(current.length===1){
+  current.push({player:1,card:candidate});
+  const winner=simulatedTrickWinner(current[0],current[1]);results.push(winner);
+  const resolved=simulatedHandWinner(results);if(resolved!==null)return resolved;
+  current=[];nextPlayer=winner===null?state.mano:winner;
+ }else{
+  current=[{player:1,card:candidate}];nextPlayer=0;
+ }
+ return simulateRemainingHand(aiHand,humanHand.slice(),results,current,nextPlayer,rng);
+}
+function minimaxHandValue(aiHand,humanHand,results,current,nextPlayer,alpha=-1,beta=1){
+ const decided=simulatedHandWinner(results);
+ if(decided!==null)return decided===1?1:-1;
+ if(results.length>=3)return state.mano===1?1:-1;
+ const hand=nextPlayer===1?aiHand:humanHand;
+ if(!hand.length)return state.mano===1?1:-1;
+ const ordered=hand.map((card,index)=>({card,index})).sort((a,b)=>nextPlayer===1?a.card.strength-b.card.strength:b.card.strength-a.card.strength);
+ let best=nextPlayer===1?-Infinity:Infinity;
+ for(const item of ordered){
+  const nextAI=nextPlayer===1?aiHand.filter((_,i)=>i!==item.index):aiHand;
+  const nextHuman=nextPlayer===0?humanHand.filter((_,i)=>i!==item.index):humanHand;
+  let nextResults=results,nextCurrent,nextTurn;
+  if(current.length===0){
+   nextCurrent=[{player:nextPlayer,card:item.card}];
+   nextTurn=other(nextPlayer);
+  }else{
+   const winner=simulatedTrickWinner(current[0],{player:nextPlayer,card:item.card});
+   nextResults=results.concat(winner);
+   const handResult=simulatedHandWinner(nextResults);
+   if(handResult!==null){const value=handResult===1?1:-1;if(nextPlayer===1){best=Math.max(best,value);alpha=Math.max(alpha,best);}else{best=Math.min(best,value);beta=Math.min(beta,best);}if(beta<=alpha)break;continue;}
+   nextCurrent=[];
+   nextTurn=winner===null?state.mano:winner;
+  }
+  const value=minimaxHandValue(nextAI,nextHuman,nextResults,nextCurrent,nextTurn,alpha,beta);
+  if(nextPlayer===1){best=Math.max(best,value);alpha=Math.max(alpha,best);}else{best=Math.min(best,value);beta=Math.min(beta,best);}
+  if(beta<=alpha)break;
+ }
+ return best===Infinity||best===-Infinity?(state.mano===1?1:-1):best;
+}
+function perfectOutcomeAfterAIChoice(candidate,humanHand){
+ const aiHand=state.hands[1].filter(c=>c.id!==candidate.id);
+ let results=state.tricks.map(t=>t.winner),current=state.currentTrick.slice(),nextPlayer=0;
+ if(current.length===1){
+  const winner=simulatedTrickWinner(current[0],{player:1,card:candidate});
+  results.push(winner);
+  const decided=simulatedHandWinner(results);
+  if(decided!==null)return decided===1?1:-1;
+  current=[];nextPlayer=winner===null?state.mano:winner;
+ }else{
+  current=[{player:1,card:candidate}];nextPlayer=0;
+ }
+ return minimaxHandValue(aiHand,humanHand.slice(),results,current,nextPlayer);
+}
+function forEachCardCombination(pool,size,visit){
+ const chosen=[];let count=0;
+ function walk(start){
+  if(chosen.length===size){visit(chosen.slice());count++;return;}
+  const needed=size-chosen.length;
+  for(let i=start;i<=pool.length-needed;i++){chosen.push(pool[i]);walk(i+1);chosen.pop();}
+ }
+ walk(0);return count;
+}
+function aiPlanFingerprint(){
+ return [state.mano,state.turn,state.hands[1].map(c=>c.id).join(','),state.hands[0].length,
+  state.tricks.map(t=>t.winner===null?'p':t.winner).join(','),
+  state.currentTrick.map(x=>x.player+':'+x.card.id).join(','),
+  state.publicPlayed.map(x=>x.player+':'+x.card.id).join(';')].join('|');
+}
+function getExactAIPlan(){
+ const key=aiPlanFingerprint();
+ if(aiPlanCache&&aiPlanCache.key===key)return aiPlanCache.plan;
+ const hand=state.hands[1];if(!hand.length)return {index:0,winRate:0,cardId:null};
+ const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ let best=null;
+ for(let i=0;i<hand.length;i++){
+  const candidate=hand[i];let total=0,count=0;
+  forEachCardCombination(pool,needed,hidden=>{total+=perfectOutcomeAfterAIChoice(candidate,hidden);count++;});
+  const winRate=count?(total/count+1)/2:0;
+  // La probabilidad de ganar domina; si dos planes empatan, conserva la carta de mayor jerarquía.
+  const utility=winRate*2000-candidate.strength*.02;
+  if(!best||utility>best.utility)best={index:i,cardId:candidate.id,winRate,utility};
+ }
+ const plan=best||{index:0,winRate:0,cardId:hand[0]?.id||null};
+ aiPlanCache={key,plan};return plan;
+}
+function estimatePerfectHandWinProbability(samples=180){
+ const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ if(!state.hands[1].length)return 0;
+ let value=0;
+ for(let n=0;n<samples;n++){
+  const hidden=shuffle(pool.slice()).slice(0,needed);
+  const result=minimaxHandValue(state.hands[1].slice(),hidden,state.tricks.map(t=>t.winner),state.currentTrick.slice(),state.currentTrick.length?other(state.currentTrick[0].player):state.turn);
+  value+=(result+1)/2;
+ }
+ return value/samples;
+}
+function estimatedWinProbability(samples){
+ const count=samples||(state.difficulty==='impossible'?360:state.difficulty==='hard'?440:state.difficulty==='medium'?190:100);
+ if(!state.hands[1].length)return 0;
+ if(state.difficulty==='impossible')return getExactAIPlan().winRate;
+ if(state.difficulty==='hard')return estimatePerfectHandWinProbability(count);
+ if(state.difficulty==='medium'){
+  const exact=estimatePerfectHandWinProbability(Math.min(count,110));
+  const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+  let heuristic=0;
+  for(let n=0;n<Math.min(count,110);n++){
+   const hidden=shuffle(pool.slice()).slice(0,needed),result=simulateCurrentHand(state.hands[1],hidden,Math.random);
+   if(result===1)heuristic++;else if(result===null&&state.mano===1)heuristic+=.5;
+  }
+  return exact*.78+(heuristic/Math.min(count,110))*.22;
+ }
+ const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ let wins=0;
+ for(let n=0;n<count;n++){
+  const hidden=shuffle(pool.slice()).slice(0,needed);
+  const result=simulateCurrentHand(state.hands[1],hidden,Math.random);
+  if(result===1)wins++;else if(result===null&&state.mano===1)wins+=.5;
+ }
+ return wins/count;
+}
+function aiRespondTruco(){
+ const challenge=state.trucoPending;if(!challenge||challenge.caller!==0)return;
+ const d=state.difficulty,prob=estimatedWinProbability();
+ const pointsIfAccepted=challenge.level+1;
+ // Um rechazo regala los puntos del nivel actual; aceptar expone un punto más.
+ let threshold=1/(2*pointsIfAccepted);
+ threshold+=({easy:.145,medium:.085,hard:.035,impossible:.012}[d]);
+ if(state.scores[0]+challenge.level>=state.targetPoints)threshold-=.11;
+ if(state.scores[1]+pointsIfAccepted>=state.targetPoints)threshold-=.035;
+ if(state.scores[0]>=state.targetPoints-2&&state.scores[0]+pointsIfAccepted>=state.targetPoints)threshold+=.045;
+ threshold=clamp(threshold,.055,.68);
+ resolveTruco(1,prob>=threshold);
+}
+function aiBluffChance(prob,kind='truco'){
+ const d=state.difficulty;
+ let chance=({easy:.025,medium:.065,hard:.115,impossible:.17}[d]||.06);
+ if(state.scores[1]<state.scores[0]-3)chance+=.045;
+ if(state.mano===1)chance+=.025;
+ if(state.tricks.length===0&&state.currentTrick.length===0)chance+=.025;
+ const strong=state.hands[1].filter(c=>c.strength>=11).length;
+ const topAlreadySeen=state.publicPlayed.some(x=>x.card.strength>=12);
+ if(strong>0||topAlreadySeen)chance+=.025;
+ if(state.scores[0]>=state.targetPoints-3)chance*=.45;
+ if(prob<.32)chance*=.12;else if(prob<.40)chance*=.55;
+ if(kind==='raise')chance*=.72;
+ return clamp(chance,0,.24);
+}
+function aiShouldRaiseTruco(level){
+ const p=estimatedWinProbability(),d=state.difficulty;
+ let threshold=level===2?.76:.85;
+ if(d==='easy')threshold+=.12;
+ if(d==='medium')threshold+=.055;
+ if(d==='hard')threshold-=.015;
+ if(d==='impossible')threshold-=.055;
+ if(state.scores[1]<state.scores[0]-3)threshold-=.035;
+ if(state.scores[1]>=state.targetPoints-3)threshold+=.025;
+ if(p>=threshold)return true;
+ const credible=state.hands[1].some(c=>c.strength>=11)||state.tricks.some(t=>t.winner===1);
+ return credible&&p>=threshold-.15&&Math.random()<aiBluffChance(p,'raise');
+}
+function resolveTruco(responder,accept){const p=state.trucoPending;if(!p||p.caller===responder)return;state.trucoPending=null;floatCall(accept?'¡QUIERO!':'NO QUIERO');if(!accept){const pts=p.level;state.scores[p.caller]+=pts;const detail=`${responder===localPlayer?'No quisiste':gameMode==='p2p'?'Tu rival no quiso':'La IA no quiso'}. ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;eventText('eventHand',detail);log(detail);setStatus(detail,true);render();finishHand(p.caller,0,true);return;}
+ state.trucoLevel=p.level;state.escalateBy=responder;const detail=`${responder===localPlayer?'Quisiste':gameMode==='p2p'?'Tu rival quiso':'La IA quiso'}: ${p.level===1?'truco':p.level===2?'retruco':'vale cuatro'} por ${p.level+1}.`;eventText('eventHand',detail);log(detail);setStatus('¡Quiero! La mano sigue.',true);render();continueTurn();}
+function foldHand(player=0){
+ if(state.turn!==player||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending)return;
+ const winner=1-player;
+ const beforeFirstPlay=state.publicPlayed.length===0&&!state.envidoDone;
+ const pts=state.trucoLevel?state.trucoLevel+1:(beforeFirstPlay?2:1);
+ state.foldedBy=player;state.foldPoints=pts;state.scores[winner]+=pts;
+ floatCall('¡AL MAZO!');
+ const detail=`${playerName(player)} se fue al mazo. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
+ eventText('eventHand',detail);log(detail);setStatus(detail,true);
+ finishHand(winner,0,true);
+}
+function playCard(index){const p=localPlayer;if(!state||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];if(gameMode==='p2p'&&netRole==='client'){sendNetworkAction('play',{cardId:card.id});return;}playCardFor(p,index);}
+function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player].splice(index,1)[0];if(card)placeCard(player,card,origin);}
+function placeCard(player,card,originRect=null){
+ if(state.handOver||state.animatingCard)return;
+ state.publicPlayed.push({player,card});state.currentTrick.push({player,card});state.envidoDone=true;
+ state.animatingCard=true;state.turn=state.currentTrick.length===1?other(player):null;
+ setStatus(player===localPlayer?'Tiraste una carta.':gameMode==='p2p'?'Tu rival tiró una carta.':'La IA tiró una carta.',true);log(`${playerName(player)} jugó ${rankLabel(card.rank)} de ${suitMeta[card.suit].name.toLowerCase()}.`);
+ render();
+ const target=$(player===localPlayer?'slotYou':'slotAI').querySelector('.played-card');
+ let done=false;
+ const finish=()=>{
+  if(done)return;done=true;
+  const flight=document.querySelector('.card-flight');if(flight)flight.remove();
+  if(target&&target.isConnected)target.style.visibility='';
+  setTimeout(()=>{
+   state.animatingCard=false;render();
+   if(state.currentTrick.length===1){if(gameMode==='ai'&&state.turn===1)scheduleAI(1150);else if(state.turn===localPlayer)setStatus('Tu turno: elegí una carta o cantá.');return;}
+   setTimeout(resolveTrick,650);
+  },120);
+ };
+ if(target&&originRect&&originRect.width>0&&originRect.height>0){
+  const end=target.getBoundingClientRect();
+  const clone=target.cloneNode(true);clone.classList.remove('played-card','from-you','from-ai');clone.classList.add('card-flight');
+  Object.assign(clone.style,{position:'fixed',left:`${originRect.left}px`,top:`${originRect.top}px`,width:`${originRect.width}px`,height:`${originRect.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
+  if(player!==localPlayer){const back=document.createElement('div');back.className='flight-back';clone.appendChild(back);}
+  document.body.appendChild(clone);target.style.visibility='hidden';
+  const dx=end.left-originRect.left,dy=end.top-originRect.top,sx=end.width/originRect.width,sy=end.height/originRect.height;
+  const flight=clone.animate([
+   {transform:'translate(0px,0px) scale(1) rotate(0deg)',opacity:1,offset:0},
+   {transform:`translate(${dx*.72}px,${dy*.72}px) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${player===0?-5:5}deg)`,opacity:1,offset:.72},
+   {transform:`translate(${dx}px,${dy}px) scale(${sx},${sy}) rotate(${player===0?-2:2}deg)`,opacity:1,offset:1}
+  ],{duration:720,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'});
+  if(player!==localPlayer){const back=clone.querySelector('.flight-back');back.animate([{opacity:1},{opacity:1,offset:.44},{opacity:0}],{duration:620,easing:'ease-in-out',fill:'forwards'});}
+  flight.onfinish=finish;flight.oncancel=finish;setTimeout(finish,1000);
+ }else{
+  if(target){target.style.visibility='';target.animate([{opacity:0,transform:`translateY(${player===0?70:-70}px) rotate(${player===0?-7:7}deg)`},{opacity:1,transform:'translateY(0) rotate(0deg)'}],{duration:650,easing:'cubic-bezier(.18,.78,.22,1)'});}
+  setTimeout(finish,720);
+ }
+}
+
+function trickWinner(cards){const a=cards[0],b=cards[1];if(a.card.strength>b.card.strength)return a.player;if(b.card.strength>a.card.strength)return b.player;return null;}
+function handWinner(tricks){if(tricks.length<2)return null;const w1=tricks[0].winner,w2=tricks[1].winner;if(w1===null){if(w2!==null)return w2;return state.mano;}if(w2===w1||w2===null)return w1;if(tricks.length<3)return null;const w3=tricks[2].winner;return w3===null?w1:w3;}
+function resolveTrick(){
+ if(state.currentTrick.length!==2||state.resolvingTrick)return;state.resolvingTrick=true;
+ const cards=state.currentTrick.slice(),winner=trickWinner(cards),n=state.tricks.length+1;state.tricks.push({winner,cards});
+ if(winner===null){floatCall('PARDA');setStatus(`Baza ${n}: ¡parda!`,true);log(`Baza ${n} empatada.`);eventText('eventBaza',`Baza ${n}: parda`);state.lead=state.mano;}
+ else{floatCall(winner===localPlayer?'BAZA PARA VOS':gameMode==='p2p'?'BAZA PARA EL RIVAL':'BAZA PARA LA IA');setStatus(`Baza ${n}: ${winner===localPlayer?'¡tuya!':gameMode==='p2p'?'para tu rival':'para la IA'}`,true);log(`Baza ${n}: ${winner===localPlayer?'la ganaste vos':gameMode==='p2p'?'la ganó tu rival':'la ganó la IA'}.`);eventText('eventBaza',winner===localPlayer?`Baza ${n}: la ganaste vos`:`Baza ${n}: la ganó ${gameMode==='p2p'?'tu rival':'la IA'}`);state.lead=winner;}
+ render();
+ const played=[...document.querySelectorAll('#slotYou .played-card,#slotAI .played-card')];played.forEach(el=>el.classList.add(el.closest('#slotYou')?'sweep-left':'sweep-right'));
+ const result=handWinner(state.tricks);
+ setTimeout(()=>{
+  state.currentTrick=[];state.resolvingTrick=false;render();
+  if(result!==null){setTimeout(()=>finishHand(result),240);return;}
+  state.turn=state.lead;setTimeout(()=>{if(!state.handOver){setStatus(`Baza ${state.tricks.length+1} · ${state.turn===localPlayer?'jugás vos':gameMode==='p2p'?'juega tu rival':'juega la IA'}.`);render();continueTurn();}},650);
+ },900);
+}
+function continueTurn(){if(state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending)return;if(gameMode==='ai'&&state.turn===1)scheduleAI(850);else{setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':gameMode==='p2p'?'Esperando al rival…':'La IA está pensando…');render();}}
+function finishHand(winner,unused,isFold=false){if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;render();renderScore();
+ const title=winner===localPlayer?'¡La mano es tuya!':gameMode==='p2p'?'Tu rival se lleva la mano':'La IA se lleva la mano';const desc=isFold?(state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} se fue al mazo. ${winnerPhrase(winner)} ${state.foldPoints} punto${state.foldPoints===1?'':'s'}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`:`No se quiso el canto. ${winner===0?'Vos te llevás':'La IA se lleva'} los puntos del rechazo. Marcador: ${state.scores[0]} — ${state.scores[1]}.`):`${winner===localPlayer?'Ganaste vos':gameMode==='p2p'?'Tu rival ganó':'La IA ganó'} la mano y suma ${pts} punto${pts===1?'':'s'}${state.trucoLevel?` con ${['','truco','retruco','vale cuatro'][state.trucoLevel]}`:''}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`;
+ eventText('eventHand',isFold&&state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} al mazo · ${winnerPhrase(winner)} +${state.foldPoints}`:`${winner===localPlayer?'Ganaste la mano':gameMode==='p2p'?'Tu rival ganó la mano':'La IA ganó la mano'}${pts?` · +${pts}`:''}`);log(desc);render();setStatus(winner===localPlayer?'Mano para vos.':gameMode==='p2p'?'Mano para tu rival.':'Mano para la IA.',true);
+ if(state.scores[winner]>=state.targetPoints){state.gameOver=true;render();showOverlay('PARTIDA TERMINADA',winner===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`, 'VOLVER AL MENÚ',openMainMenu);}else{showOverlay(`FIN DE LA MANO ${state.handNo}`,title,desc,'SIGUIENTE MANO',()=>{$('overlay').classList.remove('show');startNextHand();});}
+}
+function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':gameMode==='p2p'?'GANÓ TU RIVAL':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
+function showOverlay(kicker,title,desc,button,fn){$('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
+function unseenPoolForPlay(){return sampleUnknownCards();}
+function chooseAiCard(){
+ const hand=state.hands[1];if(hand.length<=1)return 0;
+ const d=state.difficulty;
+ if(d==='easy'){
+  const current=state.currentTrick[0];
+  if(current&&current.player===0){
+   const winning=hand.map((card,index)=>({card,index})).filter(x=>x.card.strength>current.card.strength||(x.card.strength===current.card.strength&&state.mano===1)).sort((a,b)=>a.card.strength-b.card.strength);
+   if(winning.length&&Math.random()<.78)return winning[0].index;
+  }
+  return hand.map((card,index)=>({card,index})).sort((a,b)=>a.card.strength-b.card.strength)[0].index;
+ }
+ // Imposible: evalúa todas las combinaciones posibles de cartas ocultas y toda la secuencia restante.
+ if(d==='impossible')return getExactAIPlan().index;
+ const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ const samples=d==='hard'?440:190;
+ const evaluations=[];
+ for(let i=0;i<hand.length;i++){
+  const candidate=hand[i];let total=0;
+  for(let j=0;j<samples;j++){
+   const hidden=shuffle(pool.slice()).slice(0,needed);
+   total+=perfectOutcomeAfterAIChoice(candidate,hidden);
+  }
+  const mean=(total/samples+1)/2;
+  // La chance de ganar tiene prioridad absoluta; en empate, conserva las cartas más fuertes para las bazas futuras.
+  const utility=mean*1000-candidate.strength*.015;
+  evaluations.push({index:i,utility,mean});
+ }
+ evaluations.sort((a,b)=>b.utility-a.utility);
+ const best=evaluations[0];
+ if(d==='medium'){
+  const near=evaluations.filter(x=>x.utility>=best.utility-.08);
+  if(near.length>1&&Math.random()<.14)return near[Math.floor(Math.random()*near.length)].index;
+ }
+ return best.index;
+}
+function aiShouldCallTruco(){
+ const p=estimatedWinProbability(),d=state.difficulty;
+ let threshold={easy:.73,medium:.66,hard:.61,impossible:.57}[d];
+ if(state.scores[1]<state.scores[0]-4)threshold-=.045;
+ if(state.scores[1]>=state.targetPoints-3)threshold+=.025;
+ if(state.scores[0]>=state.targetPoints-3)threshold+=.035;
+ if(state.tricks.some(t=>t.winner===1))threshold-=.025;
+ const savedSevenOfSwords=state.tricks.length===1&&state.tricks[0].winner===0&&state.hands[1].some(c=>c.id==='espadas-7');
+ if(savedSevenOfSwords)threshold-=.055;
+ if(p>=threshold)return true;
+ // El farol necesita una historia creíble: cartas altas propias, una baza ganada o ventaja de mano.
+ const canRepresent=state.hands[1].some(c=>c.strength>=11)||state.tricks.some(t=>t.winner===1)||state.mano===1;
+ const bluffFloor=d==='impossible'?.37:d==='hard'?.40:d==='medium'?.44:.50;
+ return canRepresent&&p>=bluffFloor&&Math.random()<aiBluffChance(p,'truco');
+}
+function runAI(){if(gameMode!=='ai'||aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;
+ try{
+  if(state.withFlor&&!state.florDone&&hasFlor(state.hands[1])){aiBusy=false;state.aiThinking=false;callFlor(1);return;}
+  if(envidoOpen()&&aiShouldCallEnvido()){const type=aiInitialEnvidoType();aiBusy=false;state.aiThinking=false;callEnvido(1,type);return;}
+  if(state.trucoLevel>0&&canRaiseTruco(1)&&aiShouldRaiseTruco(state.trucoLevel+1)){const level=state.trucoLevel+1;aiBusy=false;state.aiThinking=false;callTruco(1,level);return;}
+  if(state.trucoLevel===0&&canRaiseTruco(1)&&aiShouldCallTruco()){aiBusy=false;state.aiThinking=false;callTruco(1,1);return;}
+  const idx=chooseAiCard();const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;const card=state.hands[1].splice(idx,1)[0];state.aiThinking=false;aiPlanCache=null;aiBusy=false;placeCard(1,card,origin);
+ }catch(e){console.error(e);state.aiThinking=false;aiPlanCache=null;aiBusy=false;const idx=Math.max(0,state.hands[1].length-1);const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;if(state.hands[1][idx])placeCard(1,state.hands[1].splice(idx,1)[0],origin);}
+}
+function scheduleAI(delay=850){
+ if(gameMode!=='ai')return;
+ if(aiTimer)clearTimeout(aiTimer);
+ state.aiThinking=true;render();setStatus('La IA está pensando su próxima jugada…');
+ aiTimer=setTimeout(()=>{aiTimer=null;runAI();},aiThinkDelay('play'));
+}
+$('playerHand').addEventListener('click',ev=>{const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
+$('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
+$('gameMode').addEventListener('change',syncModeMenuUI);
+$('createRoomBtn').addEventListener('click',createP2PRoom);$('joinRoomBtn').addEventListener('click',joinP2PRoom);
+$('copyRoomCodeBtn').addEventListener('click',async()=>{const code=$('p2pRoomCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{ $('p2pRoomCode').select();setP2PStatus('Seleccioné el código: copialo con Ctrl+C.');}});
+$('p2pLobbyCopy').addEventListener('click',async()=>{const code=$('p2pLobbyCode').value.trim();if(!code)return;try{await navigator.clipboard.writeText(code);setP2PStatus('Código copiado. Compartilo con tu rival.');}catch{$('p2pLobbyCode').select();setP2PStatus('Código seleccionado: copialo con Ctrl+C.');}});
+$('p2pLobbyCancel').addEventListener('click',openMainMenu);
+$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';syncModeMenuUI();
+})();
+</script>
+
+<script>
+(()=>{
+ const root=document.documentElement;
+ const baseDpr=window.devicePixelRatio||1;
+ let raf=0;
+ function syncCardZoom(){
+  cancelAnimationFrame(raf);
+  raf=requestAnimationFrame(()=>{
+   const dpr=window.devicePixelRatio||baseDpr;
+   let scale=Math.max(.94,Math.min(1.28,dpr/baseDpr));
+   const w=document.documentElement.clientWidth||window.innerWidth;
+   const handBase=Math.min(156,Math.max(82,(window.innerHeight||700)*.20));
+   const desired=handBase*.647*scale*3+30;
+   if(desired>w-12) scale=Math.max(.88,scale*((w-12)/desired));
+   root.style.setProperty('--card-zoom',scale.toFixed(3));
+  });
+ }
+ window.addEventListener('resize',syncCardZoom,{passive:true});
+ if(window.visualViewport)window.visualViewport.addEventListener('resize',syncCardZoom,{passive:true});
+ syncCardZoom();
+})();
+</script>
+
+</body>
+</html>
