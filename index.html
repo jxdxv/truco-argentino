@@ -841,6 +841,23 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 #gameMode{font-weight:800}.menu-field[hidden]{display:none!important}#startGame[hidden]{display:none!important}
 @media(max-height:720px){.online-panel{padding:8px}.online-name-label input,.online-join input,.online-action{padding:7px}}
 </style>
+
+<style id="multiplayer-animation-repair">
+/* Las cartas online esperan a que terminen sus vuelos y salen como copias independientes;
+   así el snapshot del servidor puede limpiar la mesa sin cortar el barrido lateral. */
+.card-exit-flight{position:fixed!important;display:block!important;pointer-events:none!important;will-change:transform,opacity!important;z-index:10005!important;}
+#responseHost .response-panel.mp-response-enter{animation:mpResponsePanelIn .28s cubic-bezier(.18,.78,.22,1) both!important;transform-origin:center center;}
+#responseHost .response-panel.mp-response-enter .response-title{animation:mpResponseTitleIn .32s ease-out both!important;}
+#responseHost .response-panel.mp-response-enter .response-actions .action{animation:mpResponseButtonIn .28s ease-out both!important;}
+#responseHost .response-panel.mp-response-enter .response-actions .action:nth-child(2){animation-delay:.045s!important;}
+#responseHost .response-panel.mp-response-enter .response-actions .action:nth-child(3){animation-delay:.09s!important;}
+#responseHost .response-panel.mp-response-enter .response-actions .action:nth-child(4){animation-delay:.135s!important;}
+@keyframes mpResponsePanelIn{0%{opacity:0;transform:translateY(9px) scale(.975);filter:blur(2px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes mpResponseTitleIn{0%{opacity:0;letter-spacing:.22em}100%{opacity:1;letter-spacing:.14em}}
+@keyframes mpResponseButtonIn{0%{opacity:0;transform:translateY(7px) scale(.97)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){#responseHost .response-panel.mp-response-enter,#responseHost .response-panel.mp-response-enter .response-title,#responseHost .response-panel.mp-response-enter .response-actions .action{animation:none!important}}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -1317,7 +1334,7 @@ function render(){
  if(names[0])names[0].textContent='VOS';if(names[1])names[1].textContent=opponentLabel().toUpperCase();
  const aiInfo=document.querySelector('.ai-info');if(aiInfo){const spans=aiInfo.querySelectorAll('span');if(spans[1])spans[1].textContent=opponentLabel().toUpperCase();}
  syncPlayerHand(yourTurn);renderActions();activateCardFallbacks($('felt'));
- if(state.resolvingTrick){document.querySelectorAll('#slotYou .played-card,#slotAI .played-card').forEach(el=>{const cls=el.closest('#slotYou')?'sweep-left':'sweep-right';if(!el.classList.contains(cls))el.classList.add(cls);});}
+ if(state.resolvingTrick&&!isMultiplayer()){document.querySelectorAll('#slotYou .played-card,#slotAI .played-card').forEach(el=>{const cls=el.closest('#slotYou')?'sweep-left':'sweep-right';if(!el.classList.contains(cls))el.classList.add(cls);});}
 }
 
 function envidoOpen(){return !state.envidoDone&&!state.florPending&&(!state.withFlor||state.florDone)&&state.tricks.length===0&&state.currentTrick.length===0&&visibleOpponentCardCount()===3&&state.hands[1].length===3;}
@@ -1349,7 +1366,7 @@ function renderActions(){
 }
 
 function responsePanel(title,sub,opts){
- const el=document.createElement('div');el.className='response-panel';el.innerHTML=`<div class="response-title">${title}</div><div class="response-sub">${sub}</div><div class="response-actions"></div>`;
+ const el=document.createElement('div');el.className='response-panel';if(isMultiplayer())el.classList.add('mp-response-enter');el.innerHTML=`<div class="response-title">${title}</div><div class="response-sub">${sub}</div><div class="response-actions"></div>`;
  const box=el.querySelector('.response-actions');opts.forEach(([label,cls,fn])=>{const b=document.createElement('button');b.className='action '+cls;b.textContent=label;b.onclick=fn;box.appendChild(b);});return el;
 }
 function typeName(t){return t==='envido'?'Envido':t==='real'?'Real envido':'Falta envido';}
@@ -2096,6 +2113,7 @@ const MULTIPLAYER_SESSION_KEY='truco_argentino_online_session_v1';
 let multiplayerSession=null,multiplayerSocket=null,multiplayerInGame=false,multiplayerOpponentName='Rival';
 let multiplayerReconnectTimer=null,multiplayerReconnectDelay=900,multiplayerIntentionalLeave=false;
 let multiplayerLastPublicCount=0,multiplayerLastHandNo=0,multiplayerLastOutcome='',multiplayerLastEnvidoReveal='',multiplayerAnimating=false;
+let multiplayerLastTrickExitKey='';
 let multiplayerDealAnimating=false,multiplayerServerDealing=false,multiplayerFlightCount=0;
 const mpEl=id=>document.getElementById(id);
 function mpApiReady(){return !MULTIPLAYER_API_BASE.includes('TU-SUBDOMINIO');}
@@ -2154,7 +2172,7 @@ function mpLeaveToMenu(){
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';
+ multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
  if(mpEl('onlineLobby'))mpEl('onlineLobby').hidden=true;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=false;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=false;
  if(mpEl('onlinePanel'))mpEl('onlinePanel').classList.remove('visible');
  if(mpEl('gameMode'))mpEl('gameMode').value='ai';mpSetupModeUI();
@@ -2205,18 +2223,70 @@ function mpCaptureCardOrigin(play){
 }
 function mpAnimatePlayedCard(play,origin){
  multiplayerFlightCount++;multiplayerAnimating=true;
- const settle=()=>{multiplayerFlightCount=Math.max(0,multiplayerFlightCount-1);multiplayerAnimating=multiplayerFlightCount>0;if(state){state.animatingCard=multiplayerAnimating;render();}};
+ const settle=()=>{
+  multiplayerFlightCount=Math.max(0,multiplayerFlightCount-1);
+  multiplayerAnimating=multiplayerFlightCount>0;
+  if(state){state.animatingCard=multiplayerAnimating;render();}
+  if(!multiplayerAnimating)mpMaybeAnimateTrickExit();
+ };
  const target=mpEl(play.player===0?'slotYou':'slotAI')?.querySelector('.played-card');
  if(!target||!origin||!origin.width||!origin.height){setTimeout(settle,220);return;}
- const clone=target.cloneNode(true);clone.classList.remove('played-card','from-you','from-ai');clone.classList.add('card-flight');
+ const clone=target.cloneNode(true);
+ clone.classList.remove('played-card','from-you','from-ai','sweep-left','sweep-right');
+ clone.classList.add('card-flight');
  Object.assign(clone.style,{position:'fixed',left:`${origin.left}px`,top:`${origin.top}px`,width:`${origin.width}px`,height:`${origin.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
  if(play.player!==0){const back=document.createElement('div');back.className='flight-back';clone.appendChild(back);}
  document.body.appendChild(clone);target.style.visibility='hidden';
  const end=target.getBoundingClientRect(),dx=end.left-origin.left,dy=end.top-origin.top,sx=end.width/origin.width,sy=end.height/origin.height;
- const animation=clone.animate([{transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1,offset:0},{transform:`translate(${dx*.72}px,${dy*.72}px) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${play.player===0?-5:5}deg)`,opacity:1,offset:.72},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy}) rotate(${play.player===0?-2:2}deg)`,opacity:1}],{duration:720,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'});
- let done=false;const finish=()=>{if(done)return;done=true;clone.remove();if(target.isConnected)target.style.visibility='';settle();};
- animation.onfinish=finish;animation.oncancel=finish;setTimeout(finish,900);
+ const animation=clone.animate([
+  {transform:'translate3d(0,0,0) scale(1) rotate(0deg)',opacity:1,offset:0},
+  {transform:`translate3d(${dx*.72}px,${dy*.72}px,0) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${play.player===0?-5:5}deg)`,opacity:1,offset:.72},
+  {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotate(${play.player===0?-2:2}deg)`,opacity:1,offset:1}
+ ],{duration:690,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'});
+ let done=false;
+ const finish=()=>{
+  if(done)return;done=true;clone.remove();
+  if(target.isConnected)target.style.visibility='';
+  settle();
+ };
+ animation.onfinish=finish;animation.oncancel=finish;
+ setTimeout(finish,900);
 }
+function mpMaybeAnimateTrickExit(){
+ const shouldExitTrick=!!state?.resolvingTrick&&state.currentTrick?.length===2;
+ const shouldExitFinishedHand=!!state?.handOver&&(state.currentTrick?.length||0)>0;
+ if(!isMultiplayer()||(!shouldExitTrick&&!shouldExitFinishedHand)||multiplayerFlightCount>0)return;
+ const trickKey=`${state.handNo}:${state.handOver?'FIN':state.tricks.length+1}:${state.currentTrick.map(p=>p.card?.id||'').join('|')}`;
+ if(multiplayerLastTrickExitKey===trickKey)return;
+ const cards=[
+  {player:0,slot:mpEl('slotYou')},
+  {player:1,slot:mpEl('slotAI')}
+ ].map(item=>({...item,source:item.slot?.querySelector('.played-card')})).filter(item=>item.source);
+ if(!cards.length)return;
+ multiplayerLastTrickExitKey=trickKey;
+ cards.forEach(({player,source})=>{
+  const rect=source.getBoundingClientRect();
+  if(!rect.width||!rect.height)return;
+  const ghost=source.cloneNode(true);
+  ghost.classList.remove('played-card','from-you','from-ai','sweep-left','sweep-right');
+  ghost.classList.add('card-exit-flight');
+  Object.assign(ghost.style,{position:'fixed',left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`,margin:'0',zIndex:'10005',pointerEvents:'none',transformOrigin:'center center',visibility:'visible',willChange:'transform,opacity'});
+  document.body.appendChild(ghost);
+  source.style.visibility='hidden';
+  const direction=player===0?-1:1;
+  const distance=(window.innerWidth||800)+rect.width+70;
+  const animation=ghost.animate([
+   {transform:'translate3d(0,0,0) rotate(0deg) scale(1)',opacity:1,offset:0},
+   {transform:`translate3d(${direction*34}px,-4px,0) rotate(${direction*7}deg) scale(.985)`,opacity:1,offset:.28},
+   {transform:`translate3d(${direction*distance}px,22px,0) rotate(${direction*26}deg) scale(.76)`,opacity:0,offset:1}
+  ],{duration:760,easing:'cubic-bezier(.42,.02,.78,.35)',fill:'forwards'});
+  let removed=false;
+  const remove=()=>{if(removed)return;removed=true;ghost.remove();};
+  animation.onfinish=remove;animation.oncancel=remove;
+  setTimeout(remove,1050);
+ });
+}
+
 function mpShowEnvidoReveal(reveal){
  const host=mpEl('envidoReveal');if(!host||!reveal)return;
  const runKey=`${multiplayerLastHandNo}:${reveal.firstCaller}:${reveal.values.join('-')}:${reveal.points}`;
@@ -2256,23 +2326,73 @@ function mpApplySnapshot(view){
  const previousHand=multiplayerLastHandNo;
  const isNewHand=previousHand!==view.handNo;
  let freshPlay=null,origin=null;
- if(!isNewHand&&view.publicPlayed.length>multiplayerLastPublicCount){freshPlay=view.publicPlayed[view.publicPlayed.length-1];freshPlay={...freshPlay,player:mpOrientPlayer(freshPlay.player,view.seat)};origin=mpCaptureCardOrigin(freshPlay);}
- if(isNewHand){multiplayerLastHandNo=view.handNo;multiplayerLastPublicCount=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;$('overlay').classList.remove('show');$('playerHand').innerHTML='';$('aiBacks').innerHTML='';}
+ if(!isNewHand&&view.publicPlayed.length>multiplayerLastPublicCount){
+  freshPlay=view.publicPlayed[view.publicPlayed.length-1];
+  freshPlay={...freshPlay,player:mpOrientPlayer(freshPlay.player,view.seat)};
+  origin=mpCaptureCardOrigin(freshPlay);
+ }
+ if(isNewHand){
+  multiplayerLastHandNo=view.handNo;multiplayerLastPublicCount=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';
+  multiplayerLastTrickExitKey='';multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;
+  document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
+  $('overlay').classList.remove('show');$('playerHand').innerHTML='';$('aiBacks').innerHTML='';
+ }
  multiplayerServerDealing=!!view.dealing;
  multiplayerOpponentName=view.opponentName||multiplayerOpponentName;multiplayerInGame=true;
  const previousState=state;
  const normalized=mpNormalizeSnapshot(view);state=normalized;
- // Reproducir los efectos locales que antes disparaban las funciones de la IA/partida.
+ const previousTruco=previousState?.trucoPending;
+ const previousEnvido=previousState?.envidoPending;
+ const previousFlor=previousState?.florPending;
+ const logText=String(normalized.log||'').toLowerCase();
+ const opponent=(multiplayerOpponentName||'RIVAL').toUpperCase();
+ const callerPrefix=caller=>caller===0?'':`${opponent} · `;
+ // Anuncios de cantos nuevos y subidas. El mismo snapshot se procesa en ambos clientes.
+ if(!isNewHand&&normalized.trucoPending&&(!previousTruco||previousTruco.level!==normalized.trucoPending.level||previousTruco.caller!==normalized.trucoPending.caller)&&!previousState?.heldTruco){
+  const label=normalized.trucoPending.level===1?'¡TRUCO!':normalized.trucoPending.level===2?'¡RETRUCO!':'¡VALE CUATRO!';
+  floatCall(callerPrefix(normalized.trucoPending.caller)+label);
+  playProceduralSound('truco',normalized.trucoPending.level);
+ }
+ if(!isNewHand&&normalized.envidoPending&&(!previousEnvido||previousEnvido.type!==normalized.envidoPending.type||previousEnvido.caller!==normalized.envidoPending.caller||previousEnvido.chain!==normalized.envidoPending.chain)){
+  const label=typeName(normalized.envidoPending.type).toUpperCase();
+  floatCall(callerPrefix(normalized.envidoPending.caller)+label);
+  playProceduralSound(previousEnvido?'envidoRaise':'envido',normalized.envidoPending.type);
+ }
+ if(!isNewHand&&normalized.florPending&&(!previousFlor||previousFlor.level!==normalized.florPending.level||previousFlor.caller!==normalized.florPending.caller)){
+  const label=normalized.florPending.level===1?'¡FLOR!':normalized.florPending.level===2?'¡CONTRA FLOR!':'¡CONTRA FLOR AL RESTO!';
+  floatCall(callerPrefix(normalized.florPending.caller)+label);
+  playProceduralSound(normalized.florPending.level===1?'flor':normalized.florPending.level===2?'contraFlor':'contraFlorResto');
+ }
+ // Respuestas a los cantos: no se anuncian cuando Truco queda temporalmente retenido por Envido/Flor.
+ if(!isNewHand&&previousTruco&&!normalized.trucoPending&&!normalized.heldTruco){
+  const accepted=!normalized.handOver||normalized.foldedBy===null;
+  floatCall(accepted?'¡QUIERO!':'NO QUIERO');
+  playResponseSound(accepted);
+ }
+ if(!isNewHand&&previousEnvido&&!normalized.envidoPending){
+  const accepted=!!normalized.networkEnvidoReveal;
+  floatCall(accepted?'¡QUIERO!':'NO QUIERO');
+  playResponseSound(accepted);
+  if(!accepted)playProceduralSound(previousEnvido.caller===0?'envidoWin':'envidoLose');
+ }
+ if(!isNewHand&&previousFlor&&!normalized.florPending){
+  const declined=logText.includes('no quiso');
+  const responderWasLocal=previousFlor.caller===1;
+  const localHasNoFlor=responderWasLocal&&!hasFlor(previousState?.hands?.[0]);
+  floatCall(localHasNoFlor?'NO TENGO FLOR':declined?'NO QUIERO':'¡QUIERO!');
+  playResponseSound(!declined,!localHasNoFlor);
+  const deltaYou=normalized.scores[0]-previousState.scores[0],deltaOpp=normalized.scores[1]-previousState.scores[1];
+  const winner=deltaYou>deltaOpp?0:deltaOpp>deltaYou?1:previousFlor.caller;
+  playProceduralSound(winner===0?'florWin':'florLose');
+ }
+ // Mantener los sonidos asociados a los cambios públicos del estado.
  if(freshPlay)playRandomCardPlaceSound();
- if(!isNewHand&&normalized.trucoPending&&(!previousState?.trucoPending||previousState.trucoPending.level!==normalized.trucoPending.level))playProceduralSound('truco',normalized.trucoPending.level);
- if(!isNewHand&&normalized.envidoPending&&(!previousState?.envidoPending||previousState.envidoPending.type!==normalized.envidoPending.type))playProceduralSound(previousState?.envidoPending?'envidoRaise':'envido',normalized.envidoPending.type);
- if(!isNewHand&&normalized.florPending&&(!previousState?.florPending||previousState.florPending.level!==normalized.florPending.level))playProceduralSound(normalized.florPending.level===1?'flor':normalized.florPending.level===2?'contraFlor':'contraFlorResto');
- if(!isNewHand&&previousState?.trucoPending&&!normalized.trucoPending&&!normalized.heldTruco)playResponseSound(!normalized.handOver);
- if(!isNewHand&&previousState?.envidoPending&&!normalized.envidoPending&&!normalized.networkEnvidoReveal){playResponseSound(false);playProceduralSound(previousState.envidoPending.caller===0?'envidoWin':'envidoLose');}
- if(!isNewHand&&previousState?.envidoPending&&normalized.networkEnvidoReveal)playResponseSound(true);
- if(!isNewHand&&previousState?.florPending&&!normalized.florPending){const declined=normalized.log.toLowerCase().includes('no quiso');playResponseSound(!declined, true);const deltaYou=normalized.scores[0]-previousState.scores[0],deltaOpp=normalized.scores[1]-previousState.scores[1];const winner=deltaYou>deltaOpp?0:deltaOpp>deltaYou?1:previousState.florPending.caller;playProceduralSound(winner===0?'florWin':'florLose');}
- if(!isNewHand&&previousState&&normalized.tricks.length>previousState.tricks.length){const t=normalized.tricks[normalized.tricks.length-1];playProceduralSound(t.winner===null?'parda':t.winner===0?'bazaGanada':'bazaPerdida');playProceduralSound('tablePickup');}
- if(!isNewHand&&normalized.foldedBy!==null&&previousState?.foldedBy===null&&normalized.log.toLowerCase().includes('se fue al mazo'))playProceduralSound('alMazo');
+ if(!isNewHand&&normalized.tricks.length>(previousState?.tricks?.length||0)){
+  const trick=normalized.tricks[normalized.tricks.length-1];
+  playProceduralSound(trick.winner===null?'parda':trick.winner===0?'bazaGanada':'bazaPerdida');
+  playProceduralSound('tablePickup');
+ }
+ if(!isNewHand&&normalized.foldedBy!==null&&previousState?.foldedBy===null&&logText.includes('se fue al mazo'))playProceduralSound('alMazo');
  $('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;
  $('gameConfigLine').textContent=`MULTIJUGADOR ONLINE · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'}`;
  $('mainMenu').classList.add('hidden');showGameShell();
@@ -2280,16 +2400,29 @@ function mpApplySnapshot(view){
  eventText('eventHand',view.log||'En juego');
  if(state.florPending)eventText('eventEnvido',state.florPending.level===1?'Flor cantada':state.florPending.level===2?'Contra flor':'Contra flor al resto');
  else if(state.envidoPending)eventText('eventEnvido',state.envidoPending.type==='real'?'Real envido':state.envidoPending.type==='falta'?'Falta envido':'Envido');
+ else if(state.networkEnvidoReveal)eventText('eventEnvido','Envido resuelto');
  else if(state.envidoDone)eventText('eventEnvido','Resuelto');
  eventText('eventBaza',`Baza ${Math.min(3,state.tricks.length+1)} · en juego`);
  render();
- if(isNewHand&&view.dealing){const run=dealRunId;animateDeal(run).then(async()=>{if(run===dealRunId&&state&&state.handNo===view.handNo){await revealPlayerHand();multiplayerDealAnimating=false;state.dealing=multiplayerServerDealing;render();if(!state.dealing)setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);}});}
+ if(isNewHand&&view.dealing){
+  const run=dealRunId;
+  animateDeal(run).then(async()=>{
+   if(run===dealRunId&&state&&state.handNo===view.handNo){
+    await revealPlayerHand();multiplayerDealAnimating=false;state.dealing=multiplayerServerDealing;render();
+    if(!state.dealing)setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);
+   }
+  });
+ }
  if(freshPlay)mpAnimatePlayedCard(freshPlay,origin);
+ if((normalized.resolvingTrick&&normalized.currentTrick.length===2||normalized.handOver&&normalized.currentTrick.length>0)&&!freshPlay)mpMaybeAnimateTrickExit();
  if(normalized.networkEnvidoReveal)mpShowEnvidoReveal(normalized.networkEnvidoReveal);
  multiplayerLastPublicCount=view.publicPlayed.length;
  if(state.handOver)mpShowHandOutcome();
- if(!state.handOver&&!state.dealing&&!state.envidoRevealing){setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);}
+ if(!state.handOver&&!state.dealing&&!state.envidoRevealing){
+  setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);
+ }
 }
+
 function mpSetupModeUI(){
  const mode=mpEl('gameMode')?.value||'ai',online=mode==='online';
  mpEl('onlinePanel')?.classList.toggle('visible',online);
