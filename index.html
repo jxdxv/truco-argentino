@@ -26,7 +26,7 @@
 .card:not(.tiny)[data-card="espadas-7"]::after,.card:not(.tiny)[data-card="oros-7"]::after{
  content:"";position:absolute;inset:0;z-index:10;pointer-events:none;border-radius:inherit;
  background:linear-gradient(125deg,rgba(255,224,112,.58) 0%,rgba(255,190,48,.52) 24%,rgba(255,218,92,.58) 48%,rgba(190,126,18,.40) 72%,rgba(255,224,112,.58) 100%);
- mix-blend-mode:normal;opacity:.68
+ mix-blend-mode:normal;opacity:.63
 }
 /* Arcoíris diagonal infinito por encima del SVG.
    El patrón se desplaza en diagonal y vuelve exactamente a una fase equivalente,
@@ -52,7 +52,7 @@
   rgba(35,75,255,.92) 100px 120px,
   rgba(185,0,255,.92) 120px 140px,
   rgba(255,0,145,.92) 140px 160px);
- opacity:.43;
+ opacity:.40;
  filter:blur(11px);
  mix-blend-mode:normal;
  transform:translate3d(0,0,0);
@@ -64,6 +64,16 @@
  from{transform:translate3d(0,0,0)}
  to{transform:translate3d(113.137px,113.137px,0)}
 }
+/* Distinción sutil para cartas buenas de jerarquía intermedia (sin competir con los 1 y 7 top). */
+.card.quality-card:not(.tiny){
+ filter:saturate(1.075) contrast(1.025);
+ box-shadow:0 0 0 1px rgba(226,196,129,.28),0 5px 13px rgba(0,20,14,.22),0 10px 20px #00140e99,0 2px 3px #00140e88;
+}
+.card.quality-card:not(.tiny)::before{
+ content:"";position:absolute;inset:1px;z-index:5;pointer-events:none;border:1px solid rgba(223,194,132,.40);border-radius:6px;
+ box-shadow:inset 0 0 7px rgba(211,177,105,.10);
+}
+
 /* Contornos por encima de la capa de color. */
 .card:not(.tiny)[data-card="espadas-7"]::before,.card:not(.tiny)[data-card="oros-7"]::before{content:"";position:absolute;inset:1px;z-index:12;pointer-events:none;border:3px solid #ffdb68;border-radius:6px;box-shadow:inset 0 0 4px #fff0a8,0 0 7px #e9ad28}
 .card:not(.tiny)[data-card="espadas-1"]::before,.card:not(.tiny)[data-card="bastos-1"]::before{content:"";position:absolute;inset:1px;z-index:22;pointer-events:none;border:3px solid #e5a8ff;border-radius:6px;box-shadow:inset 0 0 4px #fff,0 0 8px #b45cff}
@@ -164,6 +174,23 @@ body{display:block;min-height:100vh;padding:0;}
 .start-btn{width:100%;margin-top:22px;padding:14px 18px;border:1px solid #ecd99f;border-radius:6px;background:linear-gradient(180deg,#e7d29b,#b99453);color:#20281d;font-size:12px;font-weight:900;letter-spacing:.2em;box-shadow:0 6px 18px #0004;transition:.18s}
 .start-btn span{font-size:17px;margin-left:10px}.start-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
 .menu-foot{margin-top:22px;color:#718b78;font-size:8px;letter-spacing:.24em}
+.stats-btn{width:100%;margin-top:9px;padding:10px 16px;border:1px solid rgba(221,197,143,.38);border-radius:6px;background:rgba(255,255,255,.045);color:#ead9b1;font-size:10px;font-weight:800;letter-spacing:.16em;transition:background .18s,border-color .18s,transform .18s}
+.stats-btn:hover{background:rgba(255,255,255,.09);border-color:rgba(235,211,157,.68);transform:translateY(-1px)}.stats-btn:focus-visible,.stats-close-x:focus-visible,.stats-back:focus-visible{outline:2px solid #f1d79b;outline-offset:3px}
+.stats-overlay{position:fixed;inset:0;z-index:25000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.stats-overlay.show{display:flex}
+.stats-card{width:min(480px,100%);max-height:min(92vh,720px);overflow:auto;padding:24px;border:1px solid rgba(229,201,139,.48);border-radius:15px;background:linear-gradient(145deg,#183c30,#091f18);box-shadow:0 25px 80px #000b;color:#f5f1e7}
+.stats-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.stats-title{font:800 22px Georgia,serif;color:#f3e4bd;letter-spacing:.06em}
+.stats-close-x{width:32px;height:32px;border:1px solid rgba(230,208,155,.35);border-radius:7px;background:#ffffff0c;color:#f0dfb7;font-size:18px}
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stats-item{padding:13px 12px;border:1px solid rgba(229,209,161,.18);border-radius:9px;background:rgba(0,0,0,.14);min-width:0}
+.stats-item span{display:block;color:#b6c5b6;font-size:9px;letter-spacing:.11em;text-transform:uppercase}
+.stats-item b{display:block;margin-top:6px;color:#f1dba6;font:700 25px Georgia,serif;font-variant-numeric:tabular-nums}
+.stats-sub{margin-top:13px;padding:12px;border:1px solid rgba(229,209,161,.15);border-radius:9px;background:rgba(0,0,0,.10);color:#c4d0c3;font-size:11px;line-height:1.8}
+.stats-sub b{color:#f0dfb2;font-variant-numeric:tabular-nums}
+.stats-note{margin:13px 0 15px;color:#8ea596;font-size:10px;line-height:1.5}
+.stats-back{width:100%;padding:10px;border:1px solid rgba(226,195,126,.55);border-radius:7px;background:linear-gradient(180deg,#d6bb7c,#b79551);color:#1d261d;font-size:10px;font-weight:900;letter-spacing:.15em}
+@media(max-width:390px){.stats-card{padding:18px}.stats-title{font-size:19px}.stats-item{padding:11px 9px}.stats-item b{font-size:22px}}
 .menu-screen.hidden{display:none}
 .app{display:none;width:min(1160px,calc(100vw - 44px));min-height:100vh;margin:0 auto;border:0;border-radius:0;overflow:visible;background:transparent;box-shadow:none}
 .app.active{display:flex}
@@ -829,9 +856,30 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
       <label class="flor-option" for="florEnabled"><span class="flor-copy"><b>FLOR</b><small>Activa flor, contra flor y contra flor al resto.</small></span><input id="florEnabled" type="checkbox"><i class="toggle-ui"></i></label>
     </div>
     <button class="start-btn" id="startGame">JUGAR <span>→</span></button>
+    <button class="stats-btn" id="statsOpen" type="button">VER ESTADÍSTICAS</button>
     <div class="menu-foot">TRUCO CRIOLLO · MANO A MANO</div>
   </div>
 </section>
+<div class="stats-overlay" id="statsOverlay" aria-hidden="true">
+ <section class="stats-card" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+  <div class="stats-head"><div class="stats-title" id="statsTitle">TUS ESTADÍSTICAS</div><button class="stats-close-x" id="statsCloseX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="stats-grid">
+   <div class="stats-item"><span>Partidas jugadas</span><b id="statMatches">0</b></div>
+   <div class="stats-item"><span>Porcentaje de victorias</span><b id="statWinRate">0%</b></div>
+   <div class="stats-item"><span>Partidas ganadas</span><b id="statWins">0</b></div>
+   <div class="stats-item"><span>Partidas perdidas</span><b id="statLosses">0</b></div>
+   <div class="stats-item"><span>Manos ganadas</span><b id="statHandsWon">0</b></div>
+   <div class="stats-item"><span>Manos perdidas</span><b id="statHandsLost">0</b></div>
+  </div>
+  <div class="stats-sub">
+   Puntos obtenidos: <b id="statPointsFor">0</b> · Puntos recibidos: <b id="statPointsAgainst">0</b><br>
+   Trucos cantados (vos / IA): <b id="statTrucoCalls">0</b> · Envidos cantados (vos / IA): <b id="statEnvidoCalls">0</b><br>
+   Racha actual: <b id="statStreak">0</b> · Mejor racha: <b id="statBestStreak">0</b>
+  </div>
+  <p class="stats-note">Tus estadísticas se guardan en este navegador y permanecen aunque reemplaces o actualices el index.html. No se sincronizan automáticamente entre dispositivos.</p>
+  <button class="stats-back" id="statsClose" type="button">VOLVER</button>
+ </section>
+</div>
 <div class="app" id="gameApp">
   <header class="topbar">
     <div class="brand"><div class="brand-mark">♠</div><div><div class="brand-title">TRUCO ARGENTINO</div><div class="brand-sub" id="gameConfigLine">Mano a mano · 30 puntos · Sin flor</div></div></div>
@@ -902,6 +950,74 @@ const CARD_DIR='cards/';
 const difficultyNames={easy:'Fácil',medium:'Medio',hard:'Difícil',impossible:'Imposible'};
 let state,aiTimer=null,aiBusy=false,overlayAction=null,activeFloat=null,aiPlanCache=null,dealRunId=0;
 const localPlayer=0;
+const STATS_STORAGE_KEY='truco_argentino_stats_v1';
+const AI_MEMORY_STORAGE_KEY='truco_argentino_ai_memory_v1';
+const statsDefaults={matchesPlayed:0,matchesWon:0,matchesLost:0,handsPlayed:0,handsWon:0,handsLost:0,pointsFor:0,pointsAgainst:0,trucoCallsYou:0,trucoCallsAI:0,envidoCallsYou:0,envidoCallsAI:0,currentStreak:0,bestWinStreak:0};
+const aiMemoryDefaults={humanLeadAggression:.38,humanResponseOverkill:.18,leadObservations:0,responseObservations:0,humanObservations:0,impossibleHandsPlayed:0,humanTrucoCalls:0,humanEnvidoCalls:0,humanTrucoAcceptRate:.5,humanEnvidoAcceptRate:.5,humanTrucoResponses:0,humanEnvidoResponses:0};
+function readStoredObject(key,defaults){try{const raw=localStorage.getItem(key);return raw?{...defaults,...JSON.parse(raw)}:{...defaults};}catch(_){return {...defaults};}}
+let persistentStats=readStoredObject(STATS_STORAGE_KEY,statsDefaults);
+let aiMemory=readStoredObject(AI_MEMORY_STORAGE_KEY,aiMemoryDefaults);
+function saveStoredObject(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(e){console.warn('No se pudo guardar el progreso local:',e);}}
+function savePersistentStats(){saveStoredObject(STATS_STORAGE_KEY,persistentStats);if($('statsOverlay')?.classList.contains('show'))renderStatsPanel();}
+function saveAIMemory(){saveStoredObject(AI_MEMORY_STORAGE_KEY,aiMemory);}
+function renderStatsPanel(){
+ const matches=Number(persistentStats.matchesPlayed)||0,wins=Number(persistentStats.matchesWon)||0;
+ const put=(id,value)=>{const node=$(id);if(node)node.textContent=String(value);};
+ put('statMatches',matches);put('statWinRate',matches?Math.round(wins/matches*100)+'%':'0%');put('statWins',wins);put('statLosses',Number(persistentStats.matchesLost)||0);
+ put('statHandsWon',Number(persistentStats.handsWon)||0);put('statHandsLost',Number(persistentStats.handsLost)||0);
+ put('statPointsFor',Number(persistentStats.pointsFor)||0);put('statPointsAgainst',Number(persistentStats.pointsAgainst)||0);
+ put('statTrucoCalls',(Number(persistentStats.trucoCallsYou)||0)+' / '+(Number(persistentStats.trucoCallsAI)||0));
+ put('statEnvidoCalls',(Number(persistentStats.envidoCallsYou)||0)+' / '+(Number(persistentStats.envidoCallsAI)||0));
+ put('statStreak',Number(persistentStats.currentStreak)||0);put('statBestStreak',Number(persistentStats.bestWinStreak)||0);
+}
+function openStatsPanel(){renderStatsPanel();$('statsOverlay').classList.add('show');$('statsOverlay').setAttribute('aria-hidden','false');}
+function closeStatsPanel(){$('statsOverlay').classList.remove('show');$('statsOverlay').setAttribute('aria-hidden','true');}
+function recordCallStat(kind,player){
+ const suffix=player===localPlayer?'You':'AI';
+ if(kind==='truco')persistentStats['trucoCalls'+suffix]=(Number(persistentStats['trucoCalls'+suffix])||0)+1;
+ if(kind==='envido')persistentStats['envidoCalls'+suffix]=(Number(persistentStats['envidoCalls'+suffix])||0)+1;
+ savePersistentStats();
+}
+function recordHandStatistics(winner){
+ if(!state||state.statsHandRecorded)return;state.statsHandRecorded=true;
+ const start=state.handScoreAtStart||state.scores;
+ const wonYou=Math.max(0,(Number(state.scores[0])||0)-(Number(start[0])||0));
+ const wonAI=Math.max(0,(Number(state.scores[1])||0)-(Number(start[1])||0));
+ persistentStats.handsPlayed++;
+ if(winner===localPlayer)persistentStats.handsWon++;else persistentStats.handsLost++;
+ persistentStats.pointsFor+=wonYou;persistentStats.pointsAgainst+=wonAI;savePersistentStats();
+}
+function recordMatchStatistics(winner){
+ if(!state||state.statsMatchRecorded)return;state.statsMatchRecorded=true;
+ persistentStats.matchesPlayed++;
+ if(winner===localPlayer){persistentStats.matchesWon++;persistentStats.currentStreak=(Number(persistentStats.currentStreak)||0)+1;persistentStats.bestWinStreak=Math.max(Number(persistentStats.bestWinStreak)||0,persistentStats.currentStreak);}
+ else{persistentStats.matchesLost++;persistentStats.currentStreak=0;}
+ savePersistentStats();
+}
+function rememberHumanCardPlay(card){
+ // Solo conserva tendencias agregadas de jugadas visibles; nunca guarda ni expone la mano oculta.
+ const first=state?.currentTrick?.[0];
+ if(first&&first.player===1){
+  const value=card.strength>first.card.strength?clamp((card.strength-first.card.strength)/13,0,1):0;
+  const n=Number(aiMemory.responseObservations)||0,alpha=n===0?1:.16;
+  aiMemory.humanResponseOverkill=clamp((Number(aiMemory.humanResponseOverkill)||0)*(1-alpha)+value*alpha,0,1);aiMemory.responseObservations=n+1;
+ }else if(!first){
+  const value=clamp((card.strength-1)/13,0,1),n=Number(aiMemory.leadObservations)||0,alpha=n===0?1:.16;
+  aiMemory.humanLeadAggression=clamp((Number(aiMemory.humanLeadAggression)||0)*(1-alpha)+value*alpha,0,1);aiMemory.leadObservations=n+1;
+ }
+ aiMemory.humanObservations=(Number(aiMemory.humanObservations)||0)+1;saveAIMemory();
+}
+function rememberHumanCall(kind){if(kind==='truco')aiMemory.humanTrucoCalls=(Number(aiMemory.humanTrucoCalls)||0)+1;if(kind==='envido')aiMemory.humanEnvidoCalls=(Number(aiMemory.humanEnvidoCalls)||0)+1;saveAIMemory();}
+function rememberHumanResponse(kind,accepted){
+ const key=kind==='truco'?'humanTrucoAcceptRate':'humanEnvidoAcceptRate';
+ const countKey=kind==='truco'?'humanTrucoResponses':'humanEnvidoResponses';
+ const count=Number(aiMemory[countKey])||0,old=Number.isFinite(Number(aiMemory[key]))?Number(aiMemory[key]):.5;
+ const alpha=count===0?1:.18;aiMemory[key]=clamp(old*(1-alpha)+(accepted?1:0)*alpha,0,1);aiMemory[countKey]=count+1;saveAIMemory();
+}
+function getImpossibleStrategy(){
+ const n=Math.max(0,Number(aiMemory.impossibleHandsPlayed)||0),phase=(n%12)/12*Math.PI*2;
+ return {pressure:.5+.5*Math.sin(phase),patience:.5+.5*Math.sin(phase+Math.PI*2/3),variation:.5+.5*Math.sin(phase+Math.PI*4/3)};
+}
 const other=p=>1-p;
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const rand=a=>a[Math.floor(Math.random()*a.length)];
@@ -1031,8 +1147,10 @@ function cardAssetSrc(file){return window.__trucoCardRaster?.[file]||CARD_DIR+fi
 const CARD_CDN='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
 function cardMarkup(c,opts={}){
  const tiny=opts.tiny?' tiny':'';const cls=opts.cls||'';const meta=suitMeta[c.suit];const file=cardFile(c);
+ const topCards=new Set(['espadas-1','bastos-1','espadas-7','oros-7']);
+ const qualityClass=(c.strength>=8||(c.rank===7&&!topCards.has(c.id)))&&!topCards.has(c.id)?' quality-card':'';
  // Orden de carga: SVG local -> mismo SVG desde CDN -> carta CSS de emergencia.
- return `<div class="card${tiny} ${cls}" style="--tilt:${opts.tilt||0}deg" data-card="${c.id}"><img src="${cardAssetSrc(file)}" data-remote-src="${CARD_CDN+file}" alt="${rankLabel(c.rank)} de ${meta.name}" referrerpolicy="no-referrer" onload="this.dataset.loaded='1';this.parentElement.classList.remove('img-failed')" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.dataset.loaded='1';this.parentElement.classList.add('img-failed')}"><div class="fallback ${meta.red?'red':''}"><span class="rank">${rankLabel(c.rank)}</span><span class="suit">${meta.glyph}</span><span class="suitname">${meta.name}</span></div></div>`;
+ return `<div class="card${tiny}${qualityClass} ${cls}" style="--tilt:${opts.tilt||0}deg" data-card="${c.id}"><img src="${cardAssetSrc(file)}" data-remote-src="${CARD_CDN+file}" alt="${rankLabel(c.rank)} de ${meta.name}" referrerpolicy="no-referrer" onload="this.dataset.loaded='1';this.parentElement.classList.remove('img-failed')" onerror="if(this.dataset.remoteTried!=='1'){this.dataset.remoteTried='1';this.src=this.dataset.remoteSrc}else{this.dataset.loaded='1';this.parentElement.classList.add('img-failed')}"><div class="fallback ${meta.red?'red':''}"><span class="rank">${rankLabel(c.rank)}</span><span class="suit">${meta.glyph}</span><span class="suitname">${meta.name}</span></div></div>`;
 }
 function log(msg){state.log=msg;const el=$('logText');if(el)el.textContent=msg;}
 function setStatus(msg,pulse=false){const el=$('statusLine');if(!el)return;el.textContent=msg;if(pulse){el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}}
@@ -1134,7 +1252,7 @@ function render(){
  if(state.resolvingTrick){document.querySelectorAll('#slotYou .played-card,#slotAI .played-card').forEach(el=>{const cls=el.closest('#slotYou')?'sweep-left':'sweep-right';if(!el.classList.contains(cls))el.classList.add(cls);});}
 }
 
-function envidoOpen(){return !state.envidoDone&&!state.florPending&&(!state.withFlor||state.florDone)&&state.tricks.length===0&&state.currentTrick.length===0&&state.hands[0].length===3&&state.hands[1].length===3;}
+function envidoOpen(){return !state.envidoDone&&!state.florPending&&(!state.withFlor||state.florDone)&&state.tricks.length===0&&state.currentTrick.length===0&&visibleOpponentCardCount()===3&&state.hands[1].length===3;}
 function canRaiseTruco(player){if(state.trucoPending||state.handOver||state.gameOver||state.turn!==player)return false;if(state.trucoLevel===0)return true;return state.escalateBy===player&&state.trucoLevel<3;}
 function nextTrucoLabel(){return state.trucoLevel===0?'Truco':state.trucoLevel===1?'Retruco':'Vale cuatro';}
 function renderActions(){
@@ -1178,7 +1296,10 @@ function openMainMenu(){dealRunId++;envidoRevealRun++;if(aiTimer)clearTimeout(ai
 function newGame(config){envidoRevealRun++;if(aiTimer)clearTimeout(aiTimer);aiTimer=null;aiBusy=false;aiPlanCache=null;const cfg=config||readConfig();state={scores:[0,0],mano:Math.random()<.5?0:1,handNo:0,hands:[[],[]],deck:[],turn:0,lead:0,currentTrick:[],tricks:[],publicPlayed:[],trucoLevel:0,escalateBy:null,trucoPending:null,envidoPending:null,florPending:null,heldTruco:null,envidoDone:false,florDone:!cfg.withFlor,withFlor:cfg.withFlor,targetPoints:cfg.targetPoints,difficulty:cfg.difficulty,handOver:false,gameOver:false,resolvingTrick:false,animatingCard:false,aiThinking:false,envidoRevealing:false,foldedBy:null,foldPoints:0,dealing:false,aiRevealed:false,log:'Nueva partida: ¡suerte!'};$('overlay').classList.remove('show');$('targetLabel').textContent=`PARTIDA A ${state.targetPoints}`;$('gameConfigLine').textContent=`VS. IA · ${state.targetPoints} puntos · ${state.withFlor?'Con flor':'Sin flor'} · ${difficultyNames[state.difficulty]}`;startHand();}
 function startHand(){
  const run=++dealRunId;
- state.handNo++;state.deck=shuffle(deckBase.map(c=>({...c})));state.hands=[[],[]];
+ state.handNo++;state.handScoreAtStart=state.scores.slice();state.statsHandRecorded=false;state.aiBluffedThisHand=false;state.aiEnvidoBluffedThisHand=false;
+ if(state.difficulty==='impossible'){aiMemory.impossibleHandsPlayed=(Number(aiMemory.impossibleHandsPlayed)||0)+1;saveAIMemory();state.aiStyle=getImpossibleStrategy();}
+ else state.aiStyle={pressure:.5,patience:.5,variation:.5};
+ state.deck=shuffle(deckBase.map(c=>({...c})));state.hands=[[],[]];
  for(let i=0;i<6;i++)state.hands[i%2].push(state.deck.pop());
  state.turn=state.mano;state.lead=state.mano;state.currentTrick=[];state.tricks=[];state.publicPlayed=[];state.trucoLevel=0;state.escalateBy=null;state.trucoPending=null;state.envidoPending=null;state.florPending=null;state.heldTruco=null;state.envidoDone=false;state.florDone=!state.withFlor;state.handOver=false;state.gameOver=false;state.resolvingTrick=false;state.animatingCard=false;state.aiThinking=false;state.dealing=true;state.aiRevealed=false;aiPlanCache=null;state.envidoRevealing=false;state.foldedBy=null;state.foldPoints=0;
  $('playerHand').innerHTML='';$('aiBacks').innerHTML='';
@@ -1268,14 +1389,14 @@ function envidoPoints(hand){
 function faltaValueForWinner(winner,committed=0){const half=state.targetPoints/2,a=state.scores[0],b=state.scores[1];if(a<half&&b<half)return Math.max(0,state.targetPoints-state.scores[winner]-committed);return Math.max(0,state.targetPoints-Math.max(a,b)-committed);}
 function offerValue(type){return type==='envido'?2:type==='real'?3:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));}
 function callEnvido(player,type){
- if(!envidoOpen()||state.handOver)return;
+ if(!envidoOpen()||state.handOver)return;recordCallStat('envido',player);if(player===localPlayer)rememberHumanCall('envido');
  if(state.trucoPending){state.heldTruco=state.trucoPending;state.trucoPending=null;}
  playProceduralSound('envido',type);floatCall((player!==localPlayer?('LA IA · '):'')+typeName(type).toUpperCase());const value=offerValue(type);state.envidoPending={caller:player,firstCaller:player,type,committed:0,offeredValue:value,chain:1};
  setStatus(player===localPlayer?`Cantaste ${typeName(type).toLowerCase()}.`:`${'La IA'} cantó ${typeName(type).toLowerCase()}.`,true);log(`${player===localPlayer?'Cantaste':'La IA cantó'} ${typeName(type).toLowerCase()}.`);render();
  if(player===0)scheduleAIResponse('envido',1050);else render();
 }
 function raiseEnvido(player,type){
- const p=state.envidoPending;if(!p||p.caller===player||!envidoRaiseOptions(p.type,p.chain).includes(type))return;
+ const p=state.envidoPending;if(!p||p.caller===player||!envidoRaiseOptions(p.type,p.chain).includes(type))return;recordCallStat('envido',player);if(player===localPlayer)rememberHumanCall('envido');
  playProceduralSound('envidoRaise',type);floatCall((player!==localPlayer?('LA IA · '):'')+typeName(type).toUpperCase());const committed=p.committed+p.offeredValue;state.envidoPending={caller:player,firstCaller:p.firstCaller??p.caller,type,committed,offeredValue:offerValue(type),chain:p.chain+1};
  setStatus(`${player===localPlayer?'Vos':'La IA'} sube a ${typeName(type)}.`,true);log(`${player===localPlayer?'Subiste':'La IA subió'} a ${typeName(type).toLowerCase()}.`);render();
  if(player===0)scheduleAIResponse('envido',1050);else render();
@@ -1365,7 +1486,7 @@ function showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail){
 }
 
 function resolveEnvido(responder,accept){
- const p=state.envidoPending;if(!p||p.caller===responder)return;
+ const p=state.envidoPending;if(!p||p.caller===responder)return;if(responder===localPlayer)rememberHumanResponse('envido',accept);
  state.envidoPending=null;
  playResponseSound(accept);floatCall(accept?'¡QUIERO!':'NO QUIERO');
  if(!accept){
@@ -1415,7 +1536,15 @@ function scheduleAIResponse(kind,delay){
   if(kind==='envido')aiRespondEnvido();else if(kind==='flor')aiRespondFlor();else aiRespondTruco();
  },aiThinkDelay('response'));
 }
-function sampleUnknownCards(){const known=new Set([...state.hands[1].map(c=>c.id),...state.publicPlayed.map(x=>x.card.id)]);return deckBase.filter(c=>!known.has(c.id));}
+function visibleOpponentCardCount(){
+ // Solo cuenta cartas del rival que todavía no se han jugado; se obtiene del historial público.
+ return Math.max(0,3-state.publicPlayed.filter(x=>x.player===localPlayer).length);
+}
+function sampleUnknownCards(){
+ // La IA conoce su mano y las cartas públicas. Las cartas que conserva el jugador siguen siendo desconocidas.
+ const known=new Set([...state.hands[1].map(c=>c.id),...state.publicPlayed.map(x=>x.card.id)]);
+ return deckBase.filter(c=>!known.has(c.id));
+}
 function estimateOpponentEnvido(samples=260){const pool=sampleUnknownCards();let vals=[];for(let i=0;i<samples;i++){const hand=shuffle(pool.slice()).slice(0,3);vals.push(envidoPoints(hand));}return vals;}
 function probabilityAIEnvidoWins(){const ai=envidoPoints(state.hands[1]),vals=estimateOpponentEnvido(260);let wins=0;for(const v of vals){if(ai>v||(ai===v&&state.mano===1))wins++;}return wins/vals.length;}
 function aiRespondEnvido(){
@@ -1453,6 +1582,11 @@ function aiShouldCallEnvido(){
  if(score>=30&&p>=threshold-.055)return true;
  if(score>=27&&p>=threshold)return true;
  if(score>=25&&p>=threshold+.105&&d!=='easy')return true;
+ if((d==='hard'||d==='impossible')&&!state.aiEnvidoBluffedThisHand&&score>=20&&p>=.20){
+  const acceptance=Number.isFinite(Number(aiMemory.humanEnvidoAcceptRate))?Number(aiMemory.humanEnvidoAcceptRate):.5;
+  const bluffChance=clamp((d==='impossible'?.105:.055)+(.5-acceptance)*.06,.02,.16);
+  if(Math.random()<bluffChance){state.aiEnvidoBluffedThisHand=true;return true;}
+ }
  return false;
 }
 function aiInitialEnvidoType(){
@@ -1463,7 +1597,7 @@ function aiInitialEnvidoType(){
  return 'envido';
 }
 function callTruco(player,level){
- if(!canRaiseTruco(player))return;
+ if(!canRaiseTruco(player))return;recordCallStat('truco',player);if(player===localPlayer)rememberHumanCall('truco');
  playProceduralSound('truco',level);state.trucoPending={caller:player,level};floatCall((player!==localPlayer?('LA IA · '):'')+(level===1?'TRUCO':level===2?'RETRUCO':'VALE CUATRO'));eventText('eventHand',`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}`);setStatus(`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'¡truco!':level===2?'¡retruco!':'¡vale cuatro!'}`,true);log(`${player===localPlayer?'Cantaste':'La IA cantó'} ${level===1?'truco':level===2?'retruco':'vale cuatro'}.`);render();
  if(player===0)scheduleAIResponse('truco',1000);
 }
@@ -1482,16 +1616,22 @@ function simulatedTrickWinner(a,b){
 }
 function simulatedPickIndex(hand,opposingCard,player,rng){
  const ordered=hand.map((card,index)=>({card,index})).sort((a,b)=>a.card.strength-b.card.strength);
+ const learnedHuman=state.difficulty==='impossible';
+ const humanOverkill=learnedHuman?clamp(Number(aiMemory.humanResponseOverkill)||.18,0,1):.09;
+ const humanLeadAggression=learnedHuman?clamp(Number(aiMemory.humanLeadAggression)||.38,0,1):.18;
+ const style=state.aiStyle||{pressure:.5,patience:.5,variation:.5};
  if(opposingCard){
   const winning=ordered.filter(x=>x.card.strength>opposingCard.strength||(x.card.strength===opposingCard.strength&&player===state.mano));
   if(winning.length){
-   // La respuesta habitual es ganar gastando lo mínimo; el rival varía ocasionalmente su elección.
-   if(player===0&&winning.length>1&&rng()<.09)return winning[1].index;
+   if(player===0&&winning.length>1&&rng()<clamp(.06+humanOverkill*.58,.06,.62))return winning[winning.length-1].index;
+   if(player===1&&winning.length>1&&rng()<(.04+style.pressure*.16))return winning[winning.length-1].index;
    return winning[0].index;
   }
  }
- // Al salir, suele cuidarse la carta alta. El jugador humano simulado introduce algo de variación.
- if(player===0&&ordered.length>1&&rng()<.18)return ordered[1].index;
+ if(ordered.length>1){
+  if(player===0&&rng()<clamp(humanLeadAggression*.58,.04,.68))return ordered[ordered.length-1].index;
+  if(player===1&&rng()<(.025+style.variation*.12))return ordered[Math.min(1,ordered.length-1)].index;
+ }
  return ordered[0].index;
 }
 function simulateRemainingHand(aiHand,humanHand,results,current,nextPlayer,rng){
@@ -1592,7 +1732,7 @@ function forEachCardCombination(pool,size,visit){
  walk(0);return count;
 }
 function aiPlanFingerprint(){
- return [state.mano,state.turn,state.hands[1].map(c=>c.id).join(','),state.hands[0].length,
+ return [state.mano,state.turn,state.hands[1].map(c=>c.id).join(','),visibleOpponentCardCount(),
   state.tricks.map(t=>t.winner===null?'p':t.winner).join(','),
   state.currentTrick.map(x=>x.player+':'+x.card.id).join(','),
   state.publicPlayed.map(x=>x.player+':'+x.card.id).join(';')].join('|');
@@ -1601,21 +1741,36 @@ function getExactAIPlan(){
  const key=aiPlanFingerprint();
  if(aiPlanCache&&aiPlanCache.key===key)return aiPlanCache.plan;
  const hand=state.hands[1];if(!hand.length)return {index:0,winRate:0,cardId:null};
- const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
- let best=null;
+ const pool=sampleUnknownCards(),needed=Math.min(visibleOpponentCardCount(),pool.length),style=state.aiStyle||getImpossibleStrategy();
+ let best=null;const evaluations=[];
  for(let i=0;i<hand.length;i++){
   const candidate=hand[i];let total=0,count=0;
-  forEachCardCombination(pool,needed,hidden=>{total+=perfectOutcomeAfterAIChoice(candidate,hidden);count++;});
+  // Se evalúan todas las combinaciones posibles de cartas ocultas, no la mano real del jugador.
+  forEachCardCombination(pool,needed,hidden=>{
+   const outcome=simulateAfterAIChoice(candidate,hidden,Math.random);
+   total+=outcome===1?1:-1;count++;
+  });
   const winRate=count?(total/count+1)/2:0;
-  // La probabilidad de ganar domina; si dos planes empatan, conserva la carta de mayor jerarquía.
-  const utility=winRate*2000-candidate.strength*.02;
-  if(!best||utility>best.utility)best={index:i,cardId:candidate.id,winRate,utility};
+  evaluations.push({index:i,cardId:candidate.id,winRate,strength:candidate.strength});
  }
- const plan=best||{index:0,winRate:0,cardId:hand[0]?.id||null};
+ const top=evaluations.reduce((a,b)=>b.winRate>a.winRate?b:a,evaluations[0]);
+ // Alterna presión, paciencia y variación con una transición gradual entre manos.
+ const tolerance=.012+style.variation*.018;
+ const candidates=evaluations.filter(x=>x.winRate>=top.winRate-tolerance);
+ candidates.sort((a,b)=>{
+  const bias=x=>{
+   const lead=state.currentTrick.length===0;
+   const direction=lead?(style.pressure-style.patience):(style.patience-style.pressure);
+   return direction*(x.strength/14);
+  };
+  return bias(b)-bias(a);
+ });
+ const chosen=candidates[0]||top;
+ const plan={index:chosen.index,cardId:chosen.cardId,winRate:chosen.winRate,style};
  aiPlanCache={key,plan};return plan;
 }
 function estimatePerfectHandWinProbability(samples=180){
- const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ const pool=sampleUnknownCards(),needed=Math.min(visibleOpponentCardCount(),pool.length);
  if(!state.hands[1].length)return 0;
  let value=0;
  for(let n=0;n<samples;n++){
@@ -1632,7 +1787,7 @@ function estimatedWinProbability(samples){
  if(state.difficulty==='hard')return estimatePerfectHandWinProbability(count);
  if(state.difficulty==='medium'){
   const exact=estimatePerfectHandWinProbability(Math.min(count,110));
-  const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+  const pool=sampleUnknownCards(),needed=Math.min(visibleOpponentCardCount(),pool.length);
   let heuristic=0;
   for(let n=0;n<Math.min(count,110);n++){
    const hidden=shuffle(pool.slice()).slice(0,needed),result=simulateCurrentHand(state.hands[1],hidden,Math.random);
@@ -1640,7 +1795,7 @@ function estimatedWinProbability(samples){
   }
   return exact*.78+(heuristic/Math.min(count,110))*.22;
  }
- const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ const pool=sampleUnknownCards(),needed=Math.min(visibleOpponentCardCount(),pool.length);
  let wins=0;
  for(let n=0;n<count;n++){
   const hidden=shuffle(pool.slice()).slice(0,needed);
@@ -1664,17 +1819,19 @@ function aiRespondTruco(){
 }
 function aiBluffChance(prob,kind='truco'){
  const d=state.difficulty;
- let chance=({easy:.025,medium:.065,hard:.115,impossible:.17}[d]||.06);
- if(state.scores[1]<state.scores[0]-3)chance+=.045;
+ let chance=({easy:.025,medium:.065,hard:.205,impossible:.285}[d]||.06);
+ const acceptance=Number.isFinite(Number(aiMemory.humanTrucoAcceptRate))?Number(aiMemory.humanTrucoAcceptRate):.5;
+ chance+=(.5-acceptance)*.12;
+ if(state.scores[1]<state.scores[0]-3)chance+=.055;
  if(state.mano===1)chance+=.025;
- if(state.tricks.length===0&&state.currentTrick.length===0)chance+=.025;
+ if(state.tricks.length===0&&state.currentTrick.length===0)chance+=.035;
  const strong=state.hands[1].filter(c=>c.strength>=11).length;
  const topAlreadySeen=state.publicPlayed.some(x=>x.card.strength>=12);
- if(strong>0||topAlreadySeen)chance+=.025;
- if(state.scores[0]>=state.targetPoints-3)chance*=.45;
- if(prob<.32)chance*=.12;else if(prob<.40)chance*=.55;
- if(kind==='raise')chance*=.72;
- return clamp(chance,0,.24);
+ if(strong>0||topAlreadySeen)chance+=.02;
+ if(state.scores[0]>=state.targetPoints-3)chance*=.55;
+ if(prob<.28)chance*=.56;else if(prob<.36)chance*=.78;
+ if(kind==='raise')chance*=.68;
+ return clamp(chance,0,.36);
 }
 function aiShouldRaiseTruco(level){
  const p=estimatedWinProbability(),d=state.difficulty;
@@ -1689,7 +1846,7 @@ function aiShouldRaiseTruco(level){
  const credible=state.hands[1].some(c=>c.strength>=11)||state.tricks.some(t=>t.winner===1);
  return credible&&p>=threshold-.15&&Math.random()<aiBluffChance(p,'raise');
 }
-function resolveTruco(responder,accept){const p=state.trucoPending;if(!p||p.caller===responder)return;state.trucoPending=null;playResponseSound(accept);floatCall(accept?'¡QUIERO!':'NO QUIERO');if(!accept){const pts=p.level;state.scores[p.caller]+=pts;const detail=`${responder===localPlayer?'No quisiste':'La IA no quiso'}. ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;eventText('eventHand',detail);log(detail);setStatus(detail,true);render();finishHand(p.caller,0,true);return;}
+function resolveTruco(responder,accept){const p=state.trucoPending;if(!p||p.caller===responder)return;if(responder===localPlayer)rememberHumanResponse('truco',accept);state.trucoPending=null;playResponseSound(accept);floatCall(accept?'¡QUIERO!':'NO QUIERO');if(!accept){const pts=p.level;state.scores[p.caller]+=pts;const detail=`${responder===localPlayer?'No quisiste':'La IA no quiso'}. ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;eventText('eventHand',detail);log(detail);setStatus(detail,true);render();finishHand(p.caller,0,true);return;}
  state.trucoLevel=p.level;state.escalateBy=responder;const detail=`${responder===localPlayer?'Quisiste':'La IA quiso'}: ${p.level===1?'truco':p.level===2?'retruco':'vale cuatro'} por ${p.level+1}.`;eventText('eventHand',detail);log(detail);setStatus('¡Quiero! La mano sigue.',true);render();continueTurn();}
 function foldHand(player=0){
  if(state.turn!==player||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending)return;
@@ -1703,7 +1860,7 @@ function foldHand(player=0){
  finishHand(winner,0,true);
 }
 function playCard(index){const p=localPlayer;if(!state||state.dealing||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;const card=state.hands[p][index];playCardFor(p,index);}
-function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player].splice(index,1)[0];if(card)placeCard(player,card,origin);}
+function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player][index];if(card&&player===localPlayer)rememberHumanCardPlay(card);const removed=state.hands[player].splice(index,1)[0];if(removed)placeCard(player,removed,origin);}
 function placeCard(player,card,originRect=null){
  if(state.handOver||state.animatingCard)return;
  playRandomCardPlaceSound();
@@ -1761,7 +1918,7 @@ function resolveTrick(){
 }
 function continueTurn(){if(state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending)return;if(state.turn===1)scheduleAI(850);else{setStatus(state.turn===localPlayer?'Tu turno: elegí una carta o cantá.':'La IA está pensando…');render();}}
 function finishHand(winner,unused,isFold=false){
- if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;render();renderScore();
+ if(state.handOver||state.gameOver)return;state.handOver=true;const pts=isFold?0:(state.trucoLevel?state.trucoLevel+1:1);if(!isFold)state.scores[winner]+=pts;recordHandStatistics(winner);render();renderScore();
  const title=winner===localPlayer?'¡La mano es tuya!':'La IA se lleva la mano';const desc=isFold?(state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} se fue al mazo. ${winnerPhrase(winner)} ${state.foldPoints} punto${state.foldPoints===1?'':'s'}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`:`No se quiso el canto. ${winner===0?'Vos te llevás':'La IA se lleva'} los puntos del rechazo. Marcador: ${state.scores[0]} — ${state.scores[1]}.`):`${winner===localPlayer?'Ganaste vos':'La IA ganó'} la mano y suma ${pts} punto${pts===1?'':'s'}${state.trucoLevel?` con ${['','truco','retruco','vale cuatro'][state.trucoLevel]}`:''}. Marcador: ${state.scores[0]} — ${state.scores[1]}.`;
  eventText('eventHand',isFold&&state.foldedBy!==null&&state.foldedBy!==undefined?`${playerName(state.foldedBy)} al mazo · ${winnerPhrase(winner)} +${state.foldPoints}`:`${winner===localPlayer?'Ganaste la mano':'La IA ganó la mano'}${pts?` · +${pts}`:''}`);log(desc);render();setStatus(winner===localPlayer?'Mano para vos.':'Mano para la IA.',true);
  const revealRun=dealRunId;revealAIHand().then(()=>{
@@ -1773,6 +1930,10 @@ function finishHand(winner,unused,isFold=false){
 function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
 function showOverlay(kicker,title,desc,button,fn){
  const outcome=String(title||'');
+ if(String(kicker||'').includes('PARTIDA TERMINADA')&&state){
+  const winner=(outcome.includes('GANASTE')||outcome.includes('mano es tuya'))?localPlayer:1;
+  recordHandStatistics(winner);recordMatchStatistics(winner);
+ }
  if(outcome.includes('GANASTE')||outcome.includes('mano es tuya'))playProceduralSound('matchWin');
  else if(outcome.includes('GANÓ LA IA')||outcome.includes('IA se lleva la mano'))playProceduralSound('matchLose');
  $('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
@@ -1790,7 +1951,7 @@ function chooseAiCard(){
  }
  // Imposible: evalúa todas las combinaciones posibles de cartas ocultas y toda la secuencia restante.
  if(d==='impossible')return getExactAIPlan().index;
- const pool=sampleUnknownCards(),needed=Math.min(state.hands[0].length,pool.length);
+ const pool=sampleUnknownCards(),needed=Math.min(visibleOpponentCardCount(),pool.length);
  const samples=d==='hard'?440:190;
  const evaluations=[];
  for(let i=0;i<hand.length;i++){
@@ -1822,10 +1983,13 @@ function aiShouldCallTruco(){
  const savedSevenOfSwords=state.tricks.length===1&&state.tricks[0].winner===0&&state.hands[1].some(c=>c.id==='espadas-7');
  if(savedSevenOfSwords)threshold-=.055;
  if(p>=threshold)return true;
- // El farol necesita una historia creíble: cartas altas propias, una baza ganada o ventaja de mano.
- const canRepresent=state.hands[1].some(c=>c.strength>=11)||state.tricks.some(t=>t.winner===1)||state.mano===1;
- const bluffFloor=d==='impossible'?.37:d==='hard'?.40:d==='medium'?.44:.50;
- return canRepresent&&p>=bluffFloor&&Math.random()<aiBluffChance(p,'truco');
+ // En difícil e imposible puede cantar sin una mano realmente fuerte: el farol no depende de cartas ocultas.
+ if(d!=='hard'&&d!=='impossible')return false;
+ const bluffFloor=d==='impossible'?.22:.27;
+ const alreadyBluffed=!!state.aiBluffedThisHand;
+ const credibleContext=state.mano===1||state.tricks.length===0||state.tricks.some(t=>t.winner===1)||state.scores[1]<state.scores[0];
+ if(!alreadyBluffed&&credibleContext&&p>=bluffFloor&&Math.random()<aiBluffChance(p,'truco')){state.aiBluffedThisHand=true;return true;}
+ return false;
 }
 function runAI(){if(aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;
  try{
@@ -1845,18 +2009,21 @@ function scheduleAI(delay=850){
 // Los navegadores habilitan audio después de la primera interacción del usuario.
 document.addEventListener('pointerdown',unlockGameAudio,{capture:true,passive:true});
 document.addEventListener('keydown',ev=>{if(!ev.repeat)unlockGameAudio();},{capture:true});
-const menuHoverSelector='#mainMenu .menu-field, #mainMenu .flor-option, #mainMenu .start-btn, .menu-return';
+const menuHoverSelector='#mainMenu .menu-field, #mainMenu .flor-option, #mainMenu .start-btn, #statsOpen, #statsClose, #statsCloseX, .menu-return';
 document.addEventListener('pointerover',ev=>{
  const target=ev.target.closest?.(menuHoverSelector);if(!target||target.contains(ev.relatedTarget))return;
  playFileSound('menu_select',.2);
 },true);
 document.addEventListener('click',ev=>{
- const target=ev.target.closest?.('#mainMenu .menu-field select, #mainMenu .flor-option, #mainMenu .start-btn, .menu-return, #overlayButton');
+ const target=ev.target.closest?.('#mainMenu .menu-field select, #mainMenu .flor-option, #mainMenu .start-btn, #statsOpen, #statsClose, #statsCloseX, .menu-return, #overlayButton');
  if(target)playFileSound('menu_click',.28);
 },true);
 $('playerHand').addEventListener('click',ev=>{const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
+$('statsOpen').addEventListener('click',openStatsPanel);$('statsClose').addEventListener('click',closeStatsPanel);$('statsCloseX').addEventListener('click',closeStatsPanel);
+$('statsOverlay').addEventListener('click',ev=>{if(ev.target===$('statsOverlay'))closeStatsPanel();});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&$('statsOverlay').classList.contains('show'))closeStatsPanel();});
 $('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
-$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';
+$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';renderStatsPanel();
 })();
 </script>
 
