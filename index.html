@@ -53,11 +53,7 @@
   rgba(185,0,255,.92) 120px 140px,
   rgba(255,0,145,.92) 140px 160px);
  opacity:.43;
-<<<<<<< HEAD
  filter:blur(11px);
-=======
- filter:blur(6px);
->>>>>>> 7e4f16c71f86dddc924743735c4a6e5babe48aeb
  mix-blend-mode:normal;
  transform:translate3d(0,0,0);
  backface-visibility:hidden;
@@ -915,11 +911,12 @@ const rankLabel=r=>r===1?'AS':r===10?'SOTA':r===11?'CAB.':r===12?'REY':String(r)
 // Audio local + efectos procedurales. Los MP3 se cargan desde la carpeta sounds/.
 let soundContext=null,audioUnlocked=false;
 const fileSoundPools={card_place1:[],card_place2:[],card_place3:[],card_place4:[],card_place5:[],card_place6:[],card_place7:[],card_deal:[],menu_select:[],menu_click:[]};
-const fileSoundPaths={
- card_place1:'sounds/card_place1.mp3',card_place2:'sounds/card_place2.mp3',card_place3:'sounds/card_place3.mp3',
- card_place4:'sounds/card_place4.mp3',card_place5:'sounds/card_place5.mp3',card_place6:'sounds/card_place6.mp3',card_place7:'sounds/card_place7.mp3',
- card_deal:'sounds/card_deal.mp3',menu_select:'sounds/menu_select.mp3',menu_click:'sounds/menu_click.mp3'
-};
+// Rutas relativas a index.html: en GitHub Pages resuelven dentro de /<repositorio>/sounds/.
+const fileSoundPaths=Object.freeze({
+ card_place1:'./sounds/card_place1.mp3',card_place2:'./sounds/card_place2.mp3',card_place3:'./sounds/card_place3.mp3',
+ card_place4:'./sounds/card_place4.mp3',card_place5:'./sounds/card_place5.mp3',card_place6:'./sounds/card_place6.mp3',card_place7:'./sounds/card_place7.mp3',
+ card_deal:'./sounds/card_deal.mp3',menu_select:'./sounds/menu_select.mp3',menu_click:'./sounds/menu_click.mp3'
+});
 let lastCardPlaceSound=-1;
 function playRandomCardPlaceSound(){
  const count=7;let index=Math.floor(Math.random()*count);
@@ -934,12 +931,22 @@ function getSoundContext(){
  return soundContext;
 }
 function createFileVoice(key){
- const audio=new Audio(fileSoundPaths[key]);audio.preload='auto';audio.volume=.35;fileSoundPools[key].push(audio);return audio;
+ const path=fileSoundPaths[key];
+ if(!path)return null;
+ const audio=new Audio();
+ audio.preload='auto';audio.volume=.35;audio.src=path;
+ // La precarga se solicita después del primer gesto del usuario para respetar las políticas móviles.
+ audio.load();
+ audio.addEventListener('error',()=>console.warn(`[Audio] No se pudo cargar ${path}. Comprobá el nombre y la ubicación del archivo.`),{once:true});
+ fileSoundPools[key].push(audio);
+ return audio;
 }
 function warmFileSounds(){
+ if(!audioUnlocked)return;
  Object.keys(fileSoundPools).forEach(key=>{if(!fileSoundPools[key].length)createFileVoice(key);});
 }
 function unlockGameAudio(){
+ // Se ejecuta en pointerdown/keydown: habilita el AudioContext y precarga los MP3 locales.
  audioUnlocked=true;
  const ctx=getSoundContext();
  if(ctx&&ctx.state==='suspended')ctx.resume().catch(()=>{});
