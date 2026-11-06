@@ -1030,6 +1030,17 @@ function showP2PLobby(title,message,code=''){
 function hideP2PLobby(){$('p2pLobby').classList.remove('active');}
 function randomRoomCode(privateRoom=false){const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',len=privateRoom?13:7;let out='';for(let i=0;i<len;i++)out+=chars[Math.floor(Math.random()*chars.length)];return out;}
 function showGameShell(){ $('mainMenu').classList.add('hidden');$('gameApp').classList.add('active');document.body.classList.add('in-game'); }
+function createPeer(peerId){
+ // Configuración explícita: STUN para descubrir rutas directas y TURN de PeerJS
+ // como respaldo cuando la red móvil/NAT no permite una conexión directa.
+ const options={debug:2,host:'0.peerjs.com',port:443,path:'/',secure:true,config:{
+  iceServers:[
+   {urls:'stun:stun.l.google.com:19302'},
+   {urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'}
+  ],sdpSemantics:'unified-plan'
+ }};
+ return peerId?new Peer(peerId,options):new Peer(options);
+}
 function clearNetConnectTimer(){if(netConnectTimer)clearTimeout(netConnectTimer);netConnectTimer=null;}
 function closeNetwork(){clearNetConnectTimer();try{if(netConn&&netConn.open)netConn.close();}catch{}try{if(netPeer&&!netPeer.destroyed)netPeer.destroy();}catch{}netPeer=null;netConn=null;netRole=null;netRoomCode='';netStarting=false;netRoomFull=false;netSnapshotSeq=0;netLastSnapshot=0;hideP2PLobby();}
 function sendNetworkAction(action,payload){if(!netConn||!netConn.open){setStatus('Se perdió la conexión con la sala.');return;}try{netConn.send({type:'action',action,payload});}catch(e){setStatus('No se pudo enviar la jugada. Revisá la conexión.');}}
@@ -1123,13 +1134,13 @@ function createP2PRoom(){
  netRoomCode=randomRoomCode($('p2pVisibility').value==='private');$('p2pRoomCode').value=netRoomCode;
  showGameShell();showP2PLobby('Creando sala','Registrando el código en el servidor de conexión…',netRoomCode);setP2PStatus('Creando sala…');
  try{
-  netPeer=new Peer(netRoomCode,{debug:1});
+  netPeer=createPeer(netRoomCode);
   netPeer.on('open',id=>{netRoomCode=id;$('p2pRoomCode').value=id;$('p2pLobbyCode').value=id;setP2PStatus('Sala creada. Compartí el código y esperá a que se una tu rival.');});
   netPeer.on('connection',conn=>{
    if(netConn&&netConn.open){conn.on('open',()=>{try{conn.send({type:'full'});}catch{}setTimeout(()=>conn.close(),180);});return;}
    setupPeerConnection(conn);
   });
-  netPeer.on('error',e=>{setP2PStatus(e.type==='unavailable-id'?'Ese código ya está ocupado. Volvé al menú y creá otra sala.':`No se pudo crear la sala (${e.type}). Revisá Internet o probá otro código.`);});
+  netPeer.on('error',e=>{setP2PStatus(e.type==='unavailable-id'?'Ese código ya está ocupado. Volvé al menú y creá otra sala.':`Error de señalización (${e.type||'desconocido'}). Revisá Internet o probá otro código.`);});
   netPeer.on('disconnected',()=>{if(netPeer&&!netPeer.destroyed){try{netPeer.reconnect();}catch{}}});
   netConnectTimer=setTimeout(()=>{if(netRole==='host'&&!netConn){setP2PStatus('La sala sigue abierta. Todavía no se conectó ningún rival.');}},25000);
  }catch(e){setP2PStatus('No se pudo crear la sala. Revisá que PeerJS esté cargado y volvé a intentar.');}
@@ -1141,13 +1152,13 @@ function joinP2PRoom(){
  gameMode='p2p';localPlayer=1;netRole='client';netRoomFull=false;netStarting=false;showGameShell();
  $('gameConfigLine').textContent='P2P · conectando…';showP2PLobby('Conectando con la sala','Buscando al anfitrión…',code);setStatus('Conectando con la sala…');setP2PStatus('Conectando…');
  try{
-  netPeer=new Peer(undefined,{debug:1});
+  netPeer=createPeer();
   netPeer.on('open',()=>{
    const conn=netPeer.connect(code,{reliable:true,serialization:'json'});
-   clearNetConnectTimer();netConnectTimer=setTimeout(()=>{if(netRole==='client'&&!state&&netConn&&!netConn.open)setP2PStatus('No se pudo establecer la conexión. Verificá el código y que el anfitrión siga en la sala.');},18000);
+   clearNetConnectTimer();netConnectTimer=setTimeout(()=>{if(netRole==='client'&&!state&&netConn&&!netConn.open)setP2PStatus('El código fue localizado, pero no se completó la conexión directa. Puede ser una restricción de la red móvil/Wi-Fi o del NAT. Probá desactivar VPN, cambiar de red o volver a crear la sala.');},25000);
    setupPeerConnection(conn);
   });
-  netPeer.on('error',e=>setP2PStatus(`No se pudo conectar (${e.type}). Verificá el código y que el anfitrión siga conectado.`));
+  netPeer.on('error',e=>setP2PStatus(`Error de señalización (${e.type||'desconocido'}). Revisá Internet, el código y que el anfitrión siga conectado.`));
  }catch(e){setP2PStatus('No se pudo iniciar la conexión. Revisá Internet y volvé a intentar.');}
 }
 function readConfig(){return {targetPoints:Number($('targetPoints').value)||30,withFlor:$('florEnabled').checked,difficulty:$('menuDifficulty').value||'medium'};}
