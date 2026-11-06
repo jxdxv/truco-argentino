@@ -1110,34 +1110,74 @@ function playProceduralSound(kind,value){
  if(!audioUnlocked)return;
  const ctx=getSoundContext();if(!ctx)return;
  const now=ctx.currentTime+.012;
- const note=(f,delay=0,d=.42,v=.05,to=0,cutoff=2450)=>synthTone(ctx,f,now+delay,d,{volume:v,toFreq:to||undefined,cutoff,partial:.13});
- const sequence=(freqs,step=.12,d=.43,v=.05)=>freqs.forEach((f,i)=>note(f,i*step,d,v));
+ const note=(f,delay=0,d=.34,v=.04,to=0,cutoff=2350,partial=.14,attack=.035)=>
+  synthTone(ctx,f,now+delay,d,{volume:v,toFreq:to||undefined,cutoff,partial,attack});
+ const pluck=(f,delay=0,d=.27,v=.04,to=0,cutoff=2750)=>
+  synthTone(ctx,f,now+delay,d,{volume:v,toFreq:to||undefined,cutoff,partial:.22,attack:.012,detune:(Math.random()-.5)*5});
+ const sequence=(freqs,step=.085,d=.31,v=.04)=>freqs.forEach((f,i)=>pluck(f,i*step,d,v,0,2900));
+ // Motivos positivos: notas de tríadas mayores y quintas/octavas justas.
+ // Así los cantos suenan musicales y resueltos, no como alertas disonantes.
+ const brightArp=(freqs,step=.072,d=.30,v=.027)=>freqs.forEach((f,i)=>note(f,i*step,d,v,0,3150,.10,.026));
+ const brightChord=(freqs,delay=0,d=.28,v=.014)=>freqs.forEach(f=>note(f,delay,d,v,0,3000,.085,.035));
  switch(kind){
   case 'cardTap':
-   note(205,0,.17,.032,148,1500);synthNoise(ctx,now,.075,.018,1500,520);break;
+   note(205,0,.15,.027,148,1450,.08,.012);synthNoise(ctx,now,.065,.015,1450,500);break;
   case 'tablePickup':
-   synthNoise(ctx,now,.34,.025,1200,260);note(185,.02,.31,.026,112,1300);note(246,.105,.25,.014,174,1550);break;
-  case 'envido':
-   sequence(value==='falta'?[440,554,659,784]:value==='real'?[466,587,698]:[494,622,740],.105,.5,.043);break;
-  case 'envidoRaise':
-   sequence(value==='falta'?[523,659,784,988]:value==='real'?[494,622,784]:[466,587,740],.095,.48,.047);break;
-  case 'truco':
-   // Golpe armónico cálido y ascendente, sin onda diente de sierra ni notas cortadas.
-   note(146,0,.62,.055,174,1250);note(value===3?247:value===2?220:196,.045,.58,.043,0,1850);
-   note(value===3?330:value===2?294:262,.13,.56,.035,0,2200);synthNoise(ctx,now+.015,.2,.008,900,300);break;
-  case 'flor':sequence([440,554,659],.115,.5,.043);break;
-  case 'contraFlor':sequence([392,494,587,740],.105,.52,.045);break;
-  case 'contraFlorResto':sequence([370,466,554,698,880],.095,.55,.047);break;
-  case 'quiero':sequence([392,494,587],.1,.46,.043);break;
-  case 'noQuiero':sequence([587,466,370],.13,.47,.04);break;
-  case 'noTengoFlor':sequence([392,330],.16,.48,.035);break;
+   synthNoise(ctx,now,.28,.021,1150,240);note(176,.015,.25,.022,108,1250,.09,.018);pluck(233,.09,.2,.012,174,1500);break;
+  case 'envido':{
+   // Envido, Real Envido y Falta Envido: tres colores mayores ascendentes.
+   const tones=value==='falta'?[523.25,659.25,783.99,1046.5]:value==='real'?[440,554.37,659.25,880]:[392,493.88,587.33,783.99];
+   brightArp(tones,.073,.31,.026);brightChord([tones[0],tones[1],tones[2]],.285,.26,.012);break;
+  }
+  case 'envidoRaise':{
+   // Cada subida responde al canto anterior con una armonía más alta y completa.
+   const tones=value==='falta'?[587.33,739.99,880,1174.66]:value==='real'?[493.88,622.25,739.99,987.77]:[440,554.37,659.25,880];
+   brightArp(tones,.066,.32,.028);brightChord([tones[0],tones[1],tones[2]],.265,.29,.014);break;
+  }
+  case 'truco':{
+   // Tres niveles de Truco con acordes mayores distintos; el último tiene más apertura.
+   const level=Number(value)||1;
+   const chord=level===3?[196,246.94,293.66,392]:level===2?[164.81,207.65,246.94,329.63]:[146.83,185,220,293.66];
+   note(chord[0],0,.34,.035,0,1500,.10,.018);
+   brightArp(chord.slice(1),.052,.34,.027);
+   brightChord(chord,.205,.31,.013);break;
+  }
+  case 'flor':
+   brightArp([440,554.37,659.25,880],.065,.30,.027);brightChord([440,554.37,659.25],.245,.28,.013);break;
+  case 'contraFlor':
+   brightArp([493.88,622.25,739.99,987.77],.061,.31,.028);brightChord([493.88,622.25,739.99],.24,.29,.014);break;
+  case 'contraFlorResto':
+   brightArp([523.25,659.25,783.99,1046.5,1318.51],.057,.32,.028);brightChord([523.25,659.25,783.99],.235,.30,.014);break;
+  case 'quiero':
+   brightArp([392,493.88,587.33],.075,.31,.027);brightChord([392,493.88,587.33,783.99],.22,.30,.014);break;
+  case 'noQuiero':
+   // Los intervalos tensos quedan reservados para respuestas negativas.
+   note(392,0,.29,.026,349,1750,.1,.02);pluck(311,.09,.29,.027,277,2050);note(233,.19,.3,.018,208,1350,.08,.02);break;
+  case 'noTengoFlor':
+   note(330,0,.27,.025,294,1500,.08,.02);pluck(247,.12,.28,.019,220,1750);break;
   case 'alMazo':
-   note(392,0,.48,.035,330,1800);note(294,.11,.53,.034,247,1450);note(220,.23,.58,.03,185,1200);break;
-  case 'bazaGanada':sequence([440,554],.13,.4,.03);break;
-  case 'bazaPerdida':sequence([370,294],.15,.43,.028);break;
-  case 'parda':note(440,0,.45,.026,0,1700);note(440,.17,.45,.023,0,1700);break;
-  case 'matchWin':sequence([392,494,587,698,880],.14,.62,.048);break;
-  case 'matchLose':sequence([494,415,349,294,247],.17,.62,.041);break;
+   synthNoise(ctx,now,.24,.019,950,190);
+   note(392,0,.31,.034,330,1800,.12,.018);
+   pluck(294,.095,.32,.03,247,1500);
+   note(196,.205,.36,.027,146,1050,.08,.025);break;
+  case 'bazaGanada':
+   brightArp([392,493.88,587.33],.075,.30,.025);brightChord([392,493.88,587.33,783.99],.22,.30,.013);break;
+  case 'bazaPerdida':
+   note(349,0,.27,.023,311,1650,.1,.025);note(233,.12,.32,.022,196,1250,.08,.025);break;
+  case 'parda':
+   note(392,0,.28,.021,0,1750,.12,.025);note(392,.15,.28,.019,0,1750,.12,.025);break;
+  case 'envidoWin':
+   brightArp([523.25,659.25,783.99,1046.5],.068,.31,.027);brightChord([523.25,659.25,783.99],.245,.30,.014);break;
+  case 'envidoLose':
+   note(392,0,.28,.024,349,1700,.1,.02);note(311,.105,.3,.022,262,1400,.1,.025);note(220,.22,.32,.018,196,1100,.08,.025);break;
+  case 'florWin':
+   brightArp([659.25,783.99,987.77,1318.51],.065,.30,.027);brightChord([659.25,783.99,987.77],.24,.29,.013);break;
+  case 'florLose':
+   note(440,0,.25,.022,392,1800,.1,.02);note(330,.105,.28,.021,277,1450,.1,.025);note(196,.22,.31,.017,175,1050,.08,.025);break;
+  case 'matchWin':
+   brightArp([392,493.88,587.33,783.99,987.77],.073,.34,.029);brightChord([392,493.88,587.33],.37,.34,.014);break;
+  case 'matchLose':
+   note(494,0,.32,.028,440,1900,.12,.025);note(392,.12,.34,.026,330,1550,.1,.025);note(294,.25,.38,.023,220,1150,.08,.03);break;
  }
 }
 function playResponseSound(accept,hasFlorAvailable=true){playProceduralSound(accept?'quiero':hasFlorAvailable?'noQuiero':'noTengoFlor');}
@@ -1422,6 +1462,7 @@ function resolveFlor(responder,accept){
   playResponseSound(true);const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);winner=a===b?state.mano:a>b?0:1;
   pts=p.level===1?3:p.level===2?6:Math.max(1,state.targetPoints-Math.max(state.scores[0],state.scores[1]));floatCall('¡QUIERO!');
  }
+ setTimeout(()=>playProceduralSound(winner===localPlayer?'florWin':'florLose'),110);
  state.scores[winner]+=pts;state.florPending=null;state.florDone=true;state.envidoDone=true;
  const a=florPoints(state.hands[0]),b=florPoints(state.hands[1]);const refusal=hasOther?(responder===localPlayer?'no quisiste el canto':`${'la IA'} no quiso el canto`):(responder===localPlayer?'no tenés flor':`${'la IA'} no tiene flor`);const detail=accept?`Flor: ${playerName(0)} ${a} · ${playerName(1)} ${b}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`:`${refusal}. ${winnerPhrase(winner)} ${pts} punto${pts===1?'':'s'}.`;
  eventText('eventEnvido',detail);log(detail);setStatus(detail,true);renderScore();render();
@@ -1475,6 +1516,7 @@ function showEnvidoDeclaration(firstCaller,your,ai,winner,pts,detail){
   let big,small;
   if(canBeat){big=`${otherValue} TANTOS`;small=otherValue===firstValue?'EMPATE · GANA POR SER MANO':'SUPERA EL TANTO';}
   else{big='SON BUENAS';small=`${playerName(other).toUpperCase()} · NO SUPERA LOS ${firstValue}`;}
+  playProceduralSound(winner===localPlayer?'envidoWin':'envidoLose');
   speak(otherNode,big,small);
   eventText('eventEnvido',detail);setStatus(`${winnerPhrase(winner)} el envido · ${pts} puntos.`,true);log(detail);
   await pause(1500);if(run!==envidoRevealRun)return;
@@ -1491,6 +1533,7 @@ function resolveEnvido(responder,accept){
  playResponseSound(accept);floatCall(accept?'¡QUIERO!':'NO QUIERO');
  if(!accept){
   const pts=Math.max(1,p.committed);state.scores[p.caller]+=pts;
+  playProceduralSound(p.caller===localPlayer?'envidoWin':'envidoLose');
   const detail=`Envido no querido: ${winnerPhrase(p.caller)} ${pts} punto${pts===1?'':'s'}.`;
   eventText('eventEnvido',detail);setStatus(detail,true);log(detail);renderScore();state.envidoRevealing=true;render();
   setTimeout(()=>{state.envidoRevealing=false;if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}else restoreAfterEnvido();render();},850);
