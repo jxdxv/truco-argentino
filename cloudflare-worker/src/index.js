@@ -347,7 +347,7 @@ export class TrucoRoom extends DurableObject {
     this.room = null;
     this.ready = ctx.blockConcurrencyWhile(async () => {
       this.room = await ctx.storage.get("room") || null;
-      if (this.room) this.rebuildConnections();
+      if (this.room) { if (!Array.isArray(this.room.chat)) this.room.chat = []; this.rebuildConnections(); }
     });
   }
 
@@ -393,6 +393,7 @@ export class TrucoRoom extends DurableObject {
       ],
       settings: { targetPoints: [15, 30, 40].includes(Number(body.targetPoints)) ? Number(body.targetPoints) : 30, withFlor: Boolean(body.withFlor) },
       game: null,
+      chat: [],
     };
     await this.persist();
     await this.ctx.storage.setAlarm(Date.now() + 12 * 60 * 60 * 1000);
@@ -426,6 +427,7 @@ export class TrucoRoom extends DurableObject {
     await this.persist();
     this.broadcastLobby();
     this.broadcastStates();
+    this.send(server, { type: "chat_history", messages: (this.room.chat || []).slice(-50) });
     return new Response(null, { status: 101, webSocket: client });
   }
 
@@ -443,6 +445,28 @@ export class TrucoRoom extends DurableObject {
     this.room.lastActivity = Date.now();
     if (data.type === "ping") { this.send(ws, { type: "pong" }); return; }
     try {
+      if (data.type === "chat") {
+        const player = this.room.players[seat];
+        const text = String(data.text || "").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim().slice(0, 220);
+        if (!text) { this.send(ws, { type: "chat_error", message: "Escribí un mensaje antes de enviarlo." }); return; }
+        const now = Date.now();
+        if (player.chatLastAt && now - player.chatLastAt < 450) {
+          this.send(ws, { type: "chat_error", message: "Esperá un instante antes de mandar otro mensaje." });
+          return;
+        }
+        player.chatLastAt = now;
+        if (!Array.isArray(this.room.chat)) this.room.chat = [];
+        const entry = { id: randomHex(10), seat, name: safeName(player.name, `Jugador ${seat + 1}`), text, sentAt: now };
+        this.room.chat.push(entry);
+        if (this.room.chat.length > 50) this.room.chat.splice(0, this.room.chat.length - 50);
+        this.room.lastActivity = now;
+        await this.persist();
+        for (const connection of this.ctx.getWebSockets()) {
+          const connectedPlayer = connection.deserializeAttachment();
+          if (connectedPlayer && (connectedPlayer.seat === 0 || connectedPlayer.seat === 1)) this.send(connection, { type: "chat", message: entry });
+        }
+        return;
+      }
       if (data.type === "start") {
         if (seat !== 0) throw new Error("Solo quien creó la sala puede iniciar la partida.");
         if (!this.room.players[1]) throw new Error("Todavía falta el segundo jugador.");

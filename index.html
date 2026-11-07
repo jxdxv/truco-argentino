@@ -919,6 +919,44 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 @media(prefers-reduced-motion:reduce){#responseHost .response-panel.mp-response-enter,#responseHost .response-panel.mp-response-enter .response-title,#responseHost .response-panel.mp-response-enter .response-actions .action{animation:none!important}}
 </style>
 
+
+<style id="multiplayer-chat-styles">
+.mp-chat-root{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));z-index:18;font-family:inherit;color:#f4ecd8}
+.mp-chat-root[hidden],.mp-chat-panel[hidden]{display:none!important}
+.mp-chat-launcher{display:flex;align-items:center;gap:8px;min-height:39px;padding:0 14px;border:1px solid rgba(226,202,151,.46);border-radius:22px;background:rgba(8,26,20,.73);color:#f2dda9;font-size:10px;font-weight:900;letter-spacing:.14em;box-shadow:0 5px 22px rgba(0,0,0,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
+.mp-chat-launcher:hover{background:rgba(18,55,40,.88);border-color:rgba(238,213,157,.72);transform:translateY(-1px)}
+.mp-chat-root.open .mp-chat-launcher{display:none}
+.mp-chat-live-dot{width:7px;height:7px;flex:none;border-radius:50%;background:#75d49a;box-shadow:0 0 9px #75d49a88}
+.mp-chat-unread{display:none;min-width:17px;height:17px;padding:0 4px;place-items:center;border-radius:20px;background:#c68f46;color:#17251c;font-size:9px;letter-spacing:0}
+.mp-chat-unread.show{display:grid}
+.mp-chat-panel{width:min(318px,calc(100vw - 24px));height:min(365px,calc(100dvh - 78px));min-height:245px;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(222,197,143,.42);border-radius:13px;background:linear-gradient(155deg,rgba(12,37,28,.88),rgba(5,20,15,.82));box-shadow:0 16px 48px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.06);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.mp-chat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;border-bottom:1px solid rgba(226,202,151,.18);background:rgba(0,0,0,.13)}
+.mp-chat-head-copy{display:grid;gap:3px;min-width:0}.mp-chat-head-copy strong{color:#f0d9a5;font-size:10px;font-weight:900;letter-spacing:.13em}.mp-chat-head-copy small{color:#9eb7a4;font-size:9px;letter-spacing:.05em}
+.mp-chat-minimize{width:27px;height:27px;flex:none;border:1px solid rgba(220,198,148,.23);border-radius:7px;background:rgba(255,255,255,.045);color:#ead8b2;font-size:18px;line-height:1;cursor:pointer}
+.mp-chat-messages{display:flex;flex:1;flex-direction:column;gap:8px;min-height:0;padding:11px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(205,177,119,.45) transparent}
+.mp-chat-empty{margin:auto;color:#91a896;font-size:10px;line-height:1.5;text-align:center;padding:12px}
+.mp-chat-message{max-width:91%;align-self:flex-start;padding:7px 9px;border:1px solid rgba(224,204,158,.12);border-radius:9px 9px 9px 3px;background:rgba(255,255,255,.075);overflow-wrap:anywhere}
+.mp-chat-message.mine{align-self:flex-end;border-color:rgba(219,192,133,.23);border-radius:9px 9px 3px 9px;background:rgba(178,143,79,.18)}
+.mp-chat-message-meta{display:flex;align-items:center;gap:8px;margin-bottom:3px;color:#d8c28f;font-size:8px;font-weight:900;letter-spacing:.04em}
+.mp-chat-message-meta time{color:#8ea394;font-weight:500;margin-left:auto;white-space:nowrap}
+.mp-chat-message-text{color:#f2eddf;font-size:11px;line-height:1.42;white-space:pre-wrap}
+.mp-chat-form{display:flex;gap:6px;padding:9px;border-top:1px solid rgba(226,202,151,.17);background:rgba(0,0,0,.15)}
+.mp-chat-form input{flex:1;min-width:0;height:36px;padding:0 10px;border:1px solid rgba(220,198,148,.26);border-radius:7px;outline:none;background:rgba(0,0,0,.22);color:#f4ecd8;font:inherit;font-size:11px}
+.mp-chat-form input::placeholder{color:#82998a}.mp-chat-form input:focus{border-color:rgba(231,205,145,.65);box-shadow:0 0 0 2px rgba(231,205,145,.08)}
+.mp-chat-form button{width:38px;flex:none;border:1px solid rgba(238,216,164,.56);border-radius:7px;background:linear-gradient(180deg,#dfca98,#b79457);color:#1b281e;font-size:18px;font-weight:900;cursor:pointer}
+.mp-chat-form button:disabled{opacity:.45;cursor:not-allowed}
+.mp-chat-foot{padding:0 11px 8px;color:#849b8b;font-size:8px;letter-spacing:.025em;text-align:center}
+@media(max-width:600px){
+ .mp-chat-root{right:max(9px,env(safe-area-inset-right));bottom:max(9px,env(safe-area-inset-bottom))}
+ .mp-chat-launcher{min-height:37px;padding:0 12px;font-size:9px}
+ .mp-chat-panel{width:min(340px,calc(100vw - 18px));height:min(330px,calc(48dvh - 8px));min-height:230px;border-radius:12px}
+ .mp-chat-head{padding:9px 10px}.mp-chat-messages{padding:9px;gap:7px}.mp-chat-message-text{font-size:12px}
+ .mp-chat-form{padding:8px}.mp-chat-form input{height:38px;font-size:16px}
+}
+@media(max-height:480px) and (max-width:900px){.mp-chat-panel{height:min(245px,calc(100dvh - 58px));min-height:190px}}
+@media(prefers-reduced-motion:reduce){.mp-chat-launcher{transition:none}}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -1068,6 +1106,25 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
   <div class="profile-note" id="accountMessage" role="status" aria-live="polite"></div>
  </section>
 </div>
+
+<div class="mp-chat-root" id="mpChatRoot" hidden>
+ <button class="mp-chat-launcher" id="mpChatLauncher" type="button" aria-expanded="false" aria-controls="mpChatPanel">
+  <span class="mp-chat-live-dot" aria-hidden="true"></span><span>CHAT</span><span class="mp-chat-unread" id="mpChatUnread" aria-label="Mensajes sin leer">0</span>
+ </button>
+ <section class="mp-chat-panel" id="mpChatPanel" aria-label="Chat de la partida" hidden>
+  <header class="mp-chat-head">
+   <div class="mp-chat-head-copy"><strong>CHAT DE LA MESA</strong><small id="mpChatRoomLabel">Conectando con la sala…</small></div>
+   <button class="mp-chat-minimize" id="mpChatMinimize" type="button" aria-label="Minimizar chat">−</button>
+  </header>
+  <div class="mp-chat-messages" id="mpChatMessages" role="log" aria-live="polite" aria-relevant="additions text"><div class="mp-chat-empty" id="mpChatEmpty">Todavía no hay mensajes.<br>¡Saludá a tu rival!</div></div>
+  <form class="mp-chat-form" id="mpChatForm" autocomplete="off">
+   <input id="mpChatInput" name="message" type="text" maxlength="220" placeholder="Escribí un mensaje…" aria-label="Mensaje para tu rival">
+   <button type="submit" aria-label="Enviar mensaje">➤</button>
+  </form>
+  <div class="mp-chat-foot" id="mpChatFoot">Solo vos y tu rival pueden leer este chat.</div>
+ </section>
+</div>
+
 <script>
 (()=>{
 'use strict';
@@ -2231,11 +2288,7 @@ const MULTIPLAYER_SESSION_KEY='truco_argentino_online_session_v1';
 let multiplayerSession=null,multiplayerSocket=null,multiplayerInGame=false,multiplayerOpponentName='Rival';
 let multiplayerReconnectTimer=null,multiplayerReconnectDelay=900,multiplayerIntentionalLeave=false;
 let multiplayerLastPublicCount=0,multiplayerLastHandNo=0,multiplayerLastOutcome='',multiplayerLastEnvidoReveal='',multiplayerAnimating=false;
-<<<<<<< HEAD
 let multiplayerLastTrickExitKey='',multiplayerRevealedHandNo=0;
-=======
-let multiplayerLastTrickExitKey='';
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
 let multiplayerDealAnimating=false,multiplayerServerDealing=false,multiplayerFlightCount=0;
 let multiplayerHandEndPromise=null,mpRoomsRefreshTimer=null,mpRoomsFetchInFlight=false;
 const mpEl=id=>document.getElementById(id);
@@ -2245,18 +2298,59 @@ function mpSetStatus(message){const node=mpEl('onlineStatus');if(node)node.textC
 function mpSaveSession(){if(!multiplayerSession)return;try{localStorage.setItem(MULTIPLAYER_SESSION_KEY,JSON.stringify(multiplayerSession));}catch(e){console.warn('No se pudo guardar la sesión online',e);}}
 function mpBuildSocketUrl(session){const base=session.api.replace(/\/$/,'').replace(/^https:/,'wss:').replace(/^http:/,'ws:');return `${base}/api/rooms/${encodeURIComponent(session.code)}/ws?token=${encodeURIComponent(session.token)}`;}
 function mpSend(message){if(!multiplayerSocket||multiplayerSocket.readyState!==WebSocket.OPEN){mpSetMessage('Conexión interrumpida. Intentando reconectar…',true);return false;}try{multiplayerSocket.send(JSON.stringify(message));return true;}catch(e){mpSetMessage('No se pudo enviar la acción.',true);return false;}}
+
+let mpChatSessionKey='',mpChatOpen=false,mpChatUnreadCount=0;
+const mpChatSeenIds=new Set();
+function mpChatSetStatus(message,isError=false){const node=mpEl('mpChatFoot');if(node){node.textContent=message||'';node.style.color=isError?'#e5a092':'#849b8b';}}
+function mpChatSetActive(session){
+ const root=mpEl('mpChatRoot');if(!root)return;
+ if(!session){root.hidden=true;root.classList.remove('open');if(mpEl('mpChatPanel'))mpEl('mpChatPanel').hidden=true;mpChatOpen=false;mpChatSessionKey='';mpChatUnreadCount=0;mpChatSeenIds.clear();return;}
+ const key=`${session.code}:${session.seat}`;
+ if(key!==mpChatSessionKey){mpChatSessionKey=key;mpChatUnreadCount=0;mpChatSeenIds.clear();mpChatOpen=false;root.classList.remove('open');if(mpEl('mpChatPanel'))mpEl('mpChatPanel').hidden=true;const list=mpEl('mpChatMessages');if(list)list.innerHTML='<div class="mp-chat-empty" id="mpChatEmpty">Todavía no hay mensajes.<br>¡Saludá a tu rival!</div>';}
+ root.hidden=false;root.classList.add('active');
+ const label=mpEl('mpChatRoomLabel');if(label)label.textContent=`SALA ${session.code}`;
+ const launcher=mpEl('mpChatLauncher');if(launcher)launcher.setAttribute('aria-expanded',String(mpChatOpen));
+ mpChatUpdateUnread();mpChatSetStatus('Solo vos y tu rival pueden leer este chat.');
+}
+function mpChatUpdateUnread(){const badge=mpEl('mpChatUnread');if(!badge)return;badge.textContent=mpChatUnreadCount>99?'99+':String(mpChatUnreadCount);badge.classList.toggle('show',mpChatUnreadCount>0);}
+function mpChatOpenPanel(){if(!multiplayerSession)return;const root=mpEl('mpChatRoot'),panel=mpEl('mpChatPanel');if(!root||!panel)return;root.classList.add('open');panel.hidden=false;mpChatOpen=true;mpChatUnreadCount=0;mpChatUpdateUnread();mpEl('mpChatLauncher')?.setAttribute('aria-expanded','true');const list=mpEl('mpChatMessages');if(list)list.scrollTop=list.scrollHeight;mpEl('mpChatInput')?.focus({preventScroll:true});}
+function mpChatMinimize(){const root=mpEl('mpChatRoot'),panel=mpEl('mpChatPanel');if(!root||!panel)return;panel.hidden=true;root.classList.remove('open');mpChatOpen=false;mpEl('mpChatLauncher')?.setAttribute('aria-expanded','false');}
+function mpChatAddMessage(entry,fromHistory=false){
+ if(!entry||typeof entry!=='object')return;
+ const text=String(entry.text||'').trim().slice(0,220);if(!text)return;
+ const id=String(entry.id||`${entry.sentAt||0}:${entry.seat}:${text}`);if(mpChatSeenIds.has(id))return;mpChatSeenIds.add(id);
+ const list=mpEl('mpChatMessages');if(!list)return;
+ mpEl('mpChatEmpty')?.remove();
+ const mine=Number(entry.seat)===Number(multiplayerSession?.seat);
+ const bubble=document.createElement('article');bubble.className='mp-chat-message'+(mine?' mine':'');
+ const meta=document.createElement('div');meta.className='mp-chat-message-meta';
+ const name=document.createElement('span');name.textContent=mine?'Vos':String(entry.name||'Rival').slice(0,18);
+ const time=document.createElement('time');const stamp=Number(entry.sentAt)||Date.now();try{time.textContent=new Date(stamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}catch{time.textContent='';}
+ meta.append(name,time);
+ const body=document.createElement('div');body.className='mp-chat-message-text';body.textContent=text;
+ bubble.append(meta,body);list.appendChild(bubble);
+ while(list.children.length>60)list.removeChild(list.firstElementChild);
+ list.scrollTop=list.scrollHeight;
+ if(!mine&&!fromHistory&&!mpChatOpen){mpChatUnreadCount++;mpChatUpdateUnread();}
+}
+function mpChatSubmit(ev){
+ ev.preventDefault();const input=mpEl('mpChatInput');const message=String(input?.value||'').trim().slice(0,220);if(!message)return;
+ if(!multiplayerSocket||multiplayerSocket.readyState!==WebSocket.OPEN){mpChatSetStatus('Sin conexión. Se enviará cuando vuelvas a conectarte.',true);return;}
+ if(mpSend({type:'chat',text:message})){input.value='';mpChatSetStatus('Mensaje enviado.');}
+}
+
 function mpConnectSession(session){
- multiplayerIntentionalLeave=false;multiplayerSession=session;multiplayerInGame=false;multiplayerOpponentName='Rival';mpSaveSession();
+ multiplayerIntentionalLeave=false;multiplayerSession=session;multiplayerInGame=false;multiplayerOpponentName='Rival';mpSaveSession();mpChatSetActive(session);
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  try{
   const ws=new WebSocket(mpBuildSocketUrl(session));multiplayerSocket=ws;
-  ws.onopen=()=>{multiplayerReconnectDelay=900;mpSetMessage('');mpSetStatus('Conectado. Esperando al otro jugador…');};
+  ws.onopen=()=>{multiplayerReconnectDelay=900;mpSetMessage('');mpSetStatus('Conectado. Esperando al otro jugador…');mpChatSetStatus('Conectado · sala '+session.code);};
   ws.onmessage=ev=>{let data;try{data=JSON.parse(ev.data);}catch{return;}mpHandleMessage(data);};
   ws.onerror=()=>{mpSetMessage('No se pudo mantener la conexión con el servidor.',true);};
   ws.onclose=ev=>{
    if(multiplayerSocket===ws)multiplayerSocket=null;
    if(multiplayerIntentionalLeave||!multiplayerSession||ev.code===4001)return;
-   mpSetStatus('Desconectado. Reconectando…');mpSetMessage('Se perdió la conexión. La partida queda guardada temporalmente.',true);
+   mpSetStatus('Desconectado. Reconectando…');mpSetMessage('Se perdió la conexión. La partida queda guardada temporalmente.',true);mpChatSetStatus('Reconectando con la sala…',true);
    const delay=multiplayerReconnectDelay;multiplayerReconnectDelay=Math.min(12000,Math.round(multiplayerReconnectDelay*1.7));
    multiplayerReconnectTimer=setTimeout(()=>{if(multiplayerSession&&!multiplayerIntentionalLeave)mpConnectSession(multiplayerSession);},delay);
   };
@@ -2435,11 +2529,7 @@ function mpLeaveToMenu(){
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
-<<<<<<< HEAD
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
-=======
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
+ multiplayerSession=null;mpChatSetActive(null);multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
  if(mpEl('onlineLobby'))mpEl('onlineLobby').hidden=true;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=false;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=false;
  if(mpEl('onlinePanel'))mpEl('onlinePanel').classList.add('visible');
  mpSetupModeUI();
@@ -2457,6 +2547,9 @@ function mpHandleMessage(data){
   if(multiplayerInGame&&state)render();
   return;
  }
+ if(data.type==='chat_history'&&Array.isArray(data.messages)){data.messages.forEach(message=>mpChatAddMessage(message,true));return;}
+ if(data.type==='chat'&&data.message){mpChatAddMessage(data.message,false);return;}
+ if(data.type==='chat_error'){mpChatSetStatus(data.message||'No se pudo enviar el mensaje.',true);return;}
  if(data.type==='state'&&data.state){mpApplySnapshot(data.state);}
 }
 function mpOrientPlayer(serverPlayer,seat){if(serverPlayer===null||serverPlayer===undefined)return serverPlayer;return serverPlayer===seat?0:1;}
@@ -2601,11 +2694,7 @@ function mpApplySnapshot(view){
  }
  if(isNewHand){
   multiplayerLastHandNo=view.handNo;multiplayerLastPublicCount=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';
-<<<<<<< HEAD
   multiplayerLastTrickExitKey='';multiplayerRevealedHandNo=0;multiplayerHandEndPromise=null;multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;
-=======
-  multiplayerLastTrickExitKey='';multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
   document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
   $('overlay').classList.remove('show');$('playerHand').innerHTML='';$('aiBacks').innerHTML='';
  }
@@ -2689,7 +2778,6 @@ function mpApplySnapshot(view){
  if((normalized.resolvingTrick&&normalized.currentTrick.length===2||normalized.handOver&&normalized.currentTrick.length>0)&&!freshPlay)mpMaybeAnimateTrickExit();
  if(normalized.networkEnvidoReveal)mpShowEnvidoReveal(normalized.networkEnvidoReveal);
  multiplayerLastPublicCount=view.publicPlayed.length;
-<<<<<<< HEAD
  if(state.handOver&&!multiplayerHandEndPromise){
   const revealRun=dealRunId,handNumber=state.handNo;
   const waitForSweep=normalized.currentTrick.length>0?900:80;
@@ -2704,15 +2792,11 @@ function mpApplySnapshot(view){
    if(revealRun===dealRunId&&state?.handNo===handNumber&&state?.handOver)mpShowHandOutcome();
   })().catch(error=>console.warn('No se pudo completar la revelación final de cartas:',error));
  }
-=======
- if(state.handOver)mpShowHandOutcome();
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
  if(!state.handOver&&!state.dealing&&!state.envidoRevealing){
   setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);
  }
 }
 
-<<<<<<< HEAD
 async function mpRefreshRooms(quiet=false){
  const list=mpEl('roomList');if(!list||mpRoomsFetchInFlight)return;if(!mpApiReady()){list.innerHTML='<div class="room-empty">Configurá la URL de Cloudflare para ver las salas.</div>';return;}
  mpRoomsFetchInFlight=true;
@@ -2730,13 +2814,6 @@ async function mpRefreshRooms(quiet=false){
   const scrollTop=list.scrollTop;list.replaceChildren(fragment);list.scrollTop=scrollTop;
  }catch(error){if(!quiet){list.innerHTML='';const empty=document.createElement('div');empty.className='room-empty';empty.textContent=error.message||'Error al cargar las salas.';list.appendChild(empty);}else console.warn('No se pudo actualizar la lista de salas:',error);}
  finally{mpRoomsFetchInFlight=false;}
-=======
-function mpSetupModeUI(){
- const mode=mpEl('gameMode')?.value||'ai',online=mode==='online';
- mpEl('onlinePanel')?.classList.toggle('visible',online);
- if(mpEl('startGame'))mpEl('startGame').hidden=online;
- const difficulty=mpEl('menuDifficulty')?.parentElement;if(difficulty)difficulty.hidden=online;
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
 }
 function mpSetupModeUI(){setMenuTab(activeMenuTab||'ai',false);}
 function mpRestoreSavedSession(){
@@ -2777,6 +2854,9 @@ initSoundToggle();
 mpEl('joinRoomBtn')?.addEventListener('click',mpJoinRoom);
 mpEl('startOnlineGameBtn')?.addEventListener('click',mpStartOnlineGame);
 mpEl('cancelOnlineBtn')?.addEventListener('click',()=>{mpLeaveToMenu();mpSetMessage('');});
+mpEl('mpChatLauncher')?.addEventListener('click',mpChatOpenPanel);
+mpEl('mpChatMinimize')?.addEventListener('click',mpChatMinimize);
+mpEl('mpChatForm')?.addEventListener('submit',mpChatSubmit);
 window.addEventListener('online',()=>{if(multiplayerSession&&(!multiplayerSocket||multiplayerSocket.readyState===WebSocket.CLOSED))mpConnectSession(multiplayerSession);});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&multiplayerSession){if(multiplayerSocket?.readyState===WebSocket.OPEN)mpSend({type:'ping'});else if(!multiplayerSocket||multiplayerSocket.readyState===WebSocket.CLOSED)mpConnectSession(multiplayerSession);}});
 mpEl('copyRoomCodeBtn')?.addEventListener('click',()=>{const code=mpEl('onlineRoomCode')?.textContent||'';if(code&&navigator.clipboard?.writeText)navigator.clipboard.writeText(code).then(()=>mpSetMessage('Código copiado.')).catch(()=>mpSetMessage('No se pudo copiar; anotá el código.'));});
