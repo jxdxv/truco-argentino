@@ -2231,11 +2231,7 @@ const MULTIPLAYER_SESSION_KEY='truco_argentino_online_session_v1';
 let multiplayerSession=null,multiplayerSocket=null,multiplayerInGame=false,multiplayerOpponentName='Rival';
 let multiplayerReconnectTimer=null,multiplayerReconnectDelay=900,multiplayerIntentionalLeave=false;
 let multiplayerLastPublicCount=0,multiplayerLastHandNo=0,multiplayerLastOutcome='',multiplayerLastEnvidoReveal='',multiplayerAnimating=false;
-<<<<<<< HEAD
 let multiplayerLastTrickExitKey='',multiplayerRevealedHandNo=0;
-=======
-let multiplayerLastTrickExitKey='';
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
 let multiplayerDealAnimating=false,multiplayerServerDealing=false,multiplayerFlightCount=0;
 let multiplayerHandEndPromise=null,mpRoomsRefreshTimer=null,mpRoomsFetchInFlight=false;
 const mpEl=id=>document.getElementById(id);
@@ -2435,11 +2431,7 @@ function mpLeaveToMenu(){
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
-<<<<<<< HEAD
  multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
-=======
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
  if(mpEl('onlineLobby'))mpEl('onlineLobby').hidden=true;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=false;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=false;
  if(mpEl('onlinePanel'))mpEl('onlinePanel').classList.add('visible');
  mpSetupModeUI();
@@ -2601,11 +2593,7 @@ function mpApplySnapshot(view){
  }
  if(isNewHand){
   multiplayerLastHandNo=view.handNo;multiplayerLastPublicCount=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';
-<<<<<<< HEAD
   multiplayerLastTrickExitKey='';multiplayerRevealedHandNo=0;multiplayerHandEndPromise=null;multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;
-=======
-  multiplayerLastTrickExitKey='';multiplayerAnimating=false;multiplayerFlightCount=0;multiplayerDealAnimating=!!view.dealing;dealRunId++;
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
   document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
   $('overlay').classList.remove('show');$('playerHand').innerHTML='';$('aiBacks').innerHTML='';
  }
@@ -2689,7 +2677,6 @@ function mpApplySnapshot(view){
  if((normalized.resolvingTrick&&normalized.currentTrick.length===2||normalized.handOver&&normalized.currentTrick.length>0)&&!freshPlay)mpMaybeAnimateTrickExit();
  if(normalized.networkEnvidoReveal)mpShowEnvidoReveal(normalized.networkEnvidoReveal);
  multiplayerLastPublicCount=view.publicPlayed.length;
-<<<<<<< HEAD
  if(state.handOver&&!multiplayerHandEndPromise){
   const revealRun=dealRunId,handNumber=state.handNo;
   const waitForSweep=normalized.currentTrick.length>0?900:80;
@@ -2704,15 +2691,11 @@ function mpApplySnapshot(view){
    if(revealRun===dealRunId&&state?.handNo===handNumber&&state?.handOver)mpShowHandOutcome();
   })().catch(error=>console.warn('No se pudo completar la revelación final de cartas:',error));
  }
-=======
- if(state.handOver)mpShowHandOutcome();
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
  if(!state.handOver&&!state.dealing&&!state.envidoRevealing){
   setStatus(state.turn===0?'Tu turno: elegí una carta o cantá.':`${multiplayerOpponentName} está jugando…`);
  }
 }
 
-<<<<<<< HEAD
 async function mpRefreshRooms(quiet=false){
  const list=mpEl('roomList');if(!list||mpRoomsFetchInFlight)return;if(!mpApiReady()){list.innerHTML='<div class="room-empty">Configurá la URL de Cloudflare para ver las salas.</div>';return;}
  mpRoomsFetchInFlight=true;
@@ -2730,13 +2713,6 @@ async function mpRefreshRooms(quiet=false){
   const scrollTop=list.scrollTop;list.replaceChildren(fragment);list.scrollTop=scrollTop;
  }catch(error){if(!quiet){list.innerHTML='';const empty=document.createElement('div');empty.className='room-empty';empty.textContent=error.message||'Error al cargar las salas.';list.appendChild(empty);}else console.warn('No se pudo actualizar la lista de salas:',error);}
  finally{mpRoomsFetchInFlight=false;}
-=======
-function mpSetupModeUI(){
- const mode=mpEl('gameMode')?.value||'ai',online=mode==='online';
- mpEl('onlinePanel')?.classList.toggle('visible',online);
- if(mpEl('startGame'))mpEl('startGame').hidden=online;
- const difficulty=mpEl('menuDifficulty')?.parentElement;if(difficulty)difficulty.hidden=online;
->>>>>>> 36d4156e93bb28e744a4f8cce7748630a23ffaf1
 }
 function mpSetupModeUI(){setMenuTab(activeMenuTab||'ai',false);}
 function mpRestoreSavedSession(){
