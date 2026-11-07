@@ -2529,11 +2529,7 @@ function mpLeaveToMenu(){
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
-<<<<<<< HEAD
  multiplayerSession=null;mpChatSetActive(null);multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
-=======
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
->>>>>>> 45c68b4ea01358a65e2b2ca5ded41d010c7e065f
  if(mpEl('onlineLobby'))mpEl('onlineLobby').hidden=true;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=false;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=false;
  if(mpEl('onlinePanel'))mpEl('onlinePanel').classList.add('visible');
  mpSetupModeUI();
