@@ -842,10 +842,10 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .menu-icon-btn.muted .sound-slash{display:block}
 .menu-tab-panel[hidden],.menu-difficulty-row[hidden]{display:none!important}
 .menu-common-options{display:grid;gap:13px;text-align:left}
-.menu-difficulty-row{margin-top:13px;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;width:100%;box-sizing:border-box}
-.menu-difficulty-row>span{display:block;flex:1;min-width:0;white-space:nowrap;line-height:1.25;letter-spacing:.12em}
-.menu-difficulty-row>select{flex:0 0 48%;width:48%;min-width:0;box-sizing:border-box}
-@media(max-width:520px){.menu-difficulty-row{gap:10px}.menu-difficulty-row>span{font-size:8px}.menu-difficulty-row>select{flex-basis:50%;width:50%}}
+.menu-difficulty-row{margin-top:13px;display:grid!important;grid-template-columns:1fr 1.15fr;align-items:center;gap:12px;text-align:left;width:100%;box-sizing:border-box}
+.menu-difficulty-row>span{display:block;min-width:0;white-space:nowrap;line-height:1.25;letter-spacing:.12em}
+.menu-difficulty-row>select{width:100%;min-width:0;box-sizing:border-box}
+@media(max-width:520px){.menu-difficulty-row{gap:12px}.menu-difficulty-row>span{font-size:8px}}
 .menu-common-options select,.menu-difficulty-row select{color-scheme:dark;background-color:#102b21!important;color:#f5ecd7!important}
 .menu-common-options select option,.menu-difficulty-row select option,.select-wrap select option{background:#102b21!important;color:#f5ecd7!important}
 #menuAIPane:not([hidden]) #menuDifficultyField{display:grid!important;visibility:visible!important}
@@ -1653,12 +1653,15 @@ async function runTrue3DFlip(flip,duration=560){
  flip.classList.add('flip-complete');
 }
 async function revealPlayerHand(){
- const root=$('playerHand'),backs=[...root.querySelectorAll('.deal-player-back')];
+ const root=$('playerHand'),backs=[...root.querySelectorAll('.deal-player-back')],pending=[];
  for(let i=0;i<backs.length;i++){
   const old=backs[i],card=state.hands[0][i];if(!old||!card)continue;
   const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*2,player:true,index:i});
-  await runTrue3DFlip(flip,570);await wait(65);
+  pending.push(runTrue3DFlip(flip,340));
+  // La siguiente carta empieza antes de que termine de girarse la anterior.
+  if(i<backs.length-1)await wait(225);
  }
+ await Promise.all(pending);
  activateCardFallbacks(root);
 }
 async function revealAIHand(){
@@ -1668,12 +1671,16 @@ async function revealAIHand(){
  const cards=state.hands?.[1]||[],backs=[...root.children];
  if(!cards.length){state.aiRevealed=true;return;}
  state.aiRevealed=true;
+ const pending=[];
  for(let i=0;i<Math.min(backs.length,cards.length);i++){
   if(run!==dealRunId||!state?.handOver)return;
   const old=backs[i],card=cards[i];if(!old||!card)continue;
   const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*5});
-  await runTrue3DFlip(flip,610);await wait(75);
+  pending.push(runTrue3DFlip(flip,340));
+  // Escalonadas: cada carta comienza mientras la anterior aún está terminando.
+  if(i<Math.min(backs.length,cards.length)-1)await wait(225);
  }
+ await Promise.all(pending);
  activateCardFallbacks(root);
 }
 
