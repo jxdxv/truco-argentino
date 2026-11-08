@@ -792,8 +792,10 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 
 
 /* Reparto animado: mazo, reversos y revelado */
-.deal-deck{position:fixed;width:48px;height:70px;z-index:10020;pointer-events:none;border-radius:5px;filter:drop-shadow(0 8px 9px #001a12aa);transform-origin:center;}
+/* El reverso SVG del mazo puede tener zonas transparentes: el soporte CSS debe ser blanco. */
+.deal-deck{position:fixed;width:48px;height:70px;z-index:10020;pointer-events:none;border-radius:5px;background-color:#fff!important;overflow:hidden;filter:drop-shadow(0 8px 9px #001a12aa);transform-origin:center;}
 .deal-deck img,.deal-player-back img,.deal-ai-back img{width:100%;height:100%;display:block;object-fit:fill;border-radius:5px;}
+.deal-deck img{background-color:#fff!important;}
 .deal-player-back{position:relative;flex:0 1 auto;width:clamp(82px,8.5vw,104px);height:clamp(124px,12vw,158px);border-radius:6px;overflow:hidden;border:1px solid #d7c28c;background:#fff;box-shadow:0 11px 20px #160e08a8;opacity:0;perspective:900px;}
 .deal-player-back:after{content:'✦';position:absolute;inset:0;display:grid;place-items:center;color:#f1d89b;font-size:25px;text-shadow:0 1px 4px #390e10;pointer-events:none;}
 .deal-ai-back{opacity:0;}
@@ -888,6 +890,70 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .profile-card [hidden]{display:none!important}
 @media(max-width:520px){.menu-card{padding:32px 21px 24px}.menu-browser-bar{margin:-7px -9px 18px}.menu-tab{padding:9px 10px 8px;font-size:8px}.menu-icon-btn{width:31px;height:31px}.room-list{max-height:155px}}
 
+
+
+/* PAÑO DE FIELTRO: fibras cruzadas, variación de tinte y desgaste óptico muy sutil. */
+.table-wrap{
+ background-color:#075039!important;
+ background-image:
+  radial-gradient(ellipse at 48% 42%,rgba(66,139,94,.22),transparent 58%),
+  radial-gradient(ellipse at 52% 55%,transparent 42%,rgba(0,12,8,.25) 100%),
+  repeating-linear-gradient(0deg,rgba(225,242,222,.035) 0px,rgba(225,242,222,.035) .45px,rgba(0,15,9,.045) .9px,transparent 1.8px),
+  repeating-linear-gradient(90deg,rgba(0,12,8,.10) 0px,rgba(0,12,8,.10) .45px,rgba(210,238,217,.025) .9px,transparent 1.7px),
+  repeating-linear-gradient(27deg,rgba(238,247,224,.018) 0px,rgba(238,247,224,.018) 1px,transparent 1px 3px),
+  linear-gradient(132deg,#0b5b40 0%,#06452f 48%,#0a5139 100%)!important;
+ background-blend-mode:soft-light, multiply,screen,multiply,soft-light,normal;
+}
+.table-wrap:before{content:"";position:absolute;inset:10px;border-radius:inherit;pointer-events:none;z-index:0;opacity:.32;
+ background:repeating-radial-gradient(ellipse at 47% 50%,rgba(224,242,218,.055) 0 0.55px,transparent .8px 3px);
+ mix-blend-mode:soft-light}
+.table-wrap>.felt,.table-wrap>.bottom-area,.table-wrap>.event-strip{position:relative;z-index:1}
+/* Volumen real: ambas caras ocupan el mismo plano y el contenedor rota 180 grados. */
+.true-card-flip{position:relative;flex:none;perspective:1100px;transform-style:preserve-3d;transform:rotateY(0deg);will-change:transform;backface-visibility:visible;}
+.true-card-flip .true-card-back,.true-card-flip .true-card-front{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;
+ backface-visibility:hidden!important;-webkit-backface-visibility:hidden!important;
+ transform-style:preserve-3d!important;transform-origin:center center!important;
+}
+.true-card-flip .true-card-back{transform:rotateY(0deg) translateZ(.15px)!important;}
+.true-card-flip .true-card-front{transform:rotateY(180deg) translateZ(.15px)!important;}
+.true-card-flip .true-card-front img{display:block;width:100%;height:100%;object-fit:fill;border-radius:inherit;}
+.true-card-flip .true-card-front{border:0!important;background:transparent!important;overflow:hidden!important;box-shadow:0 12px 24px rgba(0,12,8,.5)!important;}
+.true-card-flip.flip-complete{transform:rotateY(180deg);}
+/* Las zonas transparentes de los SVG quedan respaldadas por blanco opaco. */
+.card,.true-card-flip .true-card-back,.true-card-flip .true-card-front{background:#fff!important;}
+.card>img,.true-card-flip .true-card-back img,.true-card-flip .true-card-front img,
+.back-card-art,.deal-ai-back img{background-color:#fff!important;}
+.true-card-flip .true-card-back{overflow:hidden!important;border:1px solid #e7dfce!important;border-radius:inherit!important;}
+.true-card-flip .true-card-back .back-card-art{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;}
+/* Vuelo de naipe: perspectiva, elevación, cabeceo y sombra dinámica. */
+.card-flight{background:#fff!important;transform-style:preserve-3d!important;perspective:1000px;backface-visibility:hidden;filter:drop-shadow(0 12px 9px rgba(0,0,0,.34));}
+.card-flight>img{background:#fff!important;}
+.card-flight .flight-back{background-color:#fff!important;pointer-events:none;will-change:opacity;}
+.card-flight>img{image-rendering:auto!important;transform:none!important;backface-visibility:visible!important;-webkit-backface-visibility:visible!important;}
+
+
+/* Las cartas no disponibles se hunden y oscurecen suavemente sin alterar el espacio de la fila. */
+#playerHand .card{
+  translate:0 0;
+  scale:1;
+  transition:translate .34s cubic-bezier(.2,.75,.25,1),scale .34s cubic-bezier(.2,.75,.25,1),filter .34s ease,opacity .34s ease,box-shadow .34s ease!important;
+  will-change:translate,filter;
+}
+#playerHand .card.disabled{
+  translate:0 8px;
+  scale:.975;
+  filter:brightness(.52) saturate(.62) contrast(.94)!important;
+  opacity:.96!important;
+  box-shadow:0 4px 8px rgba(0,0,0,.48)!important;
+  cursor:not-allowed!important;
+}
+#playerHand .card.disabled:hover{
+  translate:0 8px;
+  scale:.975;
+  filter:brightness(.52) saturate(.62) contrast(.94)!important;
+}
+#playerHand .card:not(.disabled){filter:brightness(1) saturate(1)}
 </style>
 
 <style id="multiplayer-menu-styles">
@@ -1621,22 +1687,33 @@ async function animateDeal(run){
  await deck.animate([{transform:'translateX(0) scale(1)',opacity:1},{transform:'translateX(28px) scale(.94)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
  deck.remove();
 }
+function makeTrue3DCardFlip(back,card,opts={}){
+ const rect=back.getBoundingClientRect();
+ const flip=document.createElement('div');flip.className='true-card-flip';
+ Object.assign(flip.style,{width:`${rect.width}px`,height:`${rect.height}px`});
+ const backFace=back.cloneNode(true);backFace.classList.add('true-card-back');
+ const template=document.createElement('template');template.innerHTML=cardMarkup(card,{tilt:opts.tilt||0});
+ const frontFace=template.content.firstElementChild;frontFace.classList.add('true-card-front');
+ if(opts.player){frontFace.dataset.index=String(opts.index);frontFace.classList.add('deal-revealed');}
+ else frontFace.classList.add('ai-revealed');
+ flip.append(backFace,frontFace);back.replaceWith(flip);return flip;
+}
+async function runTrue3DFlip(flip,duration=560){
+ await flip.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(180deg)'}],{duration,easing:'cubic-bezier(.22,.72,.18,1)',fill:'forwards'}).finished.catch(()=>{});
+ flip.classList.add('flip-complete');
+}
 async function revealPlayerHand(){
  const root=$('playerHand'),backs=[...root.querySelectorAll('.deal-player-back')];
  for(let i=0;i<backs.length;i++){
   const old=backs[i],card=state.hands[0][i];if(!old||!card)continue;
-  await old.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(90deg)'}],{duration:170,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
-  const template=document.createElement('template');template.innerHTML=cardMarkup(card,{tilt:(i-1)*2});const face=template.content.firstElementChild;face.dataset.index=String(i);face.classList.add('deal-revealed');old.replaceWith(face);
-  face.animate([{transform:'rotateY(-90deg)',opacity:.75},{transform:'rotateY(0deg)',opacity:1}],{duration:220,easing:'ease-out',fill:'both'});
-  await wait(75);
+  const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*2,player:true,index:i});
+  await runTrue3DFlip(flip,570);await wait(65);
  }
  activateCardFallbacks(root);
 }
 async function revealAIHand(){
  if(!state||state.aiRevealed)return;
- const run=dealRunId,root=$('aiBacks');
- if(!root)return;
- // El render del snapshot debe crear primero los reversos antes de animarlos.
+ const run=dealRunId,root=$('aiBacks');if(!root)return;
  if(!root.children.length&&state.hands?.[1]?.length){render();await wait(40);}
  const cards=state.hands?.[1]||[],backs=[...root.children];
  if(!cards.length){state.aiRevealed=true;return;}
@@ -1644,11 +1721,8 @@ async function revealAIHand(){
  for(let i=0;i<Math.min(backs.length,cards.length);i++){
   if(run!==dealRunId||!state?.handOver)return;
   const old=backs[i],card=cards[i];if(!old||!card)continue;
-  await old.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(90deg)'}],{duration:190,easing:'ease-in',fill:'forwards'}).finished.catch(()=>{});
-  if(run!==dealRunId||!state?.handOver)return;
-  const template=document.createElement('template');template.innerHTML=cardMarkup(card,{tilt:(i-1)*5});const face=template.content.firstElementChild;face.classList.add('ai-revealed');old.replaceWith(face);
-  await face.animate([{transform:'rotateY(-90deg) scale(.96)',opacity:.7},{transform:'rotateY(0deg) scale(1.08)',opacity:1}],{duration:240,easing:'ease-out',fill:'both'}).finished.catch(()=>{});
-  await wait(65);
+  const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*5});
+  await runTrue3DFlip(flip,610);await wait(75);
  }
  activateCardFallbacks(root);
 }
@@ -2134,7 +2208,18 @@ function foldHand(player=0){
  finishHand(winner,0,true);
 }
 function playCard(index){const p=localPlayer;if(!state||state.dealing||state.turn!==p||state.handOver||state.animatingCard||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(p)||!state.hands[p][index])return;if(isMultiplayer()){mpSend({type:'action',action:{kind:'play',cardId:state.hands[p][index].id}});return;}const card=state.hands[p][index];playCardFor(p,index);}
-function playCardFor(player,index){const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;const origin=source?source.getBoundingClientRect():null;const card=state.hands[player][index];if(card&&player===localPlayer)rememberHumanCardPlay(card);const removed=state.hands[player].splice(index,1)[0];if(removed)placeCard(player,removed,origin);}
+function playCardFor(player,index){
+ const source=player===localPlayer?$('playerHand').querySelectorAll('.card')[index]:null;
+ const aiRoot=player!==localPlayer?$('aiBacks'):null;
+ const aiCards=aiRoot?[...aiRoot.children]:[];
+ const aiSource=aiCards.length?aiCards[Math.floor((aiCards.length-1)/2)]:null;
+ const originSource=source||aiSource;
+ const origin=originSource?originSource.getBoundingClientRect():null;
+ const card=state.hands[player][index];
+ if(card&&player===localPlayer)rememberHumanCardPlay(card);
+ const removed=state.hands[player].splice(index,1)[0];
+ if(removed)placeCard(player,removed,origin);
+}
 function placeCard(player,card,originRect=null){
  if(state.handOver||state.animatingCard)return;
  playRandomCardPlaceSound();
@@ -2157,16 +2242,23 @@ function placeCard(player,card,originRect=null){
  if(target&&originRect&&originRect.width>0&&originRect.height>0){
   const end=target.getBoundingClientRect();
   const clone=target.cloneNode(true);clone.classList.remove('played-card','from-you','from-ai');clone.classList.add('card-flight');
-  Object.assign(clone.style,{position:'fixed',left:`${originRect.left}px`,top:`${originRect.top}px`,width:`${originRect.width}px`,height:`${originRect.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
+  /* Mantener el clon al tamaño FINAL durante todo el vuelo evita que el navegador
+     rasterice el SVG diminuto al despegar y luego lo amplíe borroso. */
+  Object.assign(clone.style,{position:'fixed',left:`${end.left}px`,top:`${end.top}px`,width:`${end.width}px`,height:`${end.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
+  const flightImg=clone.querySelector('img');
+  if(flightImg){flightImg.loading='eager';flightImg.decoding='sync';flightImg.style.imageRendering='auto';flightImg.style.width='100%';flightImg.style.height='100%';}
   if(player!==localPlayer){const back=document.createElement('div');back.className='flight-back';clone.appendChild(back);}
   document.body.appendChild(clone);target.style.visibility='hidden';
-  const dx=end.left-originRect.left,dy=end.top-originRect.top,sx=end.width/originRect.width,sy=end.height/originRect.height;
+  const dx=originRect.left-end.left,dy=originRect.top-end.top,sx=originRect.width/end.width,sy=originRect.height/end.height;
+  const dir=player===0?-1:1;
+  const lift=Math.max(34,Math.min(92,originRect.height*.58));
   const flight=clone.animate([
-   {transform:'translate(0px,0px) scale(1) rotate(0deg)',opacity:1,offset:0},
-   {transform:`translate(${dx*.72}px,${dy*.72}px) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${player===0?-5:5}deg)`,opacity:1,offset:.72},
-   {transform:`translate(${dx}px,${dy}px) scale(${sx},${sy}) rotate(${player===0?-2:2}deg)`,opacity:1,offset:1}
-  ],{duration:720,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'});
-  if(player!==localPlayer){const back=clone.querySelector('.flight-back');back.animate([{opacity:1},{opacity:1,offset:.44},{opacity:0}],{duration:620,easing:'ease-in-out',fill:'forwards'});}
+   {transform:`perspective(1050px) translate3d(${dx}px,${dy}px,0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${sx},${sy})`,opacity:1,offset:0,filter:'drop-shadow(0 3px 3px rgba(0,0,0,.22))'},
+   {transform:`perspective(1050px) translate3d(${dx*.76}px,${dy*.76-lift}px,74px) rotateX(${dir*13}deg) rotateY(${dir*17}deg) rotateZ(${dir*10}deg) scale(${sx+(1-sx)*.24},${sy+(1-sy)*.24})`,opacity:1,offset:.24,filter:'drop-shadow(0 24px 15px rgba(0,0,0,.30))'},
+   {transform:`perspective(1050px) translate3d(${dx*.32}px,${dy*.32-lift*.48}px,48px) rotateX(${dir*-8}deg) rotateY(${dir*-10}deg) rotateZ(${dir*-5}deg) scale(${sx+(1-sx)*.68},${sy+(1-sy)*.68})`,opacity:1,offset:.68,filter:'drop-shadow(0 18px 12px rgba(0,0,0,.28))'},
+   {transform:`perspective(1050px) translate3d(0px,0px,0px) rotateX(0deg) rotateY(0deg) rotateZ(${dir*1.5}deg) scale(1,1)`,opacity:1,offset:1,filter:'drop-shadow(0 5px 5px rgba(0,0,0,.22))'}
+  ],{duration:820,easing:'cubic-bezier(.22,.68,.18,1)',fill:'forwards'});
+  if(player!==localPlayer){const back=clone.querySelector('.flight-back');if(back){back.style.backgroundColor='#fff';back.animate([{opacity:1},{opacity:1,offset:.48},{opacity:0}],{duration:690,easing:'ease-in-out',fill:'forwards'});}}
   flight.onfinish=finish;flight.oncancel=finish;setTimeout(finish,1000);
  }else{
   if(target){target.style.visibility='';target.animate([{opacity:0,transform:`translateY(${player===0?70:-70}px) rotate(${player===0?-7:7}deg)`},{opacity:1,transform:'translateY(0) rotate(0deg)'}],{duration:650,easing:'cubic-bezier(.18,.78,.22,1)'});}
@@ -2529,11 +2621,7 @@ function mpLeaveToMenu(){
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
-<<<<<<< HEAD
  multiplayerSession=null;mpChatSetActive(null);multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
-=======
- multiplayerSession=null;multiplayerLastPublicCount=0;multiplayerLastHandNo=0;multiplayerLastOutcome='';multiplayerLastEnvidoReveal='';multiplayerLastTrickExitKey='';multiplayerHandEndPromise=null;document.querySelectorAll('.card-flight,.card-exit-flight').forEach(node=>node.remove());
->>>>>>> 45c68b4ea01358a65e2b2ca5ded41d010c7e065f
  if(mpEl('onlineLobby'))mpEl('onlineLobby').hidden=true;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=false;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=false;
  if(mpEl('onlinePanel'))mpEl('onlinePanel').classList.add('visible');
  mpSetupModeUI();
@@ -2583,7 +2671,7 @@ function mpCaptureCardOrigin(play){
  if(!play)return null;
  let source=null;
  if(play.player===0)source=mpEl('playerHand')?.querySelector(`[data-card="${CSS.escape(play.card.id)}"]`);
- else source=mpEl('aiBacks')?.firstElementChild;
+ else {const backs=mpEl('aiBacks')?.children;source=backs?.length?backs[Math.floor((backs.length-1)/2)]:null;}
  return source?.getBoundingClientRect?.()||null;
 }
 function mpAnimatePlayedCard(play,origin){
@@ -2599,14 +2687,18 @@ function mpAnimatePlayedCard(play,origin){
  const clone=target.cloneNode(true);
  clone.classList.remove('played-card','from-you','from-ai','sweep-left','sweep-right');
  clone.classList.add('card-flight');
- Object.assign(clone.style,{position:'fixed',left:`${origin.left}px`,top:`${origin.top}px`,width:`${origin.width}px`,height:`${origin.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
+ const end=target.getBoundingClientRect();
+ Object.assign(clone.style,{position:'fixed',left:`${end.left}px`,top:`${end.top}px`,width:`${end.width}px`,height:`${end.height}px`,margin:'0',zIndex:'10001',pointerEvents:'none',transformOrigin:'center center',visibility:'visible'});
+ const flightImg=clone.querySelector('img');
+ if(flightImg){flightImg.loading='eager';flightImg.decoding='sync';flightImg.style.imageRendering='auto';flightImg.style.width='100%';flightImg.style.height='100%';}
  if(play.player!==0){const back=document.createElement('div');back.className='flight-back';clone.appendChild(back);}
  document.body.appendChild(clone);target.style.visibility='hidden';
- const end=target.getBoundingClientRect(),dx=end.left-origin.left,dy=end.top-origin.top,sx=end.width/origin.width,sy=end.height/origin.height;
+ /* El SVG se conserva renderizado al tamaño final; solo se escala visualmente al despegar. */
+ const dx=origin.left-end.left,dy=origin.top-end.top,sx=origin.width/end.width,sy=origin.height/end.height;
  const animation=clone.animate([
-  {transform:'translate3d(0,0,0) scale(1) rotate(0deg)',opacity:1,offset:0},
-  {transform:`translate3d(${dx*.72}px,${dy*.72}px,0) scale(${1+(sx-1)*.72},${1+(sy-1)*.72}) rotate(${play.player===0?-5:5}deg)`,opacity:1,offset:.72},
-  {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotate(${play.player===0?-2:2}deg)`,opacity:1,offset:1}
+  {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotate(0deg)`,opacity:1,offset:0},
+  {transform:`translate3d(${dx*.28}px,${dy*.28}px,0) scale(${sx+(1-sx)*.72},${sy+(1-sy)*.72}) rotate(${play.player===0?-5:5}deg)`,opacity:1,offset:.72},
+  {transform:'translate3d(0,0,0) scale(1) rotate(0deg)',opacity:1,offset:1}
  ],{duration:690,easing:'cubic-bezier(.18,.78,.22,1)',fill:'forwards'});
  let done=false;
  const finish=()=>{

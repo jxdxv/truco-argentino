@@ -4,8 +4,8 @@ const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const SUITS = ["espadas", "bastos", "oros", "copas"];
 const RANKS = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12];
 const CORS_HEADERS = {
-  "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Max-Age": "86400",
 };
 
@@ -105,7 +105,7 @@ function newGame(targetPoints, withFlor) {
     florPending: null, heldTruco: null, envidoDone: false, florDone: !withFlor,
     withFlor, targetPoints, dealing: false, handOver: false, gameOver: false,
     resolvingTrick: false, foldedBy: null, foldPoints: 0,
-    handWinner: null, handScoreAtStart: [0, 0], envidoReveal: null,
+    handWinner: null, resignedBy: null, handScoreAtStart: [0, 0], envidoReveal: null,
     log: "Nueva partida: ¡suerte!", deadlines: { dealAt: 0, trickAt: 0, expireAt: Date.now() + 12 * 60 * 60 * 1000 },
   };
 }
@@ -135,130 +135,21 @@ function startHand(game) {
   game.foldedBy = null;
   game.foldPoints = 0;
   game.handWinner = null;
+  game.resignedBy = null;
   game.envidoReveal = null;
   game.log = `Mano ${game.handNo}: ${game.mano === 0 ? "Jugador 1" : "Jugador 2"} es mano.`;
   game.deadlines.dealAt = Date.now() + 4550;
   game.deadlines.trickAt = 0;
 }
 
-const ACCOUNT_STATS_FIELDS = [
-  "matchesPlayed", "matchesWon", "matchesLost", "handsPlayed", "handsWon", "handsLost",
-  "pointsFor", "pointsAgainst", "trucoCallsYou", "trucoCallsAI", "envidoCallsYou", "envidoCallsAI",
-  "currentStreak", "bestWinStreak",
-];
-function bytesToHex(bytes) { return [...bytes].map((value) => value.toString(16).padStart(2, "0")).join(""); }
-function hexToBytes(value) { return new Uint8Array((String(value).match(/.{2}/g) || []).map((pair) => parseInt(pair, 16))); }
-async function sha256Hex(value) {
-  return bytesToHex(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value))));
-}
-async function passwordDigest(password, saltHex) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: hexToBytes(saltHex), iterations: 120000, hash: "SHA-256" }, key, 256);
-  return bytesToHex(new Uint8Array(bits));
-}
-function safeUsername(value) {
-  const username = String(value || "").trim();
-  return /^[A-Za-z0-9_]{3,18}$/.test(username) ? username : null;
-}
-function safeAvatar(value) {
-  if (value == null || value === "") return null;
-  const avatar = String(value);
-  if (avatar.length > 120000 || !/^data:image\/(?:webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(avatar)) throw new Error("La foto debe ser JPG, PNG o WebP y pesar menos de 90 KB después de optimizarla.");
-  return avatar;
-}
-function safeStats(value) {
-  let input = value;
-  if (typeof input === "string") { try { input = JSON.parse(input); } catch { input = {}; } }
-  const result = {};
-  for (const key of ACCOUNT_STATS_FIELDS) {
-    const number = Number(input?.[key]);
-    result[key] = Number.isFinite(number) ? Math.max(0, Math.min(1000000000, Math.floor(number))) : 0;
-  }
-  return result;
-}
-function publicProfile(row) {
-  return { id: row.id, username: row.username, avatar: row.avatar_data || null, stats: safeStats(row.progress_json) };
-}
-async function createAccountSession(env, userId) {
-  const token = randomHex(32);
-  const tokenHash = await sha256Hex(token);
-  const now = Date.now();
-  const expires = now + 60 * 24 * 60 * 60 * 1000;
-  await env.DB.prepare("INSERT INTO sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)")
-    .bind(tokenHash, userId, now, expires).run();
-  return token;
-}
-async function authenticateAccount(request, env) {
-  const token = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "").trim();
-  if (!token) return null;
-  const tokenHash = await sha256Hex(token);
-  return env.DB.prepare(
-    "SELECT u.id, u.username, u.avatar_data, u.progress_json FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>? LIMIT 1"
-  ).bind(tokenHash, Date.now()).first();
-}
-async function handleAccount(request, env, url, cors) {
-  if (!env.DB) return json({ error: "Falta configurar la base D1 (binding DB) en Cloudflare." }, 503, cors);
-  try {
-    if (url.pathname === "/api/account/register" && request.method === "POST") {
-      const body = await request.json();
-      const username = safeUsername(body.username);
-      const password = String(body.password || "");
-      if (!username) return json({ error: "El usuario debe tener entre 3 y 18 caracteres: letras, números o _." }, 400, cors);
-      if (password.length < 8 || password.length > 72) return json({ error: "La contraseña debe tener entre 8 y 72 caracteres." }, 400, cors);
-      let avatar;
-      try { avatar = safeAvatar(body.avatar); } catch (error) { return json({ error: error.message }, 400, cors); }
-      const salt = randomHex(16);
-      const digest = await passwordDigest(password, salt);
-      const id = randomHex(16);
-      const now = Date.now();
-      const stats = JSON.stringify(safeStats(body.stats));
-      try {
-        await env.DB.prepare("INSERT INTO users (id, username, password_salt, password_hash, avatar_data, progress_json, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-          .bind(id, username, salt, digest, avatar, stats, now, now).run();
-      } catch (error) {
-        if (/unique|constraint/i.test(String(error))) return json({ error: "Ese nombre de usuario ya está registrado." }, 409, cors);
-        throw error;
-      }
-      const token = await createAccountSession(env, id);
-      return json({ token, profile: { id, username, avatar, stats: safeStats(stats) } }, 201, cors);
-    }
-    if (url.pathname === "/api/account/login" && request.method === "POST") {
-      const body = await request.json();
-      const username = String(body.username || "").trim();
-      const password = String(body.password || "");
-      const row = await env.DB.prepare("SELECT id, username, password_salt, password_hash, avatar_data, progress_json FROM users WHERE username=? COLLATE NOCASE LIMIT 1").bind(username).first();
-      if (!row || password.length > 72 || await passwordDigest(password, row.password_salt) !== row.password_hash) {
-        return json({ error: "Usuario o contraseña incorrectos." }, 401, cors);
-      }
-      const token = await createAccountSession(env, row.id);
-      return json({ token, profile: publicProfile(row) }, 200, cors);
-    }
-    if (url.pathname === "/api/account/me" && request.method === "GET") {
-      const user = await authenticateAccount(request, env);
-      if (!user) return json({ error: "La sesión venció. Iniciá sesión nuevamente." }, 401, cors);
-      return json({ profile: publicProfile(user) }, 200, cors);
-    }
-    if (url.pathname === "/api/account/progress" && request.method === "PUT") {
-      const user = await authenticateAccount(request, env);
-      if (!user) return json({ error: "La sesión venció. Iniciá sesión nuevamente." }, 401, cors);
-      const body = await request.json();
-      let avatar = null;
-      try { if (Object.prototype.hasOwnProperty.call(body, "avatar")) avatar = safeAvatar(body.avatar); }
-      catch (error) { return json({ error: error.message }, 400, cors); }
-      await env.DB.prepare("UPDATE users SET progress_json=?, avatar_data=COALESCE(?, avatar_data), updated_at=? WHERE id=?")
-        .bind(JSON.stringify(safeStats(body.stats)), avatar, Date.now(), user.id).run();
-      return json({ ok: true }, 200, cors);
-    }
-    if (url.pathname === "/api/account/logout" && request.method === "POST") {
-      const token = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "").trim();
-      if (token) await env.DB.prepare("DELETE FROM sessions WHERE token_hash=?").bind(await sha256Hex(token)).run();
-      return json({ ok: true }, 200, cors);
-    }
-    return json({ error: "Ruta de cuenta desconocida." }, 404, cors);
-  } catch (error) {
-    console.error("Account API error", error);
-    return json({ error: "No se pudo completar la operación de cuenta. Revisá la configuración D1." }, 500, cors);
-  }
+async function directoryFetch(env, path, data = null, method = "GET") {
+  const id = env.TRUCO_ROOMS.idFromName("__directory_index__");
+  const stub = env.TRUCO_ROOMS.get(id);
+  return stub.fetch(`https://directory.internal${path}`, {
+    method,
+    headers: data ? { "Content-Type": "application/json" } : {},
+    body: data ? JSON.stringify(data) : undefined,
+  });
 }
 
 export default {
@@ -271,19 +162,15 @@ export default {
     const cors = { ...CORS_HEADERS, ...(origin ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : {}) };
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
 
-    if (url.pathname.startsWith("/api/account/")) return handleAccount(request, env, url, cors);
-
     if (url.pathname === "/api/rooms" && request.method === "GET") {
-      if (!env.DB) return json({ error: "Falta configurar la base D1 (binding DB) en Cloudflare." }, 503, cors);
       try {
-        const cutoff = Date.now() - 8 * 60 * 60 * 1000;
-        const result = await env.DB.prepare(
-          "SELECT code, creator_name AS playerName, player_count AS playerCount, target_points AS targetPoints, with_flor AS withFlor, created_at AS createdAt FROM rooms WHERE status='waiting' AND player_count<2 AND created_at>? ORDER BY created_at DESC LIMIT 40"
-        ).bind(cutoff).all();
-        return json({ rooms: result.results || [] }, 200, cors);
+        const response = await directoryFetch(env, "/directory/list");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "No se pudo leer el directorio.");
+        return json({ rooms: Array.isArray(data.rooms) ? data.rooms : [] }, 200, cors);
       } catch (error) {
-        console.error("Room directory error", error);
-        return json({ error: "No se pudo cargar la lista de salas. Revisá la migración D1." }, 500, cors);
+        console.error("Room directory read error", error);
+        return json({ error: "No se pudo cargar la lista de salas. Probá actualizar o unirte con un código." }, 503, cors);
       }
     }
 
@@ -303,8 +190,11 @@ export default {
         });
         if (response.status === 201) {
           const data = await response.json();
-          if (env.DB) await env.DB.prepare("INSERT OR REPLACE INTO rooms (code, created_at, updated_at, creator_name, player_count, target_points, with_flor, status) VALUES (?, ?, ?, ?, 1, ?, ?, 'waiting')")
-            .bind(code, Date.now(), Date.now(), playerName, targetPoints, withFlor ? 1 : 0).run();
+          try {
+            await directoryFetch(env, "/directory/upsert", {
+              room: { code, createdAt: Date.now(), updatedAt: Date.now(), playerName, playerCount: 1, targetPoints, withFlor, status: "waiting" },
+            }, "POST");
+          } catch (error) { console.warn("No se pudo registrar la sala en el directorio", error); }
           return json({ ...data, code, wsPath: `/api/rooms/${code}/ws` }, 201, cors);
         }
       }
@@ -317,11 +207,15 @@ export default {
       try { body = await request.json(); } catch { return json({ error: "JSON inválido." }, 400, cors); }
       const code = joinMatch[1].toUpperCase();
       const stub = env.TRUCO_ROOMS.get(env.TRUCO_ROOMS.idFromName(`room:${code}`));
+      const playerName = safeName(body.playerName, "Jugador 2");
       const response = await stub.fetch("https://room.internal/join", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ playerName: safeName(body.playerName, "Jugador 2") }),
+        body: JSON.stringify({ playerName }),
       });
-      if (response.ok && env.DB) await env.DB.prepare("UPDATE rooms SET player_count=2, updated_at=? WHERE code=?").bind(Date.now(), code).run();
+      if (response.ok) {
+        try { await directoryFetch(env, "/directory/upsert", { room: { code, playerCount: 2, updatedAt: Date.now() } }, "POST"); }
+        catch (error) { console.warn("No se pudo actualizar el directorio de salas", error); }
+      }
       return new Response(response.body, { status: response.status, headers: { ...cors, "Content-Type": "application/json; charset=utf-8" } });
     }
 
@@ -335,7 +229,7 @@ export default {
       return stub.fetch(new Request(internalUrl.toString(), request));
     }
 
-    return json({ ok: true, service: "truco-argentino-multiplayer", endpoints: ["GET /api/rooms", "POST /api/rooms", "POST /api/rooms/:code/join", "GET /api/rooms/:code/ws", "POST /api/account/register", "POST /api/account/login", "GET /api/account/me", "PUT /api/account/progress"] }, 200, cors);
+    return json({ ok: true, service: "truco-argentino-multiplayer", storage: "Durable Objects (sin cuentas ni D1)", endpoints: ["GET /api/rooms", "POST /api/rooms", "POST /api/rooms/:code/join", "GET /api/rooms/:code/ws"] }, 200, cors);
   },
 };
 
@@ -361,6 +255,7 @@ export class TrucoRoom extends DurableObject {
   async fetch(request) {
     await this.ready;
     const url = new URL(request.url);
+    if (url.pathname.startsWith("/directory/")) return this.handleDirectory(request, url);
     if (url.pathname === "/create" && request.method === "POST") return this.createRoom(request);
     if (url.pathname === "/join" && request.method === "POST") return this.joinRoom(request);
     if (url.pathname === "/ws" && request.headers.get("Upgrade")?.toLowerCase() === "websocket") return this.connect(request, url);
@@ -372,11 +267,45 @@ export class TrucoRoom extends DurableObject {
   }
 
   async syncDirectoryStatus(status) {
-    if (!this.env.DB || !this.room?.code) return;
+    if (!this.room?.code) return;
     try {
-      await this.env.DB.prepare("UPDATE rooms SET status=?, updated_at=? WHERE code=?")
-        .bind(status, Date.now(), this.room.code).run();
+      await directoryFetch(this.env, "/directory/upsert", {
+        room: { code: this.room.code, status, updatedAt: Date.now(), playerCount: this.room.players.filter(Boolean).length, playerName: this.room.players[0]?.name || "Jugador" },
+      }, "POST");
     } catch (error) { console.warn("No se pudo actualizar el directorio de salas", error); }
+  }
+
+  async handleDirectory(request, url) {
+    const key = "directoryRooms";
+    const rooms = await this.ctx.storage.get(key) || [];
+    if (url.pathname === "/directory/list" && request.method === "GET") {
+      const cutoff = Date.now() - 8 * 60 * 60 * 1000;
+      const visible = rooms.filter((room) => room.status === "waiting" && room.playerCount < 2 && room.createdAt > cutoff);
+      if (visible.length !== rooms.length) await this.ctx.storage.put(key, visible);
+      visible.sort((a, b) => b.createdAt - a.createdAt);
+      return json({ rooms: visible.slice(0, 40) });
+    }
+    if (url.pathname === "/directory/upsert" && request.method === "POST") {
+      let body;
+      try { body = await request.json(); } catch { return json({ error: "JSON inválido." }, 400); }
+      const incoming = body.room || {};
+      const code = String(incoming.code || "").toUpperCase();
+      if (!/^[A-Z0-9]{6}$/.test(code)) return json({ error: "Código de sala inválido." }, 400);
+      const index = rooms.findIndex((room) => room.code === code);
+      const current = index >= 0 ? rooms[index] : { code, createdAt: Date.now(), playerName: "Jugador", playerCount: 1, targetPoints: 30, withFlor: false, status: "waiting" };
+      const updated = { ...current, ...incoming, code, updatedAt: Date.now() };
+      if (index >= 0) rooms[index] = updated; else rooms.push(updated);
+      await this.ctx.storage.put(key, rooms.slice(-250));
+      return json({ ok: true });
+    }
+    if (url.pathname === "/directory/remove" && request.method === "POST") {
+      let body;
+      try { body = await request.json(); } catch { return json({ error: "JSON inválido." }, 400); }
+      const next = rooms.filter((room) => room.code !== String(body.code || "").toUpperCase());
+      await this.ctx.storage.put(key, next);
+      return json({ ok: true });
+    }
+    return json({ error: "Ruta de directorio desconocida." }, 404);
   }
 
   async createRoom(request) {
@@ -492,6 +421,30 @@ export class TrucoRoom extends DurableObject {
         this.broadcastStates();
         return;
       }
+      if (data.type === "resign") {
+        const game = this.requireGame();
+        if (!game.gameOver) {
+          const winner = 1 - seat;
+          game.handOver = true;
+          game.gameOver = true;
+          game.resolvingTrick = false;
+          game.handWinner = winner;
+          game.resignedBy = seat;
+          game.foldedBy = seat;
+          game.foldPoints = 0;
+          game.deadlines.dealAt = 0;
+          game.deadlines.trickAt = 0;
+          const loserName = this.room.players[seat]?.name || "Jugador";
+          const winnerName = this.room.players[winner]?.name || "Rival";
+          game.log = `${loserName} se rindió. ${winnerName} ganó la partida.`;
+        }
+        await this.persist();
+        await this.syncDirectoryStatus("finished");
+        await this.scheduleAlarm();
+        this.broadcastStates();
+        this.send(ws, { type: "resigned" });
+        return;
+      }
       if (data.type === "action") {
         const game = this.requireGame();
         this.applyAction(seat, data.action || {});
@@ -533,7 +486,7 @@ export class TrucoRoom extends DurableObject {
       const index = g.hands[seat].findIndex((card) => card.id === action.cardId);
       if (index < 0) throw new Error("Esa carta no está en tu mano.");
       const [card] = g.hands[seat].splice(index, 1);
-      g.publicPlayed.push({ player: seat, card });
+      g.publicPlayed.push({ player: seat, card, handIndex: index });
       g.currentTrick.push({ player: seat, card });
       g.envidoDone = true;
       g.turn = g.currentTrick.length === 1 ? other : null;
@@ -752,7 +705,7 @@ export class TrucoRoom extends DurableObject {
     if (now >= this.room.lastActivity + 12 * 60 * 60 * 1000) {
       if (this.ctx.getWebSockets().length === 0) {
         await this.ctx.storage.deleteAll();
-        if (this.env.DB) { try { await this.env.DB.prepare("DELETE FROM rooms WHERE code=?").bind(this.room.code).run(); } catch {} }
+        try { await directoryFetch(this.env, "/directory/remove", { code: this.room.code }, "POST"); } catch (error) { console.warn("No se pudo retirar la sala vencida del directorio", error); }
         this.room = null;
         return;
       }
@@ -788,7 +741,7 @@ export class TrucoRoom extends DurableObject {
       lead: g.lead,
       currentTrick: g.currentTrick.map((play) => ({ player: play.player, card: { ...play.card } })),
       tricks: g.tricks.map((trick) => ({ winner: trick.winner, cards: trick.cards.map((play) => ({ player: play.player, card: { ...play.card } })) })),
-      publicPlayed: g.publicPlayed.map((play) => ({ player: play.player, card: { ...play.card } })),
+      publicPlayed: g.publicPlayed.map((play) => ({ player: play.player, card: { ...play.card }, handIndex: Number.isInteger(play.handIndex) ? play.handIndex : null })),
       trucoLevel: g.trucoLevel,
       escalateBy: g.escalateBy,
       trucoPending: g.trucoPending ? { ...g.trucoPending } : null,
@@ -806,6 +759,7 @@ export class TrucoRoom extends DurableObject {
       foldedBy: g.foldedBy,
       foldPoints: g.foldPoints,
       handWinner: g.handWinner,
+      resignedBy: g.resignedBy ?? null,
       handScoreAtStart: g.handScoreAtStart.slice(),
       envidoReveal: g.envidoReveal ? {
         firstCaller: g.envidoReveal.firstCaller,
