@@ -1126,6 +1126,89 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 img, svg, picture { -webkit-user-drag:none!important; user-select:none!important; }
 img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!important; user-select:none!important; }
 </style>
+
+<style id="chat-drag-performance-polish">
+/* Chat: sin vidrio desenfocado. El scrim solo baja la luminosidad de la mesa. */
+.mp-chat-root.open{
+ position:fixed!important;inset:0!important;right:0!important;bottom:0!important;
+ display:flex!important;align-items:flex-end!important;justify-content:flex-end!important;
+ padding:16px!important;z-index:20000!important;
+}
+.mp-chat-scrim{
+ display:block!important;position:absolute!important;inset:0!important;z-index:0!important;
+ background:rgba(0,0,0,.36)!important;
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+.mp-chat-scrim[hidden]{display:none!important}
+.mp-chat-panel{
+ position:relative!important;right:auto!important;bottom:auto!important;z-index:1!important;margin:0!important;
+ background:linear-gradient(155deg,rgba(12,37,28,.49),rgba(5,20,15,.42))!important;
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ box-shadow:0 10px 26px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.05)!important;
+ border-color:rgba(222,197,143,.34)!important;
+ animation:mpChatPanelIn .16s ease-out both!important;
+}
+.mp-chat-launcher{
+ background:rgba(8,27,20,.43)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ box-shadow:0 4px 12px rgba(0,0,0,.18)!important;
+}
+.mp-chat-message{box-shadow:none!important;animation:mpChatMessageIn .14s ease-out both!important}
+.mp-chat-unread.show{animation:none!important}
+.mp-chat-head,.mp-chat-messages,.mp-chat-form{background-color:rgba(0,0,0,.055)!important}
+.mp-chat-form input{background:rgba(0,0,0,.15)!important;box-shadow:none!important}
+
+/* El globo del rival queda bajo sus reversos también en escritorio. */
+.ai-zone{overflow:visible!important}
+#mpOpponentChatBubble:not([hidden]){
+ display:flex!important;position:relative!important;z-index:12!important;flex:none!important;
+ margin:7px auto 0!important;max-width:min(350px,46vw)!important;
+ background:rgba(7,24,17,.52)!important;
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ box-shadow:0 3px 9px rgba(0,0,0,.19)!important;
+}
+#mpOpponentChatBubble.show{opacity:1;transform:translateY(0) scale(1);animation:mpOpponentBubbleIn .16s ease-out forwards!important}
+#mpOpponentChatBubble.hide{animation:mpOpponentBubbleOut .13s ease forwards!important}
+
+/* Menos trabajo por fotograma: evitar filtros, sombras animadas y capas permanentes. */
+.ai-zone.is-thinking .back-card{animation:none!important;filter:none!important;box-shadow:0 3px 7px rgba(0,24,17,.38)!important}
+#playerHand .card{will-change:auto!important;transition:translate .13s ease,scale .13s ease,opacity .13s ease!important}
+#playerHand .card.disabled{transition:translate .13s ease,scale .13s ease,opacity .13s ease!important}
+#playerHand .card.is-drag-source{opacity:.16!important;filter:none!important;transform:none!important}
+.hand-cards .card:not(.disabled){transition:transform .13s ease!important;filter:none!important}
+#playerHand .card.hand-card-arrive{animation:handCardArriveLite .25s ease-out both!important}
+@keyframes handCardArriveLite{
+ from{opacity:0;transform:translate3d(0,9px,0) rotate(2deg) scale(.98)}
+ to{opacity:1;transform:translate3d(0,0,0) rotate(var(--tilt,0deg)) scale(1)}
+}
+.action:not(:disabled){transition:transform .12s ease,background-color .12s ease,border-color .12s ease!important}
+.action:not(:disabled):active{filter:none!important;box-shadow:none!important}
+.card-flight{filter:none!important;box-shadow:0 5px 12px rgba(0,0,0,.28)!important;contain:paint}
+.card-exit-flight{filter:none!important;box-shadow:0 4px 9px rgba(0,0,0,.25)!important}
+
+/* Arrastre sin contorno de destino ni movimiento ornamental costoso. */
+#playerHand .card img,#playerHand .card svg{pointer-events:none!important;-webkit-user-drag:none!important;user-select:none!important}
+.truco-drag-ghost{
+ box-shadow:0 4px 9px rgba(0,0,0,.32)!important;
+ filter:none!important;transition:none!important;animation:none!important;
+ contain:layout paint!important;pointer-events:none!important;
+}
+#felt.truco-drop-ready{outline:none!important;box-shadow:none!important}
+@media(max-width:600px){
+ .mp-chat-root.open{align-items:flex-end!important;justify-content:center!important;padding:0 10px calc(12px + env(safe-area-inset-bottom))!important}
+ .mp-chat-panel{
+  width:min(460px,100%)!important;height:min(55dvh,420px)!important;min-height:245px!important;
+  background:linear-gradient(155deg,rgba(13,39,29,.52),rgba(5,20,15,.46))!important;
+ }
+ .mp-chat-scrim{background:rgba(0,0,0,.39)!important}
+ #mpOpponentChatBubble:not([hidden]){max-width:min(300px,80vw)!important;margin-top:5px!important}
+}
+@media(max-height:480px) and (max-width:900px){.mp-chat-root.open .mp-chat-panel{height:min(68dvh,330px)!important;min-height:190px!important}}
+@media(prefers-reduced-motion:reduce){
+ .mp-chat-panel,.mp-chat-message,#mpOpponentChatBubble.show,#mpOpponentChatBubble.hide,#playerHand .card.hand-card-arrive{animation:none!important}
+ #mpOpponentChatBubble.show{opacity:1!important;transform:none!important}
+}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -3225,50 +3308,66 @@ document.addEventListener('click',ev=>{
 let handDragConsumedClick=false;
 (()=>{
  const hand=$('playerHand'),felt=$('felt');if(!hand||!felt)return;
- let drag=null;
- const inside=(r,x,y)=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
- const clearDropState=()=>felt.classList.remove('truco-drop-ready');
+ let drag=null,moveFrame=0;
+ const inside=(r,x,y)=>!!r&&x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
  const removeGhost=g=>{if(g&&g.isConnected)g.remove();};
- const restoreSource=d=>{if(d?.card&&d.card.isConnected)d.card.classList.remove('is-drag-source');hand.classList.remove('is-dragging');clearDropState();};
- const cancelDrag=animateBack=>{
-  if(!drag)return;const d=drag;drag=null;restoreSource(d);
-  if(d.ghost&&animateBack&&d.started){const a=d.ghost.animate([{transform:d.ghost.style.transform,opacity:1},{transform:'translate3d(0,0,0) scale(.96)',opacity:0}],{duration:145,easing:'ease-out'});a.onfinish=()=>removeGhost(d.ghost);}
-  else removeGhost(d.ghost);
+ const restoreSource=d=>{if(d?.card&&d.card.isConnected)d.card.classList.remove('is-drag-source');hand.classList.remove('is-dragging');};
+ const updateGhost=(d,x,y)=>{
+  if(!d?.ghost)return;
+  const dx=x-d.startX,dy=y-d.startY;
+  d.ghost.style.transform=`translate3d(${dx}px,${dy}px,0)`;
+ };
+ const cancelDrag=()=>{
+  if(!drag)return;
+  const d=drag;drag=null;
+  if(moveFrame){cancelAnimationFrame(moveFrame);moveFrame=0;}
+  restoreSource(d);removeGhost(d.ghost);
  };
  hand.addEventListener('pointerdown',ev=>{
   if(ev.button!==0&&ev.pointerType==='mouse')return;
   const card=ev.target.closest('.card[data-index]');if(!card||card.classList.contains('disabled'))return;
   if(!state||state.dealing||state.turn!==localPlayer||state.handOver||(isMultiplayer()&&state.animatingCard)||state.envidoRevealing||state.envidoPending||state.trucoPending||state.florPending||mustAnnounceFlor(localPlayer))return;
   const rect=card.getBoundingClientRect();
-  drag={pointerId:ev.pointerId,card,index:Number(card.dataset.index),startX:ev.clientX,startY:ev.clientY,rect,ghost:null,started:false};
+  drag={pointerId:ev.pointerId,card,index:Number(card.dataset.index),startX:ev.clientX,startY:ev.clientY,rect,feltRect:felt.getBoundingClientRect(),ghost:null,started:false,lastX:ev.clientX,lastY:ev.clientY};
   try{card.setPointerCapture(ev.pointerId);}catch(_){ }
  },{passive:true});
  hand.addEventListener('pointermove',ev=>{
-  if(!drag||ev.pointerId!==drag.pointerId)return;
-  const dx=ev.clientX-drag.startX,dy=ev.clientY-drag.startY;
-  if(!drag.started&&Math.hypot(dx,dy)>7){
-   drag.started=true;const ghost=drag.card.cloneNode(true);ghost.classList.remove('disabled','is-drag-source','hand-card-arrive');ghost.classList.add('truco-drag-ghost');
-   Object.assign(ghost.style,{position:'fixed',left:`${drag.rect.left}px`,top:`${drag.rect.top}px`,width:`${drag.rect.width}px`,height:`${drag.rect.height}px`,margin:'0',zIndex:'10050',pointerEvents:'none',transformOrigin:'center center',willChange:'transform'});
-   document.body.appendChild(ghost);drag.ghost=ghost;drag.card.classList.add('is-drag-source');hand.classList.add('is-dragging');
+  const d=drag;if(!d||ev.pointerId!==d.pointerId)return;
+  d.lastX=ev.clientX;d.lastY=ev.clientY;
+  const dx=ev.clientX-d.startX,dy=ev.clientY-d.startY;
+  if(!d.started&&Math.hypot(dx,dy)>7){
+   d.started=true;
+   const ghost=d.card.cloneNode(true);
+   ghost.classList.remove('disabled','is-drag-source','hand-card-arrive');
+   ghost.classList.add('truco-drag-ghost');
+   ghost.querySelectorAll('img,svg').forEach(node=>{node.draggable=false;});
+   Object.assign(ghost.style,{position:'fixed',left:`${d.rect.left}px`,top:`${d.rect.top}px`,width:`${d.rect.width}px`,height:`${d.rect.height}px`,margin:'0',zIndex:'10050',pointerEvents:'none',transformOrigin:'center center',willChange:'transform',transition:'none',animation:'none'});
+   document.body.appendChild(ghost);d.ghost=ghost;
+   d.card.classList.add('is-drag-source');hand.classList.add('is-dragging');
   }
-  if(!drag.started)return;
-  ev.preventDefault();drag.ghost.style.transform=`translate3d(${dx}px,${dy}px,0) rotate(2deg) scale(1.035)`;
-  felt.classList.toggle('truco-drop-ready',inside(felt.getBoundingClientRect(),ev.clientX,ev.clientY));
+  if(!d.started)return;
+  ev.preventDefault();
+  if(!moveFrame)moveFrame=requestAnimationFrame(()=>{
+   moveFrame=0;
+   if(drag===d&&d.ghost)updateGhost(d,d.lastX,d.lastY);
+  });
  },{passive:false});
  hand.addEventListener('pointerup',ev=>{
-  if(!drag||ev.pointerId!==drag.pointerId)return;
-  const d=drag;drag=null;
+  const d=drag;if(!d||ev.pointerId!==d.pointerId)return;
+  drag=null;
+  if(moveFrame){cancelAnimationFrame(moveFrame);moveFrame=0;}
   if(!d.started){restoreSource(d);return;}
   ev.preventDefault();handDragConsumedClick=true;setTimeout(()=>{handDragConsumedClick=false;},500);
-  const valid=inside(felt.getBoundingClientRect(),ev.clientX,ev.clientY);
+  // Aplica la última coordenada antes de medir: evita que el destino use un fotograma atrasado.
+  updateGhost(d,ev.clientX,ev.clientY);
+  const valid=inside(d.feltRect,ev.clientX,ev.clientY);
   const dropRect=d.ghost?.getBoundingClientRect();
   restoreSource(d);removeGhost(d.ghost);
   if(valid&&state&&state.turn===localPlayer&&!state.handOver){playCard(d.index,dropRect,true);}
-  else if(!valid){setStatus('Soltá la carta sobre la mesa para jugarla.');}
   try{if(d.card.hasPointerCapture(ev.pointerId))d.card.releasePointerCapture(ev.pointerId);}catch(_){ }
  },{passive:false});
- hand.addEventListener('pointercancel',ev=>{if(drag&&ev.pointerId===drag.pointerId)cancelDrag(true);},{passive:true});
- hand.addEventListener('lostpointercapture',ev=>{if(drag&&ev.pointerId===drag.pointerId)cancelDrag(true);},{passive:true});
+ hand.addEventListener('pointercancel',ev=>{if(drag&&ev.pointerId===drag.pointerId)cancelDrag();},{passive:true});
+ hand.addEventListener('lostpointercapture',ev=>{if(drag&&ev.pointerId===drag.pointerId)cancelDrag();},{passive:true});
 })();
 $('playerHand').addEventListener('click',ev=>{if(handDragConsumedClick){handDragConsumedClick=false;ev.preventDefault();return;}const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
 $('statsOpen').addEventListener('click',openStatsPanel);$('statsClose').addEventListener('click',closeStatsPanel);$('statsCloseX').addEventListener('click',closeStatsPanel);
