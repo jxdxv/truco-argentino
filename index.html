@@ -1850,7 +1850,7 @@ function makeTrue3DCardFlip(back,card,opts={}){
  else frontFace.classList.add('ai-revealed');
  flip.append(backFace,frontFace);back.replaceWith(flip);return flip;
 }
-async function runTrue3DFlip(flip,duration=560){
+async function runTrue3DFlip(flip,duration=260){
  const frontEl=flip.querySelector('.true-card-front');
  if(frontEl){const image=frontEl.querySelector('img');if(image){try{await image.decode();}catch(_){frontEl.classList.add('img-failed');}}}
  const animation=flip.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(180deg)'}],{duration,easing:'cubic-bezier(.22,.72,.18,1)',fill:'forwards'});
@@ -1866,16 +1866,28 @@ async function runTrue3DFlip(flip,duration=560){
  }
  return front;
 }
+// Revela varias cartas en paralelo y escalonadas: cada giro dura poco y la
+// siguiente carta empieza antes de que termine el giro anterior.
+async function revealCardsStaggered(flips,{duration=260,stagger=88}={}){
+ const started=performance.now();
+ await Promise.all(flips.map(async(flip,index)=>{
+  const delay=Math.max(0,index*stagger-(performance.now()-started));
+  if(delay)await wait(delay);
+  await runTrue3DFlip(flip,duration);
+ }));
+}
 async function revealPlayerHand(){
  const run=dealRunId,root=$('playerHand'),backs=[...root.querySelectorAll('.deal-player-back')],cards=state?.hands?.[0]||[];
  await Promise.all(cards.map(card=>ensureCardAsset(cardFile(card))));
  if(run!==dealRunId||!state)return;
- for(let i=0;i<backs.length;i++){
+ const flips=[];
+ for(let i=0;i<Math.min(backs.length,cards.length);i++){
   const old=backs[i],card=cards[i];if(!old||!card)continue;
-  const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*2,player:true,index:i});
-  await prepareCardElement(flip.querySelector('.true-card-front'),cardFile(card));
-  await runTrue3DFlip(flip,570);await wait(65);
+  flips.push(makeTrue3DCardFlip(old,card,{tilt:(i-1)*2,player:true,index:i}));
  }
+ await Promise.all(flips.map((flip,i)=>prepareCardElement(flip.querySelector('.true-card-front'),cardFile(cards[i]))));
+ if(run!==dealRunId||!state)return;
+ await revealCardsStaggered(flips,{duration:260,stagger:88});
  activateCardFallbacks(root);
 }
 async function revealAIHand(){
@@ -1887,12 +1899,14 @@ async function revealAIHand(){
  state.aiRevealed=true;
  await Promise.all(cards.map(card=>ensureCardAsset(cardFile(card))));
  if(run!==dealRunId||!state?.handOver)return;
+ const flips=[];
  for(let i=0;i<Math.min(backs.length,cards.length);i++){
   const old=backs[i],card=cards[i];if(!old||!card)continue;
-  const flip=makeTrue3DCardFlip(old,card,{tilt:(i-1)*5});
-  await prepareCardElement(flip.querySelector('.true-card-front'),cardFile(card));
-  await runTrue3DFlip(flip,610);await wait(75);
+  flips.push(makeTrue3DCardFlip(old,card,{tilt:(i-1)*5}));
  }
+ await Promise.all(flips.map((flip,i)=>prepareCardElement(flip.querySelector('.true-card-front'),cardFile(cards[i]))));
+ if(run!==dealRunId||!state?.handOver)return;
+ await revealCardsStaggered(flips,{duration:260,stagger:88});
  activateCardFallbacks(root);
 }
 
