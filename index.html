@@ -82,7 +82,7 @@
 .card img{backface-visibility:hidden;}
 .card .fallback{display:none;position:absolute;inset:0;color:#242721;background:linear-gradient(135deg,#fffdf5,#e8dfc8);font-family:Georgia,serif}.card.img-failed .fallback{display:flex;flex-direction:column;justify-content:space-between;padding:8px}.card.img-failed img{display:none}.fallback .rank{font-size:18px;font-weight:bold}.fallback .suit{font-size:42px;text-align:center;align-self:center;margin-top:-15px}.fallback .suitname{font-size:8px;letter-spacing:.1em;text-align:center;text-transform:uppercase}.fallback.red{color:#a32d2d}.card.tiny{width:37px;height:56px;border-radius:4px;box-shadow:0 2px 5px #00170f88}.card.tiny .fallback{padding:3px}.card.tiny .fallback .rank{font-size:9px}.card.tiny .fallback .suit{font-size:17px;margin-top:-7px}.card.tiny .fallback .suitname{font-size:4px}.played-card{animation:played .32s cubic-bezier(.18,.75,.2,1) both}.trick-history{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);display:flex;gap:9px;z-index:3;align-items:center}.history-pair{display:flex;align-items:center;gap:3px;padding:4px 6px;border:1px solid rgba(239,218,161,.16);border-radius:7px;background:rgba(0,0,0,.12);opacity:.73}.history-pair .history-mark{font-size:8px;color:#e9d6a0;margin-right:2px}.history-pair.won{border-color:rgba(236,209,141,.5);box-shadow:0 0 10px rgba(235,206,133,.12)}.round-pill{position:absolute;right:25px;top:22px;border:1px solid rgba(228,211,164,.25);border-radius:20px;padding:6px 10px;font-size:9px;color:#d6d0ae;letter-spacing:.12em;text-transform:uppercase;background:#062d2480;z-index:4}.status-line{position:absolute;left:50%;top:93px;transform:translateX(-50%);z-index:4;white-space:nowrap;color:#f2dfad;font-size:11px;font-weight:700;text-shadow:0 2px 7px #001b12;letter-spacing:.04em}.status-line.pulse{animation:pulseText .55s ease}
 .bottom-area{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,410px);align-items:end;gap:18px;padding-top:14px}.hand-side{display:flex;flex-direction:column;gap:9px;min-width:0}.hand-head{display:flex;align-items:center;justify-content:space-between;color:#c4d2c5;font-size:10px;letter-spacing:.14em;text-transform:uppercase}.turn-note{font-size:9px;color:var(--gold2);letter-spacing:.04em;text-transform:none}.hand-cards{display:flex;justify-content:center;align-items:flex-end;gap:clamp(5px,1.6vw,15px);min-height:148px}.hand-cards .card{width:clamp(72px,8vw,94px);height:clamp(111px,11.5vw,144px);cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s;flex:0 1 auto}.hand-cards .card:hover{transform:translateY(-12px) rotate(-1deg)!important;box-shadow:0 17px 23px #00130f99;filter:brightness(1.04);z-index:3}.hand-cards .card.disabled{cursor:not-allowed;filter:grayscale(.2) brightness(.78);opacity:.82}.hand-cards .card.disabled:hover{transform:none!important}.hand-empty{font-size:10px;color:#859c8c}
-.controls{display:flex;flex-direction:column;gap:9px;align-items:stretch}.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.action{border:1px solid rgba(219,199,144,.24);background:linear-gradient(180deg,#04420f,#0e2b22);color:#04420f;border-radius:8px;padding:10px 5px;font-size:10px;font-weight:800;letter-spacing:.04em;transition:.17s;box-shadow:0 3px 8px #00110c44}.action:hover:not(:disabled){border-color:#d2b875;background:linear-gradient(180deg,#04420f,#04420f);transform:translateY(-2px)}.action:disabled{opacity:.3;cursor:not-allowed;filter:saturate(.5)}.action.primary{background:linear-gradient(180deg,#d9c184,#b79653);color:#1c2a20;border-color:#f0dba8}.action.primary:hover:not(:disabled){background:linear-gradient(180deg,#f0d89b,#c4a15c)}.action.red{border-color:rgba(207,106,94,.4);color:#f1c5bc}.action .small{display:block;font-size:8px;font-weight:500;opacity:.72;margin-top:2px}.action-row{display:flex;gap:7px}.action-row .action{flex:1}.response-panel{border:1px solid rgba(229,204,145,.36);background:linear-gradient(145deg,rgba(18,57,43,.98),rgba(7,32,25,.98));border-radius:12px;padding:12px;box-shadow:0 10px 28px #0006;animation:none}.response-title{font:700 15px 'Playfair Display',Georgia,serif;text-align:center;color:#f0dda9}.response-sub{text-align:center;font-size:10px;color:#b5c5b7;margin:5px 0 10px}.response-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.response-actions .action{padding:9px 5px}.response-actions .action.wide{grid-column:span 2}.log{margin-top:11px;display:flex;align-items:center;gap:7px;min-height:23px;overflow:hidden;color:#8fa594;font-size:9px}.log-label{color:#d2bc82;text-transform:uppercase;letter-spacing:.14em;white-space:nowrap;font-size:8px}.log-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.controls{display:flex;flex-direction:column;gap:9px;align-items:stretch}.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.action{border:1px solid rgba(219,199,144,.24);background:linear-gradient(180deg,#04420f,#0e2b22);color:#f3ead5;border-radius:8px;padding:10px 5px;font-size:10px;font-weight:800;letter-spacing:.04em;transition:.17s;box-shadow:0 3px 8px #00110c44}.action:hover:not(:disabled){border-color:#d2b875;background:linear-gradient(180deg,#04420f,#04420f);transform:translateY(-2px)}.action:disabled{opacity:.3;cursor:not-allowed;filter:saturate(.5)}.action.primary{background:linear-gradient(180deg,#d9c184,#b79653);color:#1c2a20;border-color:#f0dba8}.action.primary:hover:not(:disabled){background:linear-gradient(180deg,#f0d89b,#c4a15c)}.action.red{border-color:rgba(207,106,94,.4);color:#f1c5bc}.action .small{display:block;font-size:8px;font-weight:500;opacity:.72;margin-top:2px}.action-row{display:flex;gap:7px}.action-row .action{flex:1}.response-panel{border:1px solid rgba(229,204,145,.36);background:linear-gradient(145deg,rgba(18,57,43,.98),rgba(7,32,25,.98));border-radius:12px;padding:12px;box-shadow:0 10px 28px #0006;animation:none}.response-title{font:700 15px 'Playfair Display',Georgia,serif;text-align:center;color:#f0dda9}.response-sub{text-align:center;font-size:10px;color:#b5c5b7;margin:5px 0 10px}.response-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.response-actions .action{padding:9px 5px}.response-actions .action.wide{grid-column:span 2}.log{margin-top:11px;display:flex;align-items:center;gap:7px;min-height:23px;overflow:hidden;color:#8fa594;font-size:9px}.log-label{color:#d2bc82;text-transform:uppercase;letter-spacing:.14em;white-space:nowrap;font-size:8px}.log-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .footer{display:flex;justify-content:space-between;align-items:center;padding:10px 24px;border-top:1px solid var(--line);background:rgba(0,0,0,.16);font-size:9px;color:#80978a}.footer b{color:#b9c6b7;font-weight:600}.overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}.overlay.show{display:flex}.result-card{width:min(390px,100%);padding:25px;border:1px solid rgba(229,201,139,.48);border-radius:16px;background:linear-gradient(145deg,#04420f,#091f18);box-shadow:0 25px 80px #000b;text-align:center;animation:rise .25s ease}.result-kicker{font-size:9px;color:#d0b879;letter-spacing:.25em;text-transform:uppercase}.result-title{font:800 27px 'Playfair Display',Georgia,serif;margin:8px 0;color:#f5e5b6}.result-desc{font-size:12px;color:#c0cec1;line-height:1.6;margin-bottom:18px}.result-card .new-btn{min-width:130px}
 @keyframes dealIn{from{opacity:0;transform:translateY(-28px) rotate(var(--r)) scale(.82)}to{opacity:1;transform:rotate(var(--r)) translateY(var(--y)) scale(1)}}@keyframes cardLand{from{opacity:0;transform:translateY(-26px) rotate(-5deg) scale(.9)}to{opacity:1;transform:translateY(0) rotate(var(--tilt,0deg)) scale(1)}}@keyframes played{from{opacity:.3;transform:translateY(34px) rotate(8deg) scale(.9)}to{opacity:1;transform:translateY(0) rotate(var(--tilt,0deg)) scale(1)}}@keyframes pulseText{0%{transform:translateX(-50%) scale(.92);opacity:.3}50%{transform:translateX(-50%) scale(1.08)}100%{transform:translateX(-50%) scale(1);opacity:1}}@keyframes rise{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:760px){body{padding:0}.app{min-height:100vh;border-radius:0;border-left:0;border-right:0}.topbar{padding:0 13px;height:60px}.brand-title{font-size:16px}.brand-sub{font-size:8px}.select-wrap{font-size:0}.select-wrap select{font-size:10px;padding:7px 20px 7px 7px;max-width:94px}.new-btn{font-size:10px;padding:8px}.scorebar{padding:10px 15px;gap:7px}.score-name{font-size:10px}.score-caption{font-size:8px}.score-num{font-size:22px}.center-score{font-size:8px}.table-wrap{padding:11px 10px 8px}.felt{min-height:360px;border-width:5px}.ai-zone{top:15px}.table-mid{inset:110px 5px 82px;gap:20px}.play-column{width:90px;min-height:146px}.card{width:78px;height:120px}.play-slot{height:127px}.round-pill{right:12px;top:13px;font-size:8px}.status-line{top:83px;font-size:10px}.trick-history{bottom:9px}.bottom-area{grid-template-columns:1fr;gap:9px;padding-top:9px}.hand-side{order:0}.hand-head{padding:0 3px}.hand-cards{min-height:112px;gap:12px}.hand-cards .card{width:clamp(68px,20vw,86px);height:clamp(103px,30vw,130px)}.controls{order:1}.action-grid{grid-template-columns:repeat(3,1fr)}.action{padding:9px 3px;font-size:9px}.action .small{font-size:7px}.log{margin-top:4px}.footer{padding:9px 13px;font-size:8px}.ai-backs{height:51px}.back-card{width:33px;height:49px}.empty-slot{width:70px;height:107px}.card.tiny{width:32px;height:48px}}
@@ -1214,7 +1214,7 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 /* El paño de la mesa se carga desde background.png, junto al HTML. */
 .table-wrap{
  background-color:#04420f!important;
- background-image:url("./bg/background.png?v=20261126-2")!important;
+ background-image:url("./bg/background.png?v=20261126-3")!important;
  background-position:center center!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
@@ -1324,12 +1324,143 @@ html.performance-lite .mp-chat-launcher{
 
 <style id="external-wood-ui-textures">
 /* Fondo de madera de la interfaz: textura horizontal en escritorio y vertical en móviles. */
-html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-2")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
-.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-2")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
-#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-2")!important;background-position:center center!important;background-size:cover!important;}
+html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
+.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
+#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;}
 .menu-screen:before{opacity:.10!important;}
 @media(max-width:760px){
- html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-2")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
+ html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
+}
+</style>
+
+
+<style id="menu-background-panels-and-score-shadows">
+/* El menú utiliza la misma textura de paño que la mesa. La textura queda en
+   una capa separada para que la transparencia no afecte a textos y controles. */
+.menu-card{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow-y:auto;
+  background:rgba(4,66,15,.16)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(112%)!important;
+  backdrop-filter:blur(7px) saturate(112%)!important;
+  border-color:rgba(222,193,131,.42)!important;
+}
+.menu-card::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background-image:url("./bg/background.png?v=20261126-3")!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  opacity:.82!important;
+}
+.menu-card>*{position:relative;z-index:1}
+
+/* Las pestañas y paneles internos dejan ver la textura común del panel. */
+.menu-ai-pane,
+.menu-online-pane{
+  background:transparent!important;
+  background-color:transparent!important;
+}
+.menu-online-pane .online-panel{
+  background:rgba(0,0,0,.10)!important;
+  border-color:rgba(222,197,143,.24)!important;
+  box-shadow:none!important;
+}
+
+/* Los controles se integran con el paño: superficies translúcidas y bordes
+   discretos, sin botones dorados o verdes sólidos que compitan con la textura. */
+#mainMenu .menu-tab,
+#mainMenu .menu-icon-btn,
+#mainMenu .flor-option,
+#mainMenu .start-btn,
+#mainMenu .online-action,
+#mainMenu .room-refresh,
+#mainMenu #copyRoomCodeBtn,
+#mainMenu .menu-return{
+  background:rgba(0,0,0,.105)!important;
+  background-image:none!important;
+  border-color:rgba(226,202,151,.25)!important;
+  box-shadow:none!important;
+}
+#mainMenu .menu-tab.active{
+  background:rgba(255,255,255,.055)!important;
+  color:#f3dda9!important;
+  border-color:rgba(226,202,151,.42)!important;
+  box-shadow:inset 0 1px rgba(242,218,165,.10)!important;
+}
+#mainMenu .start-btn{
+  color:#f2dda9!important;
+  border-color:rgba(226,202,151,.38)!important;
+}
+#mainMenu .menu-tab:hover,
+#mainMenu .menu-icon-btn:hover,
+#mainMenu .flor-option:hover,
+#mainMenu .start-btn:hover,
+#mainMenu .online-action:hover,
+#mainMenu .room-refresh:hover,
+#mainMenu #copyRoomCodeBtn:hover,
+#mainMenu .menu-return:hover{
+  background:rgba(255,255,255,.075)!important;
+  filter:none!important;
+}
+#mainMenu .menu-common-options select,
+#mainMenu .menu-difficulty-row select{
+  background-color:rgba(0,0,0,.105)!important;
+  background-image:linear-gradient(45deg,transparent 50%,#d8c18c 50%),linear-gradient(135deg,#d8c18c 50%,transparent 50%)!important;
+  background-position:calc(100% - 16px) 15px,calc(100% - 11px) 15px!important;
+  background-size:5px 5px!important;
+  background-repeat:no-repeat!important;
+}
+
+/* La mesa recibe la textura en una capa propia y se aclara sin tocar las cartas
+   ni los elementos que se dibujan encima. */
+.table-wrap{
+  position:relative!important;
+  isolation:isolate!important;
+  background-color:#04420f!important;
+  background-image:none!important;
+}
+.table-wrap::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background-image:url("./bg/background.png?v=20261126-3")!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  filter:brightness(1.55) saturate(1.08)!important;
+  opacity:1!important;
+}
+.table-wrap>.felt,
+.table-wrap>.bottom-area,
+.table-wrap>.event-strip{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* Sombras más marcadas SOLO en los textos del marcador y las cajas informativas en partida. */
+.scorebar .score-name,
+.scorebar .score-caption,
+.scorebar .score-num,
+.scorebar .center-score,
+.event-strip b,
+.event-strip span,
+.play-label,
+.round-pill,
+.status-line,
+.hand-head,
+.turn-note{
+  text-shadow:0 2px 3px rgba(0,0,0,.96),0 1px 1px rgba(0,0,0,.92)!important;
 }
 </style>
 
@@ -3584,7 +3715,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['bg/background.png?v=20261126-2','bg/bg_ui.png?v=20261126-2','bg/bg_uip.png?v=20261126-2'];
+ const imageFiles=['bg/background.png?v=20261126-3','bg/bg_ui.png?v=20261126-3','bg/bg_uip.png?v=20261126-3'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
