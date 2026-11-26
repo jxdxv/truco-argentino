@@ -854,7 +854,7 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .room-list{display:grid;gap:6px;max-height:180px;overflow:auto}
 .room-empty{color:#9eb09f;font-size:10px;line-height:1.5;padding:9px 3px;text-align:center}
 .room-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 9px;border:1px solid rgba(213,190,137,.16);border-radius:6px;background:rgba(15,42,31,.7)}
-.room-item-info{min-width:0;display:grid;gap:3px;text-align:left}
+.room-item-info{min-width:0;display:grid;gap:3px;text-align:left}.room-item-title{display:flex;align-items:center;gap:7px;min-width:0}.room-visibility-icon{width:15px;height:15px;object-fit:contain;flex:none;opacity:.92}.room-item-title strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .room-item-info strong{color:#f0d99e;font-size:11px;letter-spacing:.08em}
 .room-item-info small{color:#9fb39f;font-size:9px;line-height:1.3}
 .room-item .online-action{padding:7px 9px;font-size:8px;flex:none}
@@ -954,6 +954,40 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
   filter:brightness(.52) saturate(.62) contrast(.94)!important;
 }
 #playerHand .card:not(.disabled){filter:brightness(1) saturate(1)}
+
+/* Marcador compacto: tanteador arriba de PARTIDA A y sin rótulos de malas/buenas */
+.scorebar{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;align-items:center!important}
+.score-side{min-width:0!important}.score-side .score-name{max-width:clamp(48px,15vw,150px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.04em!important}
+.center-score{display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.16em!important}
+.score-line{display:flex;align-items:center;justify-content:center;gap:10px;color:#f1d79b;font:700 clamp(19px,2.5vw,27px) Georgia,serif;line-height:1.05;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.score-separator{opacity:.65;font-size:.78em}
+.score-tracks{display:flex;align-items:center;gap:9px}
+.score-tracks .score-track{margin-top:0}
+.score-side .avatar{overflow:hidden;flex:0 0 auto}
+.score-side .avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+@media(max-width:390px){.scorebar{gap:5px!important}.score-line{font-size:19px;gap:7px}.score-side .score-name{max-width:65px;font-size:8px!important}.score-tracks{gap:5px}}
+
+.create-room-card{width:min(420px,100%)}
+.room-visibility-title{margin:14px 0 7px;color:#cbbd99;font-size:9px;font-weight:900;letter-spacing:.12em}
+.room-visibility-options{display:grid;gap:7px}
+.room-visibility-options label{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid rgba(213,190,137,.22);border-radius:7px;background:rgba(0,0,0,.18);cursor:pointer}
+.room-visibility-options input{accent-color:#d7bc80}
+.room-visibility-options span{display:grid;gap:3px}
+.room-visibility-options b{color:#f1d9a1;font-size:10px;letter-spacing:.08em}
+.room-visibility-options small{color:#aebda9;font-size:9px;line-height:1.35}
+
+
+/* Configuración compacta de sala y borrado visible solo al pasar por la sala propia */
+.profile-guest-name{margin:2px 0 12px;color:#f1d79b;font:700 15px Georgia,serif;letter-spacing:.08em;text-align:center}
+.create-room-flor{margin:10px 0 14px}
+.create-room-card select{width:100%;min-height:38px;padding:8px 10px;border:1px solid rgba(221,197,143,.28);border-radius:6px;background:#102b21;color:#f5ecd7;color-scheme:dark}
+.room-item-actions{display:flex;align-items:center;gap:6px;flex:none}
+.room-delete-btn{width:29px;height:29px;display:grid;place-items:center;border:1px solid rgba(213,120,100,.25);border-radius:5px;background:rgba(80,18,14,.25);opacity:0;pointer-events:none;transition:opacity .15s,background .15s;cursor:pointer}
+.room-delete-btn svg{width:16px;height:16px;color:#e7a08e;display:block}
+.room-item:hover .room-delete-btn,.room-item:focus-within .room-delete-btn{opacity:1;pointer-events:auto}
+.room-delete-btn:hover{background:rgba(150,40,28,.42)}
+@media(hover:none){.room-delete-btn{opacity:1;pointer-events:auto}}
+
 </style>
 
 <style id="multiplayer-menu-styles">
@@ -1211,17 +1245,17 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 
 
 <style id="wood-table-and-fluid-performance">
-/* El paño de la mesa se carga desde background.png?v=20261126-10, junto al HTML. */
+/* El paño de la mesa se carga desde background.png?v=20261126-14, junto al HTML. */
 .table-wrap{
  background-color:#04420f!important;
- background-image:url("./bg/background.png?v=20261126-10")!important;
+ background-image:url("./bg/background.png?v=20261126-14")!important;
  background-position:center center!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
  border-color:#4b2b18!important;
  box-shadow:0 15px 29px rgba(12,7,4,.48),0 4px 0 #2b180e,inset 0 0 0 2px rgba(243,207,157,.16)!important;
 }
-/* La textura CSS anterior queda desactivada para no tapar ni alterar background.png?v=20261126-10. */
+/* La textura CSS anterior queda desactivada para no tapar ni alterar background.png?v=20261126-14. */
 .table-wrap:before{display:none!important}
 
 /* Resultado de la mano: tantos ganados grandes y totales debajo de cada lado. */
@@ -1353,7 +1387,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:-1!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1434,7 +1468,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1482,7 +1516,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1522,7 +1556,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1550,7 +1584,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .table-wrap:before{display:none!important;content:none!important}
 .felt{
   background-color:transparent!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1573,7 +1607,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .menu-card::before{
   background-image:
     linear-gradient(rgba(0,0,0,.34),rgba(0,0,0,.34)),
-    url("./bg/background.png?v=20261126-10")!important;
+    url("./bg/background.png?v=20261126-14")!important;
   background-position:center center,center center!important;
   background-size:cover,cover!important;
   background-repeat:no-repeat,no-repeat!important;
@@ -1601,7 +1635,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 .table-wrap::before{content:none!important;display:none!important;background:none!important}
 #felt.felt{
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1644,7 +1678,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   box-sizing:border-box!important;
   width:100%!important;
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:0 0!important;
   background-size:100% 100%!important;
   background-repeat:no-repeat!important;
@@ -1669,7 +1703,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 
 
 <style id="final-felt-image-fit-v9">
-/* El paño usa background.png?v=20261126-10 completa, sin recortes ni deformación.
+/* El paño usa background.png?v=20261126-14 completa, sin recortes ni deformación.
    La textura se limita al rectángulo interior de #felt; el marco queda aparte. */
 .table-wrap{
   background-color:transparent!important;
@@ -1691,7 +1725,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border:0!important;
   border-radius:0!important;
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-10")!important;
+  background-image:url("./bg/background.png?v=20261126-14")!important;
   background-position:center center!important;
   background-size:contain!important;
   background-repeat:no-repeat!important;
@@ -1718,9 +1752,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   background-color:#04420f!important;
   background-image:
     radial-gradient(ellipse at 50% 48%,
-      rgba(0,0,0,0) 48%,
-      rgba(0,0,0,.34) 100%),
-    url("./bg/background.png?v=20261126-10")!important;
+      rgba(0,0,0,0) 44%,
+      rgba(0,0,0,.43) 100%),
+    url("./bg/background.png?v=20261126-14")!important;
   background-position:center center,center center!important;
   /* Se adapta a todo el interior del marco: no quedan franjas vacías ni se
      muestra el fondo de madera por debajo del paño. */
@@ -1815,15 +1849,11 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
     <div class="menu-tab-panel menu-online-pane" id="menuOnlinePane" role="tabpanel" aria-labelledby="menuTabOnline" hidden>
       <div class="online-panel visible" id="onlinePanel" aria-live="polite">
         <div class="menu-account-line" id="onlineAccountLine" hidden></div>
-        <label class="flor-option online-flor-option" for="florEnabledOnline"><span class="flor-copy"><b>FLOR</b><small>Permite flor, contra flor y contra flor al resto.</small></span><input id="florEnabledOnline" type="checkbox"><i class="toggle-ui"></i></label>
-        <label class="online-name-label" id="onlineNameLabel">TU NOMBRE<input id="onlinePlayerName" maxlength="18" autocomplete="nickname" placeholder="Jugador" value="Jugador"></label>
         <div class="online-actions" id="onlineCreateRow"><button type="button" class="online-action" id="createRoomBtn">CREAR SALA</button></div>
         <div class="room-browser">
           <div class="room-list-head"><strong>PARTIDAS DISPONIBLES</strong><button class="room-refresh" id="refreshRoomsBtn" type="button">↻ ACTUALIZAR</button></div>
           <div class="room-list" id="roomList"><div class="room-empty">Actualizá para buscar partidas abiertas.</div></div>
         </div>
-        <label class="online-code-label" for="joinRoomCode">O UNIRSE CON CÓDIGO</label>
-        <div class="online-join" id="onlineJoinRow"><input id="joinRoomCode" maxlength="6" autocomplete="off" spellcheck="false" placeholder="CÓDIGO DE 6 CARACTERES"><button type="button" class="online-action" id="joinRoomBtn">UNIRSE</button></div>
         <div class="online-lobby" id="onlineLobby" hidden>
           <div class="online-room-code-label">CÓDIGO DE PARTIDA</div><div class="online-room-code"><strong id="onlineRoomCode">------</strong><button type="button" id="copyRoomCodeBtn" aria-label="Copiar código">COPIAR</button></div>
           <div class="online-status" id="onlineStatus">Conectando…</div>
@@ -1853,7 +1883,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
    Trucos cantados (vos / IA): <b id="statTrucoCalls">0</b> · Envidos cantados (vos / IA): <b id="statEnvidoCalls">0</b><br>
    Racha actual: <b id="statStreak">0</b> · Mejor racha: <b id="statBestStreak">0</b>
   </div>
-  <p class="stats-note">Sin iniciar sesión, las estadísticas quedan en este navegador. Con una cuenta personal, se sincronizan y podés recuperarlas en otros dispositivos.</p>
+  <p class="stats-note">Tus estadísticas se guardan localmente en este navegador y dispositivo.</p>
   <button class="stats-back" id="statsClose" type="button">VOLVER</button>
  </section>
 </div>
@@ -1863,9 +1893,9 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
     <div class="top-tools"><button class="menu-icon-btn game-sound-toggle" id="soundToggleGame" type="button" aria-label="Desactivar sonidos" title="Desactivar sonidos"><img src="./svg/speaker.svg" alt=""><span class="sound-slash" aria-hidden="true"></span></button><button class="new-btn menu-return" id="menuBtn">MENÚ PRINCIPAL</button></div>
   </header>
   <section class="scorebar">
-    <div class="score-side"><div class="avatar">TÚ</div><div><div class="score-name">VOS</div><div class="score-caption" id="you-half">MALAS</div></div><div class="score-num" id="scoreYou">0</div></div>
-    <div class="center-score"><div id="targetLabel">PARTIDA A 30</div><div class="score-track" id="trackYou"></div><div class="score-track right" id="trackAI"></div></div>
-    <div class="score-side right"><div class="score-num" id="scoreAI">0</div><div><div class="score-name">LA IA</div><div class="score-caption" id="ai-half">MALAS</div></div><div class="avatar">IA</div></div>
+    <div class="score-side"><div class="avatar" id="youScoreAvatar">TÚ</div><div class="score-name" id="youScoreName">VOS</div></div>
+    <div class="center-score"><div class="score-line"><span id="scoreYou">0</span><span class="score-separator">—</span><span id="scoreAI">0</span></div><div id="targetLabel">PARTIDA A 30</div><div class="score-tracks"><div class="score-track" id="trackYou"></div><div class="score-track right" id="trackAI"></div></div></div>
+    <div class="score-side right"><div class="score-name" id="opponentScoreName">LA IA</div><div class="avatar" id="opponentScoreAvatar">IA</div></div>
   </section>
   <section class="event-strip" aria-live="polite">
     <div><b>ENVIDO</b><span id="eventEnvido">Sin cantar</span></div>
@@ -1900,25 +1930,30 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 <div class="overlay" id="overlay"><div class="result-card"><div class="result-kicker" id="resultKicker">FIN DE LA MANO</div><div class="result-title" id="resultTitle">¡Bien jugado!</div><div class="result-hand-points" id="resultHandPoints" hidden aria-live="polite"><div class="result-points-numbers"><span id="resultYouPoints">0</span><b aria-hidden="true">×</b><span id="resultRivalPoints">0</span></div><div class="result-points-totals"><span id="resultYouTotal">(0)</span><span aria-hidden="true"></span><span id="resultRivalTotal">(0)</span></div></div><div class="result-desc" id="resultDesc"></div><button class="new-btn" id="overlayButton">CONTINUAR</button></div></div>
 <div class="profile-overlay" id="profileOverlay" aria-hidden="true">
  <section class="profile-card" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
-  <div class="profile-head"><div class="profile-title" id="profileTitle">CUENTA PERSONAL</div><button class="profile-close" id="profileClose" type="button" aria-label="Cerrar">×</button></div>
-  <div id="profileSignedOut">
-   <div class="profile-tabs"><button id="accountLoginTab" class="active" type="button">INICIAR SESIÓN</button><button id="accountRegisterTab" type="button">CREAR CUENTA</button></div>
-   <p class="profile-note" id="accountRegisterHelp" hidden>Creá un usuario y una contraseña para guardar tus estadísticas y recuperarlas en otros dispositivos.</p>
-   <form id="accountForm" novalidate>
-    <label class="profile-field">NOMBRE DE USUARIO<input id="accountUsername" name="username" type="text" minlength="3" maxlength="18" autocomplete="username" autocapitalize="off" spellcheck="false" required placeholder="De 3 a 18 caracteres"></label>
-    <label class="profile-field">CONTRASEÑA<input id="accountPassword" name="password" type="password" minlength="8" maxlength="72" autocomplete="current-password" required placeholder="Mínimo 8 caracteres"></label>
-    <button class="profile-submit" id="accountSubmit" type="submit">INICIAR SESIÓN</button>
-   </form>
-  </div>
-  <div class="profile-signed" id="profileSignedIn" hidden>
+  <div class="profile-head"><div class="profile-title" id="profileTitle">PERFIL LOCAL</div><button class="profile-close" id="profileClose" type="button" aria-label="Cerrar">×</button></div>
+  <div class="profile-signed">
    <img class="profile-avatar" id="profileAvatar" src="./svg/user.svg" alt="Foto de perfil">
-   <strong class="profile-user-name" id="profileUsername"></strong>
-   <span class="profile-note">Tu cuenta guarda tu progreso y tus estadísticas.</span>
-   <label class="profile-field profile-photo-field">CAMBIAR FOTO DE PERFIL<input id="accountAvatarFileSigned" type="file" accept="image/png,image/jpeg,image/webp"></label>
-   <button class="profile-small-btn" id="accountAvatarSave" type="button" disabled>GUARDAR FOTO</button>
-   <button class="profile-small-btn profile-logout-btn" id="accountLogout" type="button">CERRAR SESIÓN</button>
+   <div class="profile-guest-name" id="profileGuestName">Guest000</div>
+   <label class="profile-field profile-photo-field">FOTO DE PERFIL<input id="accountAvatarFileSigned" type="file" accept="image/png,image/jpeg,image/webp"></label>
+   <button class="profile-submit" id="accountSaveLocal" type="button">GUARDAR PERFIL</button>
+   <span class="profile-note">Tu nombre automático, foto y estadísticas se guardan solamente en este dispositivo y navegador.</span>
   </div>
   <div class="profile-note" id="accountMessage" role="status" aria-live="polite"></div>
+ </section>
+</div>
+<div class="profile-overlay" id="createRoomOverlay" aria-hidden="true">
+ <section class="profile-card create-room-card" role="dialog" aria-modal="true" aria-labelledby="createRoomTitle">
+  <div class="profile-head"><div class="profile-title" id="createRoomTitle">CREAR SERVIDOR</div><button class="profile-close" id="createRoomClose" type="button" aria-label="Cerrar">×</button></div>
+  <label class="profile-field">NOMBRE DEL SERVIDOR<input id="newRoomName" type="text" maxlength="24" placeholder="Ej. La mesa de Juan" value="Sala de Truco"></label>
+  <label class="profile-field">PUNTOS PARA GANAR<select id="newRoomTargetPoints"><option value="15">15 puntos</option><option value="30" selected>30 puntos</option><option value="40">40 puntos</option></select></label>
+  <label class="flor-option create-room-flor" for="newRoomFlor"><span class="flor-copy"><b>FLOR</b><small>Activar flor, contra flor y contra flor al resto.</small></span><input id="newRoomFlor" type="checkbox"><i class="toggle-ui"></i></label>
+  <div class="room-visibility-title">VISIBILIDAD</div>
+  <div class="room-visibility-options">
+   <label><input type="radio" name="roomVisibility" value="public" checked><span><b>PÚBLICO</b><small>Aparece en la lista y cualquiera puede entrar.</small></span></label>
+   <label><input type="radio" name="roomVisibility" value="private"><span><b>PRIVADO</b><small>Aparece con un candado y requiere código para entrar.</small></span></label>
+  </div>
+  <button class="profile-submit" id="confirmCreateRoomBtn" type="button">CREAR SERVIDOR</button>
+  <div class="profile-note" id="createRoomMessage" role="status" aria-live="polite"></div>
  </section>
 </div>
 
@@ -1973,9 +2008,11 @@ const localPlayer=0;
 const STATS_STORAGE_KEY='truco_argentino_stats_v1';
 const SOUND_STORAGE_KEY='truco_argentino_sound_muted_v1';
 const MENU_TAB_STORAGE_KEY='truco_argentino_menu_tab_v1';
-const ACCOUNT_SESSION_STORAGE_KEY='truco_argentino_account_session_v1';
+const LOCAL_PROFILE_STORAGE_KEY='truco_argentino_local_profile_v1';
+const GUEST_NAME_STORAGE_KEY='truco_argentino_guest_name_v1';
+const HOSTED_ROOMS_STORAGE_KEY='truco_argentino_hosted_rooms_v1';
 let gameSoundsMuted=localStorage.getItem(SOUND_STORAGE_KEY)==='1';
-let accountSessionToken=localStorage.getItem(ACCOUNT_SESSION_STORAGE_KEY)||'',accountProfile=null,accountMode='login',accountAvatarData=null,accountSyncTimer=null,accountRestorePromise=Promise.resolve();
+let accountProfile=null,accountAvatarData=null,accountRestorePromise=Promise.resolve();
 let activeMenuTab='ai';
 const AI_MEMORY_STORAGE_KEY='truco_argentino_ai_memory_v1';
 const statsDefaults={matchesPlayed:0,matchesWon:0,matchesLost:0,handsPlayed:0,handsWon:0,handsLost:0,pointsFor:0,pointsAgainst:0,trucoCallsYou:0,trucoCallsAI:0,envidoCallsYou:0,envidoCallsAI:0,currentStreak:0,bestWinStreak:0};
@@ -1984,7 +2021,7 @@ function readStoredObject(key,defaults){try{const raw=localStorage.getItem(key);
 let persistentStats=readStoredObject(STATS_STORAGE_KEY,statsDefaults);
 let aiMemory=readStoredObject(AI_MEMORY_STORAGE_KEY,aiMemoryDefaults);
 function saveStoredObject(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch(e){console.warn('No se pudo guardar el progreso local:',e);}}
-function savePersistentStats(){saveStoredObject(STATS_STORAGE_KEY,persistentStats);if($('statsOverlay')?.classList.contains('show'))renderStatsPanel();accountQueueProgressSync();}
+function savePersistentStats(){saveStoredObject(STATS_STORAGE_KEY,persistentStats);if($('statsOverlay')?.classList.contains('show'))renderStatsPanel();}
 function saveAIMemory(){saveStoredObject(AI_MEMORY_STORAGE_KEY,aiMemory);}
 function renderStatsPanel(){
  const matches=Number(persistentStats.matchesPlayed)||0,wins=Number(persistentStats.matchesWon)||0;
@@ -2291,7 +2328,8 @@ function floatCall(label){
 function eventText(id,text){const el=$(id);if(el)el.textContent=text;}
 function isMultiplayer(){return !!multiplayerSession&&multiplayerInGame;}
 function opponentLabel(){return isMultiplayer()?(multiplayerOpponentName||'RIVAL'):'LA IA';}
-function playerName(p){return p===localPlayer?'Vos':(isMultiplayer()?multiplayerOpponentName:'La IA');}
+function localPlayerName(){return accountProfile?.username||'Guest000';}
+function playerName(p){return p===localPlayer?localPlayerName():(isMultiplayer()?multiplayerOpponentName:'La IA');}
 function winnerPhrase(p){return p===localPlayer?'Ganaste vos':(isMultiplayer()?'Ganó '+(multiplayerOpponentName||'tu rival'):'Ganó la IA');}
 function hasFlor(hand){return !!hand&&hand.length===3&&hand.every(c=>c&&!c.hidden&&c.suit===hand[0].suit);}
 function florPoints(hand){return hasFlor(hand)?20+hand.reduce((sum,c)=>sum+c.envido,0):0;}
@@ -2301,14 +2339,15 @@ function scoreTrack(score){return Array.from({length:state.targetPoints},(_,i)=>
 function renderScore(){
  const you=state.scores[0],opp=state.scores[1];
  $('scoreYou').textContent=you;$('scoreAI').textContent=opp;
- $('you-half').textContent=you>=state.targetPoints/2?'BUENAS':'MALAS';$('ai-half').textContent=opp>=state.targetPoints/2?'BUENAS':'MALAS';
  $('trackYou').innerHTML=scoreTrack(you);$('trackAI').innerHTML=scoreTrack(opp);
- const sides=document.querySelectorAll('.score-side');
- const setSideName=(side,isLocal)=>{if(!side)return;const name=side.querySelector('.score-name'),avatar=side.querySelector('.avatar');name.textContent=isLocal?'VOS':(isMultiplayer()?(multiplayerOpponentName||'RIVAL').toUpperCase():'LA IA');avatar.textContent=isLocal?'TÚ':(isMultiplayer()?'RIV':'IA');};
- setSideName(sides[0],true);setSideName(sides[1],false);
- if(isMultiplayer()&&sides[1]){const name=sides[1].querySelector('.score-name'),avatar=sides[1].querySelector('.avatar');if(name)name.textContent=(multiplayerOpponentName||'RIVAL').toUpperCase();if(avatar)avatar.textContent='RIV';}
+ const localName=localPlayerName(),opponentName=isMultiplayer()?(multiplayerOpponentName||'RIVAL'):'LA IA';
+ const nameYou=$('youScoreName'),nameOpp=$('opponentScoreName');
+ if(nameYou)nameYou.textContent=localName.toUpperCase();
+ if(nameOpp)nameOpp.textContent=opponentName.toUpperCase();
+ const localAvatar=$('youScoreAvatar'),opponentAvatar=$('opponentScoreAvatar');
+ if(localAvatar){localAvatar.textContent='';if(accountProfile?.avatar){const img=document.createElement('img');img.src=accountProfile.avatar;img.alt='';localAvatar.appendChild(img);}else localAvatar.textContent=localName.slice(0,2).toUpperCase();}
+ if(opponentAvatar){opponentAvatar.textContent=isMultiplayer()?'RIV':'IA';}
 }
-function currentTrickSlot(p){const play=state.currentTrick.find(x=>x.player===p);return play?cardMarkup(play.card,{cls:'played-card from-'+(p===localPlayer?'you':'ai'),tilt:p===localPlayer?-2:2}):'<div class="empty-slot"></div>';}
 function renderHistory(){
  const root=$('trickHistory');
  const html=state.tricks.map((t,i)=>`<div class="history-pair ${t.winner===null?'': 'won'}"><span class="history-mark">${i+1}</span>${t.cards.map(x=>cardMarkup(x.card,{tiny:true,tilt:x.player===localPlayer?-2:2})).join('')}</div>`).join('');
@@ -3404,113 +3443,41 @@ function mpConnectSession(session){
  }catch(e){mpSetMessage('El navegador no pudo abrir WebSocket.',true);}
 }
 
-function accountApiBase(){return (typeof MULTIPLAYER_API_BASE==='string'&&!MULTIPLAYER_API_BASE.includes('TU-SUBDOMINIO'))?MULTIPLAYER_API_BASE.replace(/\/$/,''):null;}
 function accountSetMessage(message,isError=false){const node=mpEl('accountMessage');if(node){node.textContent=message||'';node.style.color=isError?'#e49b8f':'#aebda9';}}
-function accountSetMode(mode){
- accountMode=mode==='register'?'register':'login';
- mpEl('accountLoginTab').classList.toggle('active',accountMode==='login');
- mpEl('accountRegisterTab').classList.toggle('active',accountMode==='register');
- mpEl('accountRegisterHelp').hidden=accountMode!=='register';
- mpEl('accountSubmit').textContent=accountMode==='register'?'CREAR CUENTA':'INICIAR SESIÓN';
- mpEl('accountPassword').autocomplete=accountMode==='register'?'new-password':'current-password';
- mpEl('accountPassword').value='';
+function accountOpen(){
+ const overlay=mpEl('profileOverlay');overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');
+ mpEl('profileAvatar').src=accountProfile?.avatar||'./svg/user.svg';
+ const guest=mpEl('profileGuestName');if(guest)guest.textContent=accountProfile?.username||'Guest000';
  accountSetMessage('');
-}
-async function accountOpen(){
- try{await accountRestorePromise;}catch{}
- const overlay=mpEl('profileOverlay');
- overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');
- accountSetMessage('');
- if(accountSessionToken&&accountProfile)accountRenderUI();else accountSetMode('login');
 }
 function accountClose(){const overlay=mpEl('profileOverlay');overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');}
 function accountRenderUI(){
- const signed=!!(accountSessionToken&&accountProfile);
- mpEl('profileSignedOut').hidden=signed;mpEl('profileSignedIn').hidden=!signed;
- if(signed){
-  mpEl('profileUsername').textContent=accountProfile.username;
-  mpEl('profileAvatar').src=accountProfile.avatar||'./svg/user.svg';
-  mpEl('profileTitle').textContent='AJUSTES DE CUENTA';
- }else mpEl('profileTitle').textContent='CUENTA PERSONAL';
- const label=mpEl('onlineNameLabel'),line=mpEl('onlineAccountLine');
- if(signed){mpEl('onlinePlayerName').value=accountProfile.username;label.hidden=true;line.hidden=false;line.textContent=`CONECTADO COMO ${accountProfile.username.toUpperCase()}`;}
- else{label.hidden=false;line.hidden=true;}
- const profileButton=mpEl('profileOpen');if(profileButton){profileButton.title=signed?`Ajustes de cuenta: ${accountProfile.username}`:'Cuenta personal';profileButton.setAttribute('aria-label',profileButton.title);}
+ const username=accountProfile?.username||'Guest000';
+ const line=mpEl('onlineAccountLine');if(line){line.hidden=false;line.textContent=username.toUpperCase();}
+ if(state)renderScore();
+ const profileButton=mpEl('profileOpen');if(profileButton){profileButton.title='Cambiar foto de perfil · '+username;profileButton.setAttribute('aria-label',profileButton.title);}
 }
-function accountTokenHeaders(){return accountSessionToken?{Authorization:`Bearer ${accountSessionToken}`}:{ };}
 async function accountCompressAvatar(file){
  if(!file)return null;if(!/^image\/(png|jpeg|webp)$/.test(file.type))throw new Error('Elegí una foto PNG, JPG o WebP.');
  if(file.size>8*1024*1024)throw new Error('La foto original debe pesar menos de 8 MB.');
  const objectUrl=URL.createObjectURL(file);
+ try{const img=new Image();img.src=objectUrl;await img.decode();const size=256,canvas=document.createElement('canvas');canvas.width=size;canvas.height=size;const ctx=canvas.getContext('2d');const scale=Math.max(size/img.width,size/img.height),width=img.width*scale,height=img.height*scale;ctx.drawImage(img,(size-width)/2,(size-height)/2,width,height);const data=canvas.toDataURL('image/webp',.72);if(data.length>115000)throw new Error('La foto no se pudo comprimir lo suficiente. Probá con otra imagen.');return data;}finally{URL.revokeObjectURL(objectUrl);}
+}
+async function accountSaveLocal(){
  try{
-  const img=new Image();img.src=objectUrl;await img.decode();
-  const size=256,canvas=document.createElement('canvas');canvas.width=size;canvas.height=size;
-  const ctx=canvas.getContext('2d');const scale=Math.max(size/img.width,size/img.height),width=img.width*scale,height=img.height*scale;
-  ctx.drawImage(img,(size-width)/2,(size-height)/2,width,height);
-  const data=canvas.toDataURL('image/webp',.72);
-  if(data.length>115000)throw new Error('La foto no se pudo comprimir lo suficiente. Probá con otra imagen.');
-  return data;
- }finally{URL.revokeObjectURL(objectUrl);}
+  const file=mpEl('accountAvatarFileSigned').files?.[0];
+  const avatar=file?await accountCompressAvatar(file):(accountProfile?.avatar||'');
+  accountProfile={username:accountProfile?.username||'Guest000',avatar};localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));
+  mpEl('profileAvatar').src=avatar||'./svg/user.svg';mpEl('accountAvatarFileSigned').value='';accountRenderUI();accountSetMessage('Foto guardada en este dispositivo.');
+ }catch(error){accountSetMessage(error.message||'No se pudo guardar la foto.',true);}
 }
-function accountQueueProgressSync(){if(!accountSessionToken||!accountApiBase())return;if(accountSyncTimer)clearTimeout(accountSyncTimer);accountSyncTimer=setTimeout(accountSyncProgress,700);}
-async function accountSyncProgress(){
- if(!accountSessionToken||!accountApiBase())return;
- try{const response=await fetch(accountApiBase()+'/api/account/progress',{method:'PUT',headers:{'Content-Type':'application/json',...accountTokenHeaders()},body:JSON.stringify({stats:persistentStats})});if(response.status===401){accountSessionToken='';localStorage.removeItem(ACCOUNT_SESSION_STORAGE_KEY);accountProfile=null;accountRenderUI();}}
- catch(error){console.warn('No se pudo sincronizar el progreso de la cuenta:',error);}
-}
-function accountApplyProfile(profile){
- accountProfile=profile||null;
- if(accountProfile?.stats){persistentStats={...statsDefaults,...accountProfile.stats};saveStoredObject(STATS_STORAGE_KEY,persistentStats);renderStatsPanel();}
+function accountRestore(){
+ let guest='';try{guest=localStorage.getItem(GUEST_NAME_STORAGE_KEY)||'';}catch{}
+ if(!/^Guest\d{3}$/.test(guest)){guest='Guest'+String(Math.floor(Math.random()*1000)).padStart(3,'0');try{localStorage.setItem(GUEST_NAME_STORAGE_KEY,guest);}catch{}}
+ let saved=null;try{saved=JSON.parse(localStorage.getItem(LOCAL_PROFILE_STORAGE_KEY)||'null');}catch{}
+ accountProfile={username:guest,avatar:typeof saved?.avatar==='string'?saved.avatar:''};
+ try{localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));}catch{}
  accountRenderUI();
-}
-async function accountRestore(){
- accountRenderUI();if(!accountSessionToken||!accountApiBase())return;
- try{const response=await fetch(accountApiBase()+'/api/account/me',{headers:accountTokenHeaders()});if(!response.ok)throw new Error('Sesión vencida');const data=await response.json();accountApplyProfile(data.profile);}
- catch(error){accountSessionToken='';localStorage.removeItem(ACCOUNT_SESSION_STORAGE_KEY);accountProfile=null;accountRenderUI();}
-}
-async function accountSubmitForm(ev){
- ev.preventDefault();
- const btn=mpEl('accountSubmit');
- if(btn.disabled)return;
- btn.disabled=true;
- accountSetMessage(accountMode==='register'?'Creando cuenta…':'Iniciando sesión…');
- try{
-  const base=accountApiBase();if(!base)throw new Error('No está configurado el servidor de cuentas.');
-  const username=mpEl('accountUsername').value.trim(),password=mpEl('accountPassword').value;
-  if(!/^[A-Za-z0-9_]{3,18}$/.test(username))throw new Error('El usuario debe tener entre 3 y 18 caracteres: letras, números o _.');
-  if(password.length<8||password.length>72)throw new Error('La contraseña debe tener entre 8 y 72 caracteres.');
-  const endpoint=accountMode==='register'?'/api/account/register':'/api/account/login';
-  const body={username,password};
-  if(accountMode==='register')body.stats=persistentStats;
-  const response=await fetch(base+endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  const raw=await response.text();let data={};try{data=raw?JSON.parse(raw):{};}catch{}
-  if(!response.ok)throw new Error(data.error||`El servidor respondió con error (${response.status}).`);
-  if(!data.token||!data.profile)throw new Error('El servidor no devolvió los datos de la cuenta.');
-  accountSessionToken=data.token;localStorage.setItem(ACCOUNT_SESSION_STORAGE_KEY,accountSessionToken);
-  accountApplyProfile(data.profile);mpEl('accountPassword').value='';
-  accountSetMessage(accountMode==='register'?'Cuenta creada. Tu progreso ya está guardado.':'Sesión iniciada. Tu progreso está sincronizado.');
- }catch(error){accountSetMessage(error.message||'Error de cuenta.',true);}
- finally{btn.disabled=false;}
-}
-async function accountUpdateAvatar(){
- const btn=mpEl('accountAvatarSave'),file=mpEl('accountAvatarFileSigned')?.files?.[0];
- if(!accountSessionToken||!accountProfile)return accountSetMessage('Iniciá sesión para cambiar tu foto.',true);
- if(!file)return accountSetMessage('Elegí primero una foto.',true);
- btn.disabled=true;accountSetMessage('Guardando foto…');
- try{
-  const avatar=await accountCompressAvatar(file),base=accountApiBase();
-  const response=await fetch(base+'/api/account/progress',{method:'PUT',headers:{'Content-Type':'application/json',...accountTokenHeaders()},body:JSON.stringify({stats:persistentStats,avatar})});
-  const raw=await response.text();let data={};try{data=raw?JSON.parse(raw):{};}catch{}
-  if(!response.ok)throw new Error(data.error||`No se pudo guardar la foto (${response.status}).`);
-  accountProfile={...accountProfile,avatar};accountRenderUI();mpEl('accountAvatarFileSigned').value='';
-  accountSetMessage('Foto de perfil actualizada.');
- }catch(error){accountSetMessage(error.message||'No se pudo actualizar la foto.',true);}
- finally{btn.disabled=false;}
-}
-async function accountLogout(){
- try{if(accountSessionToken&&accountApiBase())await fetch(accountApiBase()+'/api/account/logout',{method:'POST',headers:accountTokenHeaders()});}catch{}
- accountSessionToken='';accountProfile=null;localStorage.removeItem(ACCOUNT_SESSION_STORAGE_KEY);
- accountRenderUI();accountSetMode('login');accountSetMessage('Cerraste sesión.');
 }
 function setMenuTab(mode,persist=true){
  activeMenuTab=mode==='online'?'online':'ai';const online=activeMenuTab==='online';
@@ -3539,31 +3506,38 @@ function initSoundToggle(){
  ['soundToggle','soundToggleGame'].forEach(id=>{const button=mpEl(id);if(button){button.addEventListener('click',toggleGameSounds);syncSoundToggleButton(button);}});
 } 
 
-function mpGetPlayerName(fallback='Jugador'){return accountProfile?.username||mpEl('onlinePlayerName')?.value.trim()||fallback;}
+function mpGetPlayerName(fallback='Jugador'){return accountProfile?.username||'Guest000';}
+function mpOpenCreateRoom(){
+ mpEl('newRoomName').value='Sala de Truco';mpEl('newRoomTargetPoints').value='30';mpEl('newRoomFlor').checked=false;mpEl('createRoomMessage').textContent='';
+ mpEl('createRoomOverlay').classList.add('show');mpEl('createRoomOverlay').setAttribute('aria-hidden','false');
+}
+function mpCloseCreateRoom(){mpEl('createRoomOverlay').classList.remove('show');mpEl('createRoomOverlay').setAttribute('aria-hidden','true');}
 async function mpCreateRoom(){
- try{await accountRestorePromise;}catch{}
- if(!mpApiReady()){mpSetMessage('Falta configurar MULTIPLAYER_API_BASE con la URL workers.dev de tu Worker.',true);return;}
- const btn=mpEl('createRoomBtn');btn.disabled=true;mpSetMessage('Creando sala…');
+ if(!mpApiReady()){mpSetMessage('No se pudo conectar con el servidor multijugador.',true);return;}
+ const btn=mpEl('confirmCreateRoomBtn');btn.disabled=true;mpEl('createRoomMessage').textContent='Creando servidor…';
  try{
   const api=MULTIPLAYER_API_BASE.replace(/\/$/,''),name=mpGetPlayerName('Jugador 1');
-  const response=await fetch(api+'/api/rooms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({targetPoints:Number(mpEl('targetPoints').value)||30,withFlor:mpEl('florEnabledOnline').checked,playerName:name})});
-  const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo crear la sala.');
-  const session={api,code:data.code,token:data.token,seat:data.seat,name};mpStartLobby(session);
- }catch(e){mpSetMessage(e.message||'Error al crear la sala.',true);}finally{btn.disabled=false;}
+  const roomName=mpEl('newRoomName').value.trim().replace(/\s+/g,' ').slice(0,24)||'Sala de Truco';
+  const visibility=document.querySelector('input[name="roomVisibility"]:checked')?.value==='private'?'private':'public';
+  const targetPoints=Number(mpEl('newRoomTargetPoints').value)||30,withFlor=mpEl('newRoomFlor').checked;
+  const response=await fetch(api+'/api/rooms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({targetPoints,withFlor,playerName:name,roomName,isPrivate:visibility==='private',visibility})});
+  const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo crear el servidor.');
+  const session={api,code:data.code,token:data.token,seat:data.seat,name,roomName,visibility};mpRememberHostedRoom(session);mpCloseCreateRoom();mpStartLobby(session);setTimeout(()=>mpRefreshRooms(true),500);
+ }catch(e){mpEl('createRoomMessage').textContent=e.message||'Error al crear el servidor.';}
+ finally{btn.disabled=false;}
 }
 async function mpJoinRoom(roomCode=null){
  try{await accountRestorePromise;}catch{}
  if(!mpApiReady()){mpSetMessage('Falta configurar MULTIPLAYER_API_BASE con la URL workers.dev de tu Worker.',true);return;}
- const code=String(roomCode||mpEl('joinRoomCode').value).replace(/[^a-z0-9]/gi,'').toUpperCase();
- if(roomCode)mpEl('joinRoomCode').value=code;
+ const code=String(roomCode||'').replace(/[^a-z0-9]/gi,'').toUpperCase();
  if(!/^[A-Z0-9]{6}$/.test(code)){mpSetMessage('El código debe tener exactamente 6 caracteres.',true);return;}
- const btn=mpEl('joinRoomBtn');btn.disabled=true;mpSetMessage('Buscando partida…');
+ mpSetMessage('Buscando partida…');
  try{
   const api=MULTIPLAYER_API_BASE.replace(/\/$/,''),name=mpGetPlayerName('Jugador 2');
   const response=await fetch(`${api}/api/rooms/${code}/join`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({playerName:name})});
   const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo unir a la sala.');
   mpStartLobby({api,code,token:data.token,seat:data.seat,name});
- }catch(e){mpSetMessage(e.message||'Error al unirse.',true);}finally{btn.disabled=false;}
+ }catch(e){mpSetMessage(e.message||'Error al unirse.',true);}
 }
 function mpStartLobby(session){
  if(!session.resume)setMenuTab('online');multiplayerSession=session;multiplayerOpponentName='Rival';mpSaveSession();
@@ -3852,6 +3826,24 @@ function mpApplySnapshot(view){
  }
 }
 
+function mpGetHostedRooms(){try{const rows=JSON.parse(localStorage.getItem(HOSTED_ROOMS_STORAGE_KEY)||'[]');return Array.isArray(rows)?rows:[];}catch{return [];}}
+function mpRememberHostedRoom(session){if(!session?.code||!session?.token)return;const rows=mpGetHostedRooms().filter(x=>x.code!==session.code);rows.push({api:session.api,code:session.code,token:session.token,roomName:session.roomName||''});try{localStorage.setItem(HOSTED_ROOMS_STORAGE_KEY,JSON.stringify(rows));}catch(e){console.warn('No se pudo guardar el servidor creado en este dispositivo',e);}}
+function mpIsLocalHost(room){return mpGetHostedRooms().some(x=>x.code===room.code&&x.api===MULTIPLAYER_API_BASE);}
+async function mpDeleteHostedRoom(room,button){
+ if(!mpIsLocalHost(room))return;
+ const title=room.roomName||room.name||room.code;
+ if(!window.confirm(`¿Seguro que querés borrar el servidor «${title}»? Esta acción cerrará la sala para todos.`))return;
+ const saved=mpGetHostedRooms().find(x=>x.code===room.code&&x.api===MULTIPLAYER_API_BASE);if(!saved)return;
+ if(button)button.disabled=true;
+ try{
+  const response=await fetch(`${MULTIPLAYER_API_BASE.replace(/\/$/,'')}/api/rooms/${encodeURIComponent(room.code)}`,{method:'DELETE',headers:{'Content-Type':'application/json','Authorization':`Bearer ${saved.token}`,'X-Room-Token':saved.token},body:JSON.stringify({token:saved.token})});
+  let data={};try{data=await response.json();}catch{}
+  if(!response.ok)throw new Error(data.error||'El Worker no permitió borrar la sala.');
+  const remaining=mpGetHostedRooms().filter(x=>!(x.code===room.code&&x.api===MULTIPLAYER_API_BASE));try{localStorage.setItem(HOSTED_ROOMS_STORAGE_KEY,JSON.stringify(remaining));}catch{}
+  if(multiplayerSession?.code===room.code)mpLeaveToMenu();
+  mpSetMessage('Servidor eliminado.');await mpRefreshRooms();
+ }catch(error){window.alert(error.message||'No se pudo eliminar el servidor.');if(button)button.disabled=false;}
+}
 async function mpRefreshRooms(quiet=false){
  const list=mpEl('roomList');if(!list||mpRoomsFetchInFlight)return;if(!mpApiReady()){list.innerHTML='<div class="room-empty">Configurá la URL de Cloudflare para ver las salas.</div>';return;}
  mpRoomsFetchInFlight=true;
@@ -3859,12 +3851,19 @@ async function mpRefreshRooms(quiet=false){
  try{
   const response=await fetch(MULTIPLAYER_API_BASE.replace(/\/$/, '')+'/api/rooms',{cache:'no-store'});const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo consultar el directorio.');
   const rooms=Array.isArray(data.rooms)?data.rooms:[];const fragment=document.createDocumentFragment();
-  if(!rooms.length){const empty=document.createElement('div');empty.className='room-empty';empty.textContent='No hay salas esperando jugadores. Podés crear una o unirte con un código.';fragment.appendChild(empty);}
+  if(!rooms.length){const empty=document.createElement('div');empty.className='room-empty';empty.textContent='No hay servidores disponibles. Podés crear una sala.';fragment.appendChild(empty);}
   rooms.forEach(room=>{
    const row=document.createElement('div');row.className='room-item';const info=document.createElement('div');info.className='room-item-info';
-   const title=document.createElement('strong');title.textContent=`${room.code} · ${room.playerName||'Jugador'}`;
-   const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores · ${room.targetPoints||30} puntos · ${room.withFlor?'Con flor':'Sin flor'}`;
-   info.append(title,meta);const join=document.createElement('button');join.className='online-action';join.type='button';join.textContent='UNIRSE';join.addEventListener('click',()=>mpJoinRoom(room.code));row.append(info,join);fragment.appendChild(row);
+   const isPrivate=!!(room.isPrivate||room.visibility==='private');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
+   const titleLine=document.createElement('div');titleLine.className='room-item-title';
+   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-14`;lock.onerror=()=>{lock.style.display='none';};titleLine.append(lock,title);
+   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='svg/flower.svg?v=20261126-14';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
+   const points=document.createElement('span');points.className='room-points-icon';points.textContent=String([15,30,40].includes(Number(room.targetPoints))?Number(room.targetPoints):30);points.setAttribute('aria-label',`Partida a ${points.textContent} puntos`);titleLine.appendChild(points);
+   const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores`;
+   info.append(titleLine,meta);const actions=document.createElement('div');actions.className='room-item-actions';
+   const join=document.createElement('button');join.className='online-action';join.type='button';join.textContent='UNIRSE';join.addEventListener('click',()=>{if(isPrivate){const accessCode=window.prompt('Este servidor es privado. Introducí el código de acceso:');if(accessCode===null)return;mpJoinRoom(accessCode);}else{mpJoinRoom(room.code);}});actions.appendChild(join);
+   if(mpIsLocalHost(room)){const del=document.createElement('button');del.className='room-delete-btn';del.type='button';del.title='Borrar servidor';del.setAttribute('aria-label','Borrar servidor');const trash=document.createElementNS('http://www.w3.org/2000/svg','svg');trash.setAttribute('viewBox','0 0 24 24');trash.setAttribute('aria-hidden','true');trash.innerHTML='<path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';del.appendChild(trash);del.addEventListener('click',()=>mpDeleteHostedRoom(room,del));actions.appendChild(del);}
+   row.append(info,actions);fragment.appendChild(row);
   });
   const scrollTop=list.scrollTop;list.replaceChildren(fragment);list.scrollTop=scrollTop;
  }catch(error){if(!quiet){list.innerHTML='';const empty=document.createElement('div');empty.className='room-empty';empty.textContent=error.message||'Error al cargar las salas.';list.appendChild(empty);}else console.warn('No se pudo actualizar la lista de salas:',error);}
@@ -3874,7 +3873,7 @@ function mpSetupModeUI(){setMenuTab(activeMenuTab||'ai',false);}
 function mpRestoreSavedSession(){
  if(!mpApiReady())return;
  try{const saved=JSON.parse(localStorage.getItem(MULTIPLAYER_SESSION_KEY)||'null');if(saved&&saved.api===MULTIPLAYER_API_BASE&&saved.code&&saved.token){
-   if(!accountProfile)mpEl('onlinePlayerName').value=saved.name||'Jugador';mpStartLobby({...saved,resume:true});
+   mpStartLobby({...saved,resume:true});
   }}catch(e){console.warn('No se pudo restaurar la sesión online',e);}
 }
 
@@ -3957,20 +3956,21 @@ let handDragConsumedClick=false;
 $('playerHand').addEventListener('click',ev=>{if(handDragConsumedClick){handDragConsumedClick=false;ev.preventDefault();return;}const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
 $('statsOpen').addEventListener('click',openStatsPanel);$('statsClose').addEventListener('click',closeStatsPanel);$('statsCloseX').addEventListener('click',closeStatsPanel);
 $('statsOverlay').addEventListener('click',ev=>{if(ev.target===$('statsOverlay'))closeStatsPanel();});
-document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&$('statsOverlay').classList.contains('show'))closeStatsPanel();if(ev.key==='Escape'&&mpEl('profileOverlay')?.classList.contains('show'))accountClose();if(ev.key==='Escape'&&mpChatOpen)mpChatMinimize();});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&$('statsOverlay').classList.contains('show'))closeStatsPanel();if(ev.key==='Escape'&&mpEl('profileOverlay')?.classList.contains('show'))accountClose();if(ev.key==='Escape'&&mpEl('createRoomOverlay')?.classList.contains('show'))mpCloseCreateRoom();if(ev.key==='Escape'&&mpChatOpen)mpChatMinimize();});
 $('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
 mpEl('menuTabAI')?.addEventListener('click',()=>setMenuTab('ai'));
 mpEl('menuTabOnline')?.addEventListener('click',()=>setMenuTab('online'));
-mpEl('createRoomBtn')?.addEventListener('click',mpCreateRoom);
+mpEl('createRoomBtn')?.addEventListener('click',mpOpenCreateRoom);
+mpEl('createRoomClose')?.addEventListener('click',mpCloseCreateRoom);
+mpEl('createRoomOverlay')?.addEventListener('click',ev=>{if(ev.target===mpEl('createRoomOverlay'))mpCloseCreateRoom();});
+mpEl('confirmCreateRoomBtn')?.addEventListener('click',mpCreateRoom);
 mpEl('refreshRoomsBtn')?.addEventListener('click',mpRefreshRooms);
 mpEl('profileOpen')?.addEventListener('click',accountOpen);mpEl('profileClose')?.addEventListener('click',accountClose);
 mpEl('profileOverlay')?.addEventListener('click',ev=>{if(ev.target===mpEl('profileOverlay'))accountClose();});
-mpEl('accountLoginTab')?.addEventListener('click',()=>accountSetMode('login'));mpEl('accountRegisterTab')?.addEventListener('click',()=>accountSetMode('register'));
-mpEl('accountForm')?.addEventListener('submit',accountSubmitForm);mpEl('accountLogout')?.addEventListener('click',accountLogout);
-mpEl('accountAvatarSave')?.addEventListener('click',accountUpdateAvatar);
-mpEl('accountAvatarFileSigned')?.addEventListener('change',ev=>{mpEl('accountAvatarSave').disabled=!ev.target.files?.[0];accountSetMessage(ev.target.files?.[0]?.name||'');});
+mpEl('accountSaveLocal')?.addEventListener('click',accountSaveLocal);
+mpEl('accountAvatarFileSigned')?.addEventListener('change',ev=>{const file=ev.target.files?.[0];if(file)accountSetMessage(file.name);});
 initSoundToggle();
-mpEl('joinRoomBtn')?.addEventListener('click',mpJoinRoom);
+
 mpEl('startOnlineGameBtn')?.addEventListener('click',mpStartOnlineGame);
 mpEl('cancelOnlineBtn')?.addEventListener('click',()=>{mpLeaveToMenu();mpSetMessage('');});
 mpEl('mpChatLauncher')?.addEventListener('click',mpChatOpenPanel);
@@ -3980,9 +3980,9 @@ mpEl('mpChatForm')?.addEventListener('submit',mpChatSubmit);
 window.addEventListener('online',()=>{if(multiplayerSession&&(!multiplayerSocket||multiplayerSocket.readyState===WebSocket.CLOSED))mpConnectSession(multiplayerSession);});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&multiplayerSession){if(multiplayerSocket?.readyState===WebSocket.OPEN)mpSend({type:'ping'});else if(!multiplayerSocket||multiplayerSocket.readyState===WebSocket.CLOSED)mpConnectSession(multiplayerSession);}});
 mpEl('copyRoomCodeBtn')?.addEventListener('click',()=>{const code=mpEl('onlineRoomCode')?.textContent||'';if(code&&navigator.clipboard?.writeText)navigator.clipboard.writeText(code).then(()=>mpSetMessage('Código copiado.')).catch(()=>mpSetMessage('No se pudo copiar; anotá el código.'));});
-mpEl('joinRoomCode')?.addEventListener('input',ev=>{ev.target.value=ev.target.value.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,6);});
-const savedMenuTab=localStorage.getItem(MENU_TAB_STORAGE_KEY)==='online'?'online':'ai';setMenuTab(savedMenuTab,false);accountRenderUI();accountRestorePromise=accountRestore();mpRestoreSavedSession();
-$('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline').checked=false;$('menuDifficulty').value='medium';renderStatsPanel();
+
+const savedMenuTab=localStorage.getItem(MENU_TAB_STORAGE_KEY)==='online'?'online':'ai';setMenuTab(savedMenuTab,false);accountRestore();mpRestoreSavedSession();
+$('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').value='medium';renderStatsPanel();
 })();
 </script>
 
@@ -4023,7 +4023,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['bg/background.png?v=20261126-10','bg/bg_ui.png?v=20261126-8','bg/bg_uip.png?v=20261126-8'];
+ const imageFiles=['bg/background.png?v=20261126-14','bg/bg_ui.png?v=20261126-8','bg/bg_uip.png?v=20261126-8'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
@@ -4123,5 +4123,103 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
 })();
 </script>
 
+
+<style id="final-card-layering-depth-and-status-colors">
+/* El panel de fin de mano siempre queda por encima de vuelos, barridos y demás animaciones. */
+#overlay.overlay,
+#profileOverlay.profile-overlay,
+#statsOverlay.stats-overlay{
+  z-index:20000!important;
+}
+.card-flight,
+.card-exit-flight,
+.truco-drag-ghost{
+  z-index:10004!important;
+}
+/* Evita que las cartas animadas o sus clones puedan tapar el resultado. */
+#overlay.show{isolation:isolate!important}
+
+/* Más volumen: sombra ambiental + sombra de contacto y un filo de luz muy sutil. */
+.card,
+.hand-cards .card,
+.played-card,
+.card.tiny,
+.ai-backs .back-card,
+.card-flight,
+.card-exit-flight,
+.deal-flying-card{
+  box-shadow:
+    0 2px 3px rgba(0,0,0,.34),
+    0 7px 12px rgba(0,0,0,.34),
+    0 14px 25px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.42)!important;
+}
+.hand-cards .card:hover{
+  box-shadow:
+    0 3px 5px rgba(0,0,0,.38),
+    0 10px 17px rgba(0,0,0,.38),
+    0 19px 30px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.48)!important;
+}
+.card-flight,.card-exit-flight{
+  filter:drop-shadow(0 9px 9px rgba(0,0,0,.24))!important;
+}
+
+/* Los identificadores TÚ / IA / RIV deben ser legibles, no verde oscuro. */
+.score-side .avatar,
+.score-side.right .avatar{
+  color:#fff4d8!important;
+  text-shadow:0 1px 3px rgba(0,0,0,.9),0 2px 7px rgba(0,0,0,.55)!important;
+}
+/* El punto de actividad de la IA usa dorado, no el verde de los fondos de UI. */
+.ai-info .ai-dot{
+  background:#e4c36f!important;
+  box-shadow:0 0 8px rgba(228,195,111,.72)!important;
+}
+/* Baza ganada: verde luminoso; perdida: rojo; parda: naranja. */
+.baza-dots .baza-dot.won{
+  background:#55b879!important;
+  border-color:#a4e4b8!important;
+  box-shadow:0 0 8px rgba(85,184,121,.68),inset 0 1px 2px rgba(0,0,0,.22)!important;
+}
+.baza-dots .baza-dot.lost{
+  background:#d44743!important;
+  border-color:#ffaaa0!important;
+  box-shadow:0 0 8px rgba(228,76,70,.55),inset 0 1px 2px rgba(255,229,226,.32)!important;
+}
+.baza-dots .baza-dot.draw{
+  background:#f08a32!important;
+  border-color:#ffc18a!important;
+  box-shadow:0 0 8px rgba(240,138,50,.76),inset 0 1px 2px rgba(255,239,220,.42)!important;
+}
+
+/* Iconos de configuración de cada sala: todos comparten la misma escala. */
+.room-item-title{gap:7px;}
+.room-visibility-icon,.room-flower-icon{width:16px;height:16px;min-width:16px;object-fit:contain;flex:none;}
+.room-points-icon{width:16px;height:16px;min-width:16px;box-sizing:border-box;border:1px solid rgba(240,217,158,.9);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#f0d99e;font:800 7px/1 Arial,sans-serif;letter-spacing:-.3px;flex:none;text-shadow:0 1px 2px #0008;}
+.room-item-info{flex:1;}
+.room-item-actions{margin-left:auto;justify-content:flex-end;gap:8px;}
+.room-delete-btn{order:2;margin-left:2px;}
+.room-item .online-action{order:1;}
+@media(hover:hover){.room-delete-btn{opacity:0;pointer-events:none;}.room-item:hover .room-delete-btn,.room-item:focus-within .room-delete-btn{opacity:1;pointer-events:auto;}}
+@media(hover:none){.room-delete-btn{opacity:1;pointer-events:auto;}}
+</style>
+
 </body>
 </html>
+
+
+/* La textura ocupa todo el marco de los paneles de la lista de servidores. */
+.room-browser,
+.room-item {
+  background-image: url("./bg/background.png?v=20261126-14") !important;
+  background-position: center center !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+.room-browser {
+  background-color: rgba(0,0,0,.12) !important;
+}
+.room-item {
+  background-color: rgba(0,0,0,.10) !important;
+}
