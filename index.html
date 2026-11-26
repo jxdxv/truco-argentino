@@ -1214,7 +1214,7 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 /* El paño de la mesa se carga desde background.png, junto al HTML. */
 .table-wrap{
  background-color:#04420f!important;
- background-image:url("./bg/background.png?v=20261126-3")!important;
+ background-image:url("./bg/background.png?v=20261126-4")!important;
  background-position:center center!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
@@ -1324,12 +1324,12 @@ html.performance-lite .mp-chat-launcher{
 
 <style id="external-wood-ui-textures">
 /* Fondo de madera de la interfaz: textura horizontal en escritorio y vertical en móviles. */
-html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
-.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
-#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;}
+html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-4")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
+.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-4")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
+#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-4")!important;background-position:center center!important;background-size:cover!important;}
 .menu-screen:before{opacity:.10!important;}
 @media(max-width:760px){
- html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-3")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
+ html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-4")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
 }
 </style>
 
@@ -1353,7 +1353,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:-1!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-3")!important;
+  background-image:url("./bg/background.png?v=20261126-4")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1434,7 +1434,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-3")!important;
+  background-image:url("./bg/background.png?v=20261126-4")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1461,6 +1461,80 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .hand-head,
 .turn-note{
   text-shadow:0 2px 3px rgba(0,0,0,.96),0 1px 1px rgba(0,0,0,.92)!important;
+}
+</style>
+
+
+
+<style id="same-original-background-in-game-and-menu">
+/* Un solo recurso, con la misma escala y posición en ambos sectores. */
+.table-wrap{
+  position:relative!important;
+  isolation:isolate!important;
+  background-color:#04420f!important;
+  background-image:none!important;
+}
+.table-wrap::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background-image:url("./bg/background.png?v=20261126-4")!important;
+  background-position:center center!important;
+  background-size:1672px 941px!important;
+  background-repeat:no-repeat!important;
+  filter:none!important;
+  opacity:1!important;
+}
+/* El paño interior queda transparente: ya no tapa el PNG con sus degradados. */
+.table-wrap > .felt{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+}
+.table-wrap > .felt::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+.table-wrap > .felt,
+.table-wrap > .bottom-area,
+.table-wrap > .event-strip{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* El panel usa exactamente la misma escala, posición y archivo que la mesa. */
+.menu-card{
+  position:relative!important;
+  isolation:isolate!important;
+  background:rgba(4,66,15,.08)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(112%)!important;
+  backdrop-filter:blur(7px) saturate(112%)!important;
+}
+.menu-card::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  border-radius:inherit!important;
+  background-image:url("./bg/background.png?v=20261126-4")!important;
+  background-position:center center!important;
+  background-size:1672px 941px!important;
+  background-repeat:no-repeat!important;
+  filter:none!important;
+  opacity:.98!important;
+}
+.menu-card>*{position:relative!important;z-index:1!important}
+.menu-ai-pane,
+.menu-online-pane,
+.menu-online-pane .online-panel{
+  background:transparent!important;
+  background-color:transparent!important;
 }
 </style>
 
@@ -3715,7 +3789,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['bg/background.png?v=20261126-3','bg/bg_ui.png?v=20261126-3','bg/bg_uip.png?v=20261126-3'];
+ const imageFiles=['bg/background.png?v=20261126-4','bg/bg_ui.png?v=20261126-4','bg/bg_uip.png?v=20261126-4'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
