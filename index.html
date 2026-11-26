@@ -1214,7 +1214,7 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 /* El paño de la mesa se carga desde background.png, junto al HTML. */
 .table-wrap{
  background-color:#04420f!important;
- background-image:url("./bg/background.png?v=20261126-6")!important;
+ background-image:url("./bg/background.png?v=20261126-7")!important;
  background-position:center center!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
@@ -1324,12 +1324,12 @@ html.performance-lite .mp-chat-launcher{
 
 <style id="external-wood-ui-textures">
 /* Fondo de madera de la interfaz: textura horizontal en escritorio y vertical en móviles. */
-html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-6")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
-.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-6")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
-#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-6")!important;background-position:center center!important;background-size:cover!important;}
+html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-7")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;background-attachment:fixed!important;}
+.menu-screen{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-7")!important;background-position:center center!important;background-size:cover!important;background-repeat:no-repeat!important;}
+#assetPreloader{background-color:#21170f!important;background-image:url("./bg/bg_ui.png?v=20261126-7")!important;background-position:center center!important;background-size:cover!important;}
 .menu-screen:before{opacity:.10!important;}
 @media(max-width:760px){
- html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-6")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
+ html,body,.menu-screen,#assetPreloader{background-image:url("./bg/bg_uip.png?v=20261126-7")!important;background-position:center center!important;background-size:cover!important;background-attachment:scroll!important;}
 }
 </style>
 
@@ -1353,7 +1353,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:-1!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-6")!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1434,7 +1434,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-6")!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1482,7 +1482,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-6")!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1522,7 +1522,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-6")!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1550,7 +1550,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .table-wrap:before{display:none!important;content:none!important}
 .felt{
   background-color:transparent!important;
-  background-image:url("./bg/background.png?v=20261126-6")!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1573,7 +1573,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .menu-card::before{
   background-image:
     linear-gradient(rgba(0,0,0,.34),rgba(0,0,0,.34)),
-    url("./bg/background.png?v=20261126-6")!important;
+    url("./bg/background.png?v=20261126-7")!important;
   background-position:center center,center center!important;
   background-size:cover,cover!important;
   background-repeat:no-repeat,no-repeat!important;
@@ -1590,6 +1590,51 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 .card img,.true-card-flip img,.menu-icon-btn img{ text-shadow:none!important; }
 </style>
 
+
+<style id="restore-game-felt-and-card-depth">
+/* Restaurar el paño dentro de la zona exacta de juego. La imagen se dibuja
+   directamente sobre #felt, sin filtros ni capas de color encima. */
+.table-wrap{
+  background-image:none!important;
+  background-color:transparent!important;
+}
+.table-wrap::before{content:none!important;display:none!important;background:none!important}
+#felt.felt{
+  background-color:#04420f!important;
+  background-image:url("./bg/background.png?v=20261126-7")!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-blend-mode:normal!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+  position:relative!important;
+  z-index:1!important;
+}
+#felt.felt::after{content:none!important;display:none!important;background:none!important}
+#felt.felt::before{pointer-events:none!important}
+
+/* Profundidad y sombra difuminada suave para cartas en mano, mesa e historial. */
+.card,
+.hand-cards .card,
+.card.tiny,
+.ai-backs .card.ai-revealed,
+.deal-player-back,
+.deal-flying-card,
+.card-flight{
+  box-shadow:0 5px 10px rgba(0,0,0,.28),
+             0 11px 20px rgba(0,0,0,.22),
+             0 2px 3px rgba(0,0,0,.24)!important;
+}
+.hand-cards .card:hover{
+  box-shadow:0 8px 13px rgba(0,0,0,.30),
+             0 17px 26px rgba(0,0,0,.28)!important;
+}
+.true-card-flip .true-card-front{
+  box-shadow:0 6px 12px rgba(0,0,0,.24),
+             0 13px 24px rgba(0,0,0,.30)!important;
+}
+</style>
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -3841,7 +3886,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['bg/background.png?v=20261126-6','bg/bg_ui.png?v=20261126-6','bg/bg_uip.png?v=20261126-6'];
+ const imageFiles=['bg/background.png?v=20261126-7','bg/bg_ui.png?v=20261126-7','bg/bg_uip.png?v=20261126-7'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
