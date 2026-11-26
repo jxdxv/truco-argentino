@@ -1209,6 +1209,118 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 }
 </style>
 
+
+<style id="wood-table-and-fluid-performance">
+/* El paño de la mesa se carga desde background.png, junto al HTML. */
+.table-wrap{
+ background-color:#075039!important;
+ background-image:url("./background.png")!important;
+ background-position:center center!important;
+ background-size:cover!important;
+ background-repeat:no-repeat!important;
+ border-color:#4b2b18!important;
+ box-shadow:0 15px 29px rgba(12,7,4,.48),0 4px 0 #2b180e,inset 0 0 0 2px rgba(243,207,157,.16)!important;
+}
+/* La textura CSS anterior queda desactivada para no tapar ni alterar background.png. */
+.table-wrap:before{display:none!important}
+
+/* Resultado de la mano: tantos ganados grandes y totales debajo de cada lado. */
+.result-hand-points{
+ display:block;
+ width:min(270px,100%);
+ margin:5px auto 12px;
+ padding:2px 0 0;
+}
+.result-hand-points[hidden]{display:none!important}
+.result-points-numbers,.result-points-totals{
+ display:grid;
+ grid-template-columns:1fr 30px 1fr;
+ align-items:center;
+ justify-items:center;
+}
+.result-points-numbers{
+ color:#f4d36c;
+ font:900 clamp(30px,6vw,39px)/1.05 Georgia,"Times New Roman",serif;
+ letter-spacing:.025em;
+ text-shadow:0 2px 6px rgba(20,10,2,.55);
+}
+.result-points-numbers b{
+ color:#e9d7a0;
+ font:700 22px/1 Georgia,serif;
+ text-shadow:none;
+}
+.result-points-totals{
+ margin-top:2px;
+ color:#d6c8a7;
+ font:600 12px/1.25 "DM Sans",system-ui,sans-serif;
+ letter-spacing:.04em;
+}
+.result-desc{margin-top:7px}
+
+/* Menos repintados: se conservan los movimientos importantes de las cartas,
+   pero se quitan filtros y desenfoques de las animaciones decorativas. */
+.overlay,.profile-overlay,.stats-overlay{
+ backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+}
+.gold-call,.felt-callout,.mp-chat-message,.mp-opponent-chat-bubble{
+ filter:none!important;
+}
+.gold-call{
+ text-shadow:0 2px 6px rgba(25,12,3,.60)!important;
+}
+.card-flight,.card-exit-flight,.truco-drag-ghost{
+ filter:none!important;
+}
+#playerHand .card,#playerHand .card img,
+.played-card,.back-card{
+ -webkit-user-drag:none;
+}
+#playerHand .card{will-change:auto!important}
+.played-card,.card-flight,.card-exit-flight{
+ backface-visibility:hidden;
+}
+.table-wrap{isolation:isolate}
+@media(max-width:760px),(pointer:coarse){
+ .table-wrap{
+  box-shadow:0 9px 18px rgba(12,7,4,.42),0 3px 0 #2b180e,inset 0 0 0 1px rgba(243,207,157,.14)!important;
+ }
+ .card,.hand-cards .card{
+  box-shadow:0 6px 11px rgba(0,12,8,.40),0 1px 2px rgba(0,0,0,.25)!important;
+ }
+ .played-card,.card-flight,.card-exit-flight{filter:none!important}
+ .gold-call{text-shadow:0 1px 4px rgba(25,12,3,.55)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .gold-call,.mp-chat-panel,.mp-chat-message,.mp-opponent-chat-bubble{animation:none!important}
+}
+html.performance-lite .menu-backdrop,
+html.performance-lite .menu-backdrop::before,
+html.performance-lite .menu-backdrop::after{
+ filter:none!important;
+ animation:none!important;
+}
+html.performance-lite .table-wrap{
+ box-shadow:0 7px 15px rgba(12,7,4,.38),0 2px 0 #2b180e!important;
+}
+html.performance-lite .card,
+html.performance-lite .hand-cards .card{
+ box-shadow:0 4px 8px rgba(0,12,8,.38)!important;
+}
+html.performance-lite .ai-dot{
+ box-shadow:none!important;
+ animation:none!important;
+}
+html.performance-lite .gold-call{
+ filter:none!important;
+ text-shadow:0 1px 4px rgba(25,12,3,.48)!important;
+}
+html.performance-lite .mp-chat-panel,
+html.performance-lite .mp-chat-launcher{
+ box-shadow:0 4px 10px rgba(0,0,0,.18)!important;
+}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -1334,7 +1446,7 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
   </main>
   <footer class="footer"><span><b>TRUCO CRIOLLO</b> · Reglas argentinas clásicas</span><span>SVG locales → CDN de respaldo → cartas CSS · anuncios solo texto · VS. IA sin conexión</span></footer>
 </div>
-<div class="overlay" id="overlay"><div class="result-card"><div class="result-kicker" id="resultKicker">FIN DE LA MANO</div><div class="result-title" id="resultTitle">¡Bien jugado!</div><div class="result-desc" id="resultDesc"></div><button class="new-btn" id="overlayButton">CONTINUAR</button></div></div>
+<div class="overlay" id="overlay"><div class="result-card"><div class="result-kicker" id="resultKicker">FIN DE LA MANO</div><div class="result-title" id="resultTitle">¡Bien jugado!</div><div class="result-hand-points" id="resultHandPoints" hidden aria-live="polite"><div class="result-points-numbers"><span id="resultYouPoints">0</span><b aria-hidden="true">×</b><span id="resultRivalPoints">0</span></div><div class="result-points-totals"><span id="resultYouTotal">(0)</span><span aria-hidden="true"></span><span id="resultRivalTotal">(0)</span></div></div><div class="result-desc" id="resultDesc"></div><button class="new-btn" id="overlayButton">CONTINUAR</button></div></div>
 <div class="profile-overlay" id="profileOverlay" aria-hidden="true">
  <section class="profile-card" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
   <div class="profile-head"><div class="profile-title" id="profileTitle">CUENTA PERSONAL</div><button class="profile-close" id="profileClose" type="button" aria-label="Cerrar">×</button></div>
@@ -2624,6 +2736,18 @@ function finishHand(winner,unused,isFold=false){
  });
 }
 function checkMatchEnd(){if(state.scores[0]>=state.targetPoints||state.scores[1]>=state.targetPoints){state.gameOver=true;const w=state.scores[0]>=state.targetPoints?0:1;showOverlay('PARTIDA TERMINADA',w===localPlayer?'¡GANASTE!':'GANÓ LA IA',`Resultado final: ${state.scores[0]} — ${state.scores[1]}.`,'VOLVER AL MENÚ',openMainMenu);}}
+function getHandPointBreakdown(){
+ if(!state||!state.handOver||!Array.isArray(state.scores))return null;
+ const totals=state.scores;
+ const start=Array.isArray(state.handScoreAtStart)?state.handScoreAtStart:totals;
+ const earned=index=>Math.max(0,Math.round((Number(totals[index])||0)-(Number(start[index])||0)));
+ return {
+  you:earned(0),
+  rival:earned(1),
+  youTotal:Math.max(0,Math.round(Number(totals[0])||0)),
+  rivalTotal:Math.max(0,Math.round(Number(totals[1])||0))
+ };
+}
 function showOverlay(kicker,title,desc,button,fn){
  const outcome=String(title||'');
  if(String(kicker||'').includes('PARTIDA TERMINADA')&&state){
@@ -2632,7 +2756,17 @@ function showOverlay(kicker,title,desc,button,fn){
  }
  if(outcome.includes('GANASTE')||outcome.toLowerCase().includes('la mano es tuya'))playProceduralSound('matchWin');
  else if(outcome.includes('GANÓ LA IA')||outcome.includes('IA se lleva la mano')||(isMultiplayer()&&(outcome.toUpperCase().includes('GANÓ')||outcome.toUpperCase().includes('LA MANO ES DE'))))playProceduralSound('matchLose');
- $('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
+ $('resultKicker').textContent=kicker;$('resultTitle').textContent=title;$('resultDesc').textContent=desc;
+ const handPoints=getHandPointBreakdown(),handPointsPanel=$('resultHandPoints');
+ if(handPointsPanel){
+  handPointsPanel.hidden=!handPoints;
+  if(handPoints){
+   $('resultYouPoints').textContent=handPoints.you;
+   $('resultRivalPoints').textContent=handPoints.rival;
+   $('resultYouTotal').textContent=`(${handPoints.youTotal})`;
+   $('resultRivalTotal').textContent=`(${handPoints.rivalTotal})`;
+  }
+ }$('overlayButton').textContent=button;overlayAction=fn;$('overlayButton').onclick=()=>{if(overlayAction)overlayAction();};$('overlay').classList.add('show');}
 function unseenPoolForPlay(){return sampleUnknownCards();}
 function chooseAiCard(){
  const hand=state.hands[1];if(hand.length<=1)return 0;
@@ -3521,5 +3655,20 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('florEnabledOnline
  }
 })();
 </script>
+
+<script id="adaptive-performance-profile">
+(function(){
+ try{
+  const nav=window.navigator||{};
+  const memory=Number(nav.deviceMemory)||0;
+  const cores=Number(nav.hardwareConcurrency)||0;
+  const saveData=!!(nav.connection&&nav.connection.saveData);
+  const coarse=!!(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+  const constrained=saveData||(memory>0&&memory<=4)||(cores>0&&cores<=4)||(coarse&&cores>0&&cores<=6);
+  if(constrained)document.documentElement.classList.add('performance-lite');
+ }catch(_){}
+})();
+</script>
+
 </body>
 </html>
