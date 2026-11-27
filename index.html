@@ -884,6 +884,13 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .profile-small-btn:disabled{opacity:.4;cursor:not-allowed}
 .profile-photo-field{width:100%;text-align:left;box-sizing:border-box}
 .profile-photo-field input{width:100%}
+.profile-photo-picker{position:relative;display:block;width:72px;height:72px;border-radius:50%;cursor:pointer;overflow:hidden;border:2px solid #d7bc80;background:#04420f}
+.profile-photo-picker .profile-avatar{display:block;width:100%;height:100%;border:0;transition:filter .18s ease}
+.profile-photo-plus{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:400 34px Arial,sans-serif;background:rgba(0,0,0,0);opacity:0;transition:background .18s ease,opacity .18s ease}
+.profile-photo-picker:hover .profile-avatar,.profile-photo-picker:focus-within .profile-avatar{filter:brightness(.48)}
+.profile-photo-picker:hover .profile-photo-plus,.profile-photo-picker:focus-within .profile-photo-plus{opacity:1;background:rgba(0,0,0,.16)}
+.profile-file-hidden{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
 .profile-logout-btn{margin-top:5px;border-color:rgba(224,143,126,.38);color:#e8b0a4}
 #accountRegisterHelp{margin:0 0 12px}
 
@@ -1245,17 +1252,17 @@ img[src*=".svg" i], img[data-remote-src*=".svg" i] { -webkit-user-drag:none!impo
 
 
 <style id="wood-table-and-fluid-performance">
-/* El paño de la mesa se carga desde background.png?v=20261126-14, junto al HTML. */
+/* El paño de la mesa se carga desde background.png?v=20261126-15, junto al HTML. */
 .table-wrap{
  background-color:#04420f!important;
- background-image:url("./bg/background.png?v=20261126-14")!important;
+ background-image:url("./bg/background.png?v=20261126-15")!important;
  background-position:center center!important;
  background-size:cover!important;
  background-repeat:no-repeat!important;
  border-color:#4b2b18!important;
  box-shadow:0 15px 29px rgba(12,7,4,.48),0 4px 0 #2b180e,inset 0 0 0 2px rgba(243,207,157,.16)!important;
 }
-/* La textura CSS anterior queda desactivada para no tapar ni alterar background.png?v=20261126-14. */
+/* La textura CSS anterior queda desactivada para no tapar ni alterar background.png?v=20261126-15. */
 .table-wrap:before{display:none!important}
 
 /* Resultado de la mano: tantos ganados grandes y totales debajo de cada lado. */
@@ -1387,7 +1394,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:-1!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1468,7 +1475,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1516,7 +1523,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1556,7 +1563,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
   z-index:0!important;
   pointer-events:none!important;
   border-radius:inherit!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:1672px 941px!important;
   background-repeat:no-repeat!important;
@@ -1584,7 +1591,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .table-wrap:before{display:none!important;content:none!important}
 .felt{
   background-color:transparent!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1607,7 +1614,7 @@ html,body{background-color:#21170f!important;background-image:url("./bg/bg_ui.pn
 .menu-card::before{
   background-image:
     linear-gradient(rgba(0,0,0,.34),rgba(0,0,0,.34)),
-    url("./bg/background.png?v=20261126-14")!important;
+    url("./bg/background.png?v=20261126-15")!important;
   background-position:center center,center center!important;
   background-size:cover,cover!important;
   background-repeat:no-repeat,no-repeat!important;
@@ -1635,7 +1642,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 .table-wrap::before{content:none!important;display:none!important;background:none!important}
 #felt.felt{
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:cover!important;
   background-repeat:no-repeat!important;
@@ -1678,7 +1685,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   box-sizing:border-box!important;
   width:100%!important;
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:0 0!important;
   background-size:100% 100%!important;
   background-repeat:no-repeat!important;
@@ -1703,7 +1710,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 
 
 <style id="final-felt-image-fit-v9">
-/* El paño usa background.png?v=20261126-14 completa, sin recortes ni deformación.
+/* El paño usa background.png?v=20261126-15 completa, sin recortes ni deformación.
    La textura se limita al rectángulo interior de #felt; el marco queda aparte. */
 .table-wrap{
   background-color:transparent!important;
@@ -1725,7 +1732,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border:0!important;
   border-radius:0!important;
   background-color:#04420f!important;
-  background-image:url("./bg/background.png?v=20261126-14")!important;
+  background-image:url("./bg/background.png?v=20261126-15")!important;
   background-position:center center!important;
   background-size:contain!important;
   background-repeat:no-repeat!important;
@@ -1754,7 +1761,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
     radial-gradient(ellipse at 50% 48%,
       rgba(0,0,0,0) 44%,
       rgba(0,0,0,.43) 100%),
-    url("./bg/background.png?v=20261126-14")!important;
+    url("./bg/background.png?v=20261126-15")!important;
   background-position:center center,center center!important;
   /* Se adapta a todo el interior del marco: no quedan franjas vacías ni se
      muestra el fondo de madera por debajo del paño. */
@@ -1931,12 +1938,20 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 <div class="profile-overlay" id="profileOverlay" aria-hidden="true">
  <section class="profile-card" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
   <div class="profile-head"><div class="profile-title" id="profileTitle">PERFIL LOCAL</div><button class="profile-close" id="profileClose" type="button" aria-label="Cerrar">×</button></div>
-  <div class="profile-signed">
-   <img class="profile-avatar" id="profileAvatar" src="./svg/user.svg" alt="Foto de perfil">
-   <div class="profile-guest-name" id="profileGuestName">Guest000</div>
-   <label class="profile-field profile-photo-field">FOTO DE PERFIL<input id="accountAvatarFileSigned" type="file" accept="image/png,image/jpeg,image/webp"></label>
-   <button class="profile-submit" id="accountSaveLocal" type="button">GUARDAR PERFIL</button>
-   <span class="profile-note">Tu nombre automático, foto y estadísticas se guardan solamente en este dispositivo y navegador.</span>
+  <div id="accountCreatePanel" class="profile-signed" hidden>
+   <label class="profile-photo-picker" for="accountAvatarFileCreate" title="Elegir foto"><img class="profile-avatar" id="profileCreateAvatar" src="./svg/user.svg" alt="Elegir foto de perfil"><span class="profile-photo-plus">+</span></label>
+   <input class="profile-file-hidden" id="accountAvatarFileCreate" type="file" accept="image/png,image/jpeg,image/webp">
+   <label class="profile-field">NOMBRE<input id="accountCreateName" type="text" maxlength="18" autocomplete="nickname" placeholder="Tu nombre" required></label>
+   <button class="profile-submit" id="accountCreateSave" type="button">CREAR CUENTA</button>
+   <span class="profile-note">Tu nombre, foto y estadísticas se guardan solamente en este dispositivo y navegador.</span>
+  </div>
+  <div id="accountManagePanel" class="profile-signed" hidden>
+   <label class="profile-photo-picker" for="accountAvatarFileSigned" title="Cambiar foto"><img class="profile-avatar" id="profileAvatar" src="./svg/user.svg" alt="Cambiar foto de perfil"><span class="profile-photo-plus">+</span></label>
+   <input class="profile-file-hidden" id="accountAvatarFileSigned" type="file" accept="image/png,image/jpeg,image/webp">
+   <label class="profile-field">NOMBRE<input id="accountEditName" type="text" maxlength="18" autocomplete="nickname"></label>
+   <button class="profile-submit" id="accountSaveLocal" type="button">GUARDAR CAMBIOS</button>
+   <button class="profile-small-btn profile-logout-btn" id="accountLogout" type="button">CERRAR SESIÓN</button>
+   <span class="profile-note">Tu cuenta local y tus estadísticas se guardan en este dispositivo y navegador.</span>
   </div>
   <div class="profile-note" id="accountMessage" role="status" aria-live="polite"></div>
  </section>
@@ -3446,8 +3461,10 @@ function mpConnectSession(session){
 function accountSetMessage(message,isError=false){const node=mpEl('accountMessage');if(node){node.textContent=message||'';node.style.color=isError?'#e49b8f':'#aebda9';}}
 function accountOpen(){
  const overlay=mpEl('profileOverlay');overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');
- mpEl('profileAvatar').src=accountProfile?.avatar||'./svg/user.svg';
- const guest=mpEl('profileGuestName');if(guest)guest.textContent=accountProfile?.username||'Guest000';
+ const hasAccount=!!accountProfile?.created;
+ mpEl('accountCreatePanel').hidden=hasAccount;mpEl('accountManagePanel').hidden=!hasAccount;
+ if(hasAccount){mpEl('profileAvatar').src=accountProfile.avatar||'./svg/user.svg';mpEl('accountEditName').value=accountProfile.username||'';}
+ else{mpEl('profileCreateAvatar').src=accountProfile?.avatar||'./svg/user.svg';mpEl('accountCreateName').value='';}
  accountSetMessage('');
 }
 function accountClose(){const overlay=mpEl('profileOverlay');overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');}
@@ -3455,7 +3472,7 @@ function accountRenderUI(){
  const username=accountProfile?.username||'Guest000';
  const line=mpEl('onlineAccountLine');if(line){line.hidden=false;line.textContent=username.toUpperCase();}
  if(state)renderScore();
- const profileButton=mpEl('profileOpen');if(profileButton){profileButton.title='Cambiar foto de perfil · '+username;profileButton.setAttribute('aria-label',profileButton.title);}
+ const profileButton=mpEl('profileOpen');if(profileButton){profileButton.title='Cuenta · '+username;profileButton.setAttribute('aria-label',profileButton.title);}
 }
 async function accountCompressAvatar(file){
  if(!file)return null;if(!/^image\/(png|jpeg|webp)$/.test(file.type))throw new Error('Elegí una foto PNG, JPG o WebP.');
@@ -3465,17 +3482,32 @@ async function accountCompressAvatar(file){
 }
 async function accountSaveLocal(){
  try{
-  const file=mpEl('accountAvatarFileSigned').files?.[0];
-  const avatar=file?await accountCompressAvatar(file):(accountProfile?.avatar||'');
-  accountProfile={username:accountProfile?.username||'Guest000',avatar};localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));
-  mpEl('profileAvatar').src=avatar||'./svg/user.svg';mpEl('accountAvatarFileSigned').value='';accountRenderUI();accountSetMessage('Foto guardada en este dispositivo.');
- }catch(error){accountSetMessage(error.message||'No se pudo guardar la foto.',true);}
+  const username=mpEl('accountEditName').value.trim();if(!username){accountSetMessage('Escribí un nombre.',true);return;}if(username.length>18){accountSetMessage('El nombre admite hasta 18 caracteres.',true);return;}
+  const file=mpEl('accountAvatarFileSigned').files?.[0];const avatar=file?await accountCompressAvatar(file):(accountProfile?.avatar||'');
+  accountProfile={username,avatar,created:true};localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));
+  mpEl('profileAvatar').src=avatar||'./svg/user.svg';mpEl('accountAvatarFileSigned').value='';accountRenderUI();accountSetMessage('Cambios guardados en este dispositivo.');
+ }catch(error){accountSetMessage(error.message||'No se pudo guardar el perfil.',true);}
+}
+async function accountCreateLocal(){
+ try{
+  const username=mpEl('accountCreateName').value.trim();if(!username){accountSetMessage('Escribí un nombre para crear tu cuenta.',true);return;}if(username.length>18){accountSetMessage('El nombre admite hasta 18 caracteres.',true);return;}
+  const file=mpEl('accountAvatarFileCreate').files?.[0];const avatar=file?await accountCompressAvatar(file):'';
+  accountProfile={username,avatar,created:true};localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));
+  mpEl('accountAvatarFileCreate').value='';accountRenderUI();accountOpen();accountSetMessage('Cuenta creada correctamente.');
+ }catch(error){accountSetMessage(error.message||'No se pudo crear la cuenta.',true);}
+}
+function accountLogout(){
+ if(!confirm('¿Seguro que querés cerrar sesión? Tu cuenta local dejará de estar activa en este navegador.'))return;
+ let guest='Guest'+String(Math.floor(Math.random()*1000)).padStart(3,'0');
+ accountProfile={username:guest,avatar:'',created:false};
+ try{localStorage.setItem(GUEST_NAME_STORAGE_KEY,guest);localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));}catch{}
+ accountRenderUI();accountOpen();accountSetMessage('Sesión cerrada. Tus estadísticas locales se conservaron.');
 }
 function accountRestore(){
  let guest='';try{guest=localStorage.getItem(GUEST_NAME_STORAGE_KEY)||'';}catch{}
  if(!/^Guest\d{3}$/.test(guest)){guest='Guest'+String(Math.floor(Math.random()*1000)).padStart(3,'0');try{localStorage.setItem(GUEST_NAME_STORAGE_KEY,guest);}catch{}}
  let saved=null;try{saved=JSON.parse(localStorage.getItem(LOCAL_PROFILE_STORAGE_KEY)||'null');}catch{}
- accountProfile={username:guest,avatar:typeof saved?.avatar==='string'?saved.avatar:''};
+ accountProfile={username:saved?.created===true&&typeof saved?.username==='string'?saved.username:guest,avatar:typeof saved?.avatar==='string'?saved.avatar:'',created:saved?.created===true};
  try{localStorage.setItem(LOCAL_PROFILE_STORAGE_KEY,JSON.stringify(accountProfile));}catch{}
  accountRenderUI();
 }
@@ -3856,8 +3888,8 @@ async function mpRefreshRooms(quiet=false){
    const row=document.createElement('div');row.className='room-item';const info=document.createElement('div');info.className='room-item-info';
    const isPrivate=!!(room.isPrivate||room.visibility==='private');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
    const titleLine=document.createElement('div');titleLine.className='room-item-title';
-   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-14`;lock.onerror=()=>{lock.style.display='none';};titleLine.append(lock,title);
-   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='svg/flower.svg?v=20261126-14';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
+   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-15`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(lock,title);
+   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261126-15';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
    const points=document.createElement('span');points.className='room-points-icon';points.textContent=String([15,30,40].includes(Number(room.targetPoints))?Number(room.targetPoints):30);points.setAttribute('aria-label',`Partida a ${points.textContent} puntos`);titleLine.appendChild(points);
    const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores`;
    info.append(titleLine,meta);const actions=document.createElement('div');actions.className='room-item-actions';
@@ -3968,7 +4000,10 @@ mpEl('refreshRoomsBtn')?.addEventListener('click',mpRefreshRooms);
 mpEl('profileOpen')?.addEventListener('click',accountOpen);mpEl('profileClose')?.addEventListener('click',accountClose);
 mpEl('profileOverlay')?.addEventListener('click',ev=>{if(ev.target===mpEl('profileOverlay'))accountClose();});
 mpEl('accountSaveLocal')?.addEventListener('click',accountSaveLocal);
-mpEl('accountAvatarFileSigned')?.addEventListener('change',ev=>{const file=ev.target.files?.[0];if(file)accountSetMessage(file.name);});
+mpEl('accountCreateSave')?.addEventListener('click',accountCreateLocal);
+mpEl('accountLogout')?.addEventListener('click',accountLogout);
+mpEl('accountAvatarFileSigned')?.addEventListener('change',ev=>{const file=ev.target.files?.[0];if(file){const url=URL.createObjectURL(file);mpEl('profileAvatar').src=url;accountSetMessage('Foto seleccionada. Guardá los cambios para aplicarla.');}});
+mpEl('accountAvatarFileCreate')?.addEventListener('change',ev=>{const file=ev.target.files?.[0];if(file){const url=URL.createObjectURL(file);mpEl('profileCreateAvatar').src=url;accountSetMessage('Foto seleccionada.');}});
 initSoundToggle();
 
 mpEl('startOnlineGameBtn')?.addEventListener('click',mpStartOnlineGame);
@@ -4023,7 +4058,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['bg/background.png?v=20261126-14','bg/bg_ui.png?v=20261126-8','bg/bg_uip.png?v=20261126-8'];
+ const imageFiles=['bg/background.png?v=20261126-15','bg/bg_ui.png?v=20261126-8','bg/bg_uip.png?v=20261126-8'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
@@ -4203,6 +4238,13 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
 .room-item .online-action{order:1;}
 @media(hover:hover){.room-delete-btn{opacity:0;pointer-events:none;}.room-item:hover .room-delete-btn,.room-item:focus-within .room-delete-btn{opacity:1;pointer-events:auto;}}
 @media(hover:none){.room-delete-btn{opacity:1;pointer-events:auto;}}
+/* Iconos de salas: papelera siempre visible y brillo al pasar el cursor. */
+.room-delete-btn{opacity:1!important;visibility:visible!important;pointer-events:auto!important;background:rgba(80,18,14,.34);border-color:rgba(231,160,142,.48);transition:filter .16s,box-shadow .16s,transform .16s,background .16s;}
+.room-delete-btn svg{filter:drop-shadow(0 0 2px rgba(231,160,142,.28));}
+.room-delete-btn:hover{background:rgba(150,40,28,.58)!important;box-shadow:0 0 10px rgba(238,133,111,.48),inset 0 0 5px rgba(255,210,190,.15);filter:brightness(1.35);transform:scale(1.07);}
+.room-visibility-icon,.room-flower-icon{display:block!important;visibility:visible!important;opacity:1!important;filter:brightness(0) saturate(100%) invert(86%) sepia(25%) saturate(587%) hue-rotate(2deg) brightness(101%) contrast(92%);}
+.room-visibility-icon{object-fit:contain;}
+.room-flower-icon{filter:brightness(0) saturate(100%) invert(83%) sepia(30%) saturate(647%) hue-rotate(4deg) brightness(103%) contrast(94%);}
 </style>
 
 </body>
@@ -4212,7 +4254,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
 /* La textura ocupa todo el marco de los paneles de la lista de servidores. */
 .room-browser,
 .room-item {
-  background-image: url("./bg/background.png?v=20261126-14") !important;
+  background-image: url("./bg/background.png?v=20261126-15") !important;
   background-position: center center !important;
   background-size: 100% 100% !important;
   background-repeat: no-repeat !important;
