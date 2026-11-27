@@ -2026,6 +2026,36 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 .wood-plank--left::before{left:0;top:0;bottom:0;width:2px;}
 .wood-plank--right::before{right:0;top:0;bottom:0;width:2px;}
 .wood-corner::before{left:0;right:0;top:0;height:2px;}
+/* Corrección de encuentros: el fondo de .table-wrap no debe pintar por debajo
+   del borde transparente; así, alrededor de las diagonales solo aparece el fondo real. */
+.table-wrap{
+  background-clip:padding-box!important;
+  -webkit-background-clip:padding-box!important;
+}
+/* Las diagonales quedan por encima de los tablones rectos y sus bordes se leen
+   como una unión fina, no como una segunda pieza de madera detrás. */
+.wood-corner{
+  z-index:4!important;
+  filter:drop-shadow(0 0 1px rgba(12,6,2,.92))!important;
+  -webkit-filter:drop-shadow(0 0 1px rgba(12,6,2,.92))!important;
+}
+.wood-plank--top,
+.wood-plank--bottom,
+.wood-plank--left,
+.wood-plank--right{
+  filter:drop-shadow(0 0 1px rgba(12,6,2,.78))!important;
+  -webkit-filter:drop-shadow(0 0 1px rgba(12,6,2,.78))!important;
+}
+/* Línea de junta fina en el canto interior de cada diagonal. */
+.wood-corner::after{
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  height:1px!important;
+  background:rgba(20,9,3,.92)!important;
+  box-shadow:0 0 1px rgba(0,0,0,.65)!important;
+}
+
 /* La mesa y sus controles permanecen en su capa original. */
 .table-wrap>#felt,
 .table-wrap>.bottom-area,
@@ -2043,6 +2073,62 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   .table-wrap{
     --wood-frame-size:11px;
   }
+}
+
+
+/* AJUSTE FINAL DEL MARCO: elimina la sombra/contorno ovalado heredado
+   del marco anterior y aplica profundidad únicamente a las ocho piezas nuevas. */
+.table-wrap{
+  box-shadow:none!important;
+  outline:0!important;
+  border-color:transparent!important;
+  background-clip:padding-box!important;
+}
+.table-wrap::before,
+.table-wrap::after{
+  content:none!important;
+  display:none!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+.wood-frame{
+  filter:none!important;
+  -webkit-filter:none!important;
+  box-shadow:none!important;
+}
+/* Las diagonales se leen con más claridad: borde oscuro en ambos cantos
+   y una sombra proyectada corta, sin dibujar una silueta detrás. */
+.wood-corner{
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.68))
+         drop-shadow(0 0 1.35px rgba(8,3,1,.98))!important;
+  -webkit-filter:drop-shadow(0 2px 2px rgba(0,0,0,.68))
+                drop-shadow(0 0 1.35px rgba(8,3,1,.98))!important;
+}
+.wood-corner::before,
+.wood-corner::after{
+  content:""!important;
+  position:absolute!important;
+  z-index:5!important;
+  top:0!important;
+  bottom:0!important;
+  width:2.5px!important;
+  height:auto!important;
+  background:linear-gradient(to right,rgba(5,2,1,.98),rgba(24,11,4,.88))!important;
+  box-shadow:0 0 2px rgba(0,0,0,.85)!important;
+  pointer-events:none!important;
+}
+.wood-corner::before{left:0!important;right:auto!important;}
+.wood-corner::after{right:0!important;left:auto!important;}
+/* Línea de unión más visible en las puntas donde cada diagonal toca
+   el tablón recto. El bisel permanece limpio y del mismo grosor. */
+.wood-plank--top,
+.wood-plank--bottom,
+.wood-plank--left,
+.wood-plank--right{
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.58))
+         drop-shadow(0 0 1px rgba(8,3,1,.95))!important;
+  -webkit-filter:drop-shadow(0 2px 2px rgba(0,0,0,.58))
+                drop-shadow(0 0 1px rgba(8,3,1,.95))!important;
 }
 
 </style>
