@@ -2398,8 +2398,14 @@ function syncPlayerHand(yourTurn){
  ordered.forEach((el,i)=>{const at=root.children[i];if(at!==el)root.insertBefore(el,at||null);});
  activateCardFallbacks(root);
 }
+function currentTrickSlot(player){
+ const play=state.currentTrick.find(x=>x.player===player);
+ return play?cardMarkup(play.card,{cls:'played-card from-'+(player===localPlayer?'you':'ai'),tilt:player===localPlayer?-2:2}):'<div class="empty-slot"></div>';
+}
 function syncPlayedSlot(player){
- const root=$(player===localPlayer?'slotYou':'slotAI'),play=state.currentTrick.find(x=>x.player===player),current=root.querySelector('.played-card');
+ const root=$(player===localPlayer?'slotYou':'slotAI');
+ if(!root)return;
+ const play=state.currentTrick.find(x=>x.player===player),current=root.querySelector('.played-card');
  if(!play){if(!root.querySelector('.empty-slot'))root.innerHTML='<div class="empty-slot"></div>';return;}
  if(current&&current.dataset.card===play.card.id)return;
  root.innerHTML=currentTrickSlot(player);
@@ -3326,14 +3332,14 @@ function aiShouldCallTruco(){
  if(!alreadyBluffed&&credibleContext&&p>=bluffFloor&&Math.random()<aiBluffChance(p,'truco')){state.aiBluffedThisHand=true;return true;}
  return false;
 }
-function runAI(){if(aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;
+function runAI(){if(aiBusy||state.handOver||state.gameOver||state.animatingCard||state.envidoRevealing||state.turn!==1||state.envidoPending||state.trucoPending||state.florPending)return;aiBusy=true;let aiCardCommitted=false;
  try{
   if(state.withFlor&&!state.florDone&&hasFlor(state.hands[1])){aiBusy=false;state.aiThinking=false;callFlor(1);return;}
   if(envidoOpen()&&aiShouldCallEnvido()){const type=aiInitialEnvidoType();aiBusy=false;state.aiThinking=false;callEnvido(1,type);return;}
   if(state.trucoLevel>0&&canRaiseTruco(1)&&aiShouldRaiseTruco(state.trucoLevel+1)){const level=state.trucoLevel+1;aiBusy=false;state.aiThinking=false;callTruco(1,level);return;}
   if(state.trucoLevel===0&&canRaiseTruco(1)&&aiShouldCallTruco()){aiBusy=false;state.aiThinking=false;callTruco(1,1);return;}
-  const idx=chooseAiCard();const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;const card=state.hands[1].splice(idx,1)[0];state.aiThinking=false;aiPlanCache=null;aiBusy=false;placeCard(1,card,origin);
- }catch(e){console.error(e);state.aiThinking=false;aiPlanCache=null;aiBusy=false;const idx=Math.max(0,state.hands[1].length-1);const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;if(state.hands[1][idx])placeCard(1,state.hands[1].splice(idx,1)[0],origin);}
+  const idx=chooseAiCard();const hand=state.hands[1];if(!Number.isInteger(idx)||idx<0||idx>=hand.length)throw new Error('La IA eligió un índice de carta inválido.');const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;const card=hand.splice(idx,1)[0];if(!card)throw new Error('No se pudo retirar la carta elegida por la IA.');aiCardCommitted=true;state.aiThinking=false;aiPlanCache=null;aiBusy=false;placeCard(1,card,origin);
+ }catch(e){console.error(e);state.aiThinking=false;aiPlanCache=null;aiBusy=false;if(aiCardCommitted){try{render();}catch(renderError){console.error('No se pudo recuperar la vista después de un error al jugar la carta:',renderError);}return;}const idx=Math.max(0,state.hands[1].length-1);const source=$('aiBacks').children[idx]||$('aiBacks').firstElementChild;const origin=source?source.getBoundingClientRect():null;const fallbackCard=state.hands[1].splice(idx,1)[0];if(fallbackCard)placeCard(1,fallbackCard,origin);}
 }
 function scheduleAI(delay=850){
  
