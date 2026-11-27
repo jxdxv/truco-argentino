@@ -3517,6 +3517,7 @@ function setMenuTab(mode,persist=true){
  mpEl('menuTabAI').classList.toggle('active',!online);mpEl('menuTabOnline').classList.toggle('active',online);
  mpEl('menuTabAI').setAttribute('aria-selected',String(!online));mpEl('menuTabOnline').setAttribute('aria-selected',String(online));
  mpEl('menuAIPane').hidden=online;mpEl('menuOnlinePane').hidden=!online;
+ const commonOptions=mpEl('mainMenu')?.querySelector('.menu-common-options');if(commonOptions)commonOptions.style.display=online?'none':'';
  if(persist)try{localStorage.setItem(MENU_TAB_STORAGE_KEY,activeMenuTab);}catch{}
  if(mpRoomsRefreshTimer){clearInterval(mpRoomsRefreshTimer);mpRoomsRefreshTimer=null;}
  if(online){mpRefreshRooms();mpRoomsRefreshTimer=setInterval(()=>{if(activeMenuTab==='online'&&!multiplayerSession)mpRefreshRooms(true);},12000);}
@@ -3888,8 +3889,8 @@ async function mpRefreshRooms(quiet=false){
    const row=document.createElement('div');row.className='room-item';const info=document.createElement('div');info.className='room-item-info';
    const isPrivate=!!(room.isPrivate||room.visibility==='private');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
    const titleLine=document.createElement('div');titleLine.className='room-item-title';
-   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-15`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(lock,title);
-   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261126-15';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
+   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-16`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(title,lock);
+   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261126-16';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
    const points=document.createElement('span');points.className='room-points-icon';points.textContent=String([15,30,40].includes(Number(room.targetPoints))?Number(room.targetPoints):30);points.setAttribute('aria-label',`Partida a ${points.textContent} puntos`);titleLine.appendChild(points);
    const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores`;
    info.append(titleLine,meta);const actions=document.createElement('div');actions.className='room-item-actions';
