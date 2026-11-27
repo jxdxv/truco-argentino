@@ -4620,6 +4620,65 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
 .room-item {
   background-color: rgba(0,0,0,.10) !important;
 }
+
+
+/* AJUSTE DE UNIFORMIDAD DE LAS ESQUINAS:
+   sin sombra desplazada; mismo grosor real que los tablones rectos;
+   contorno fino y oscuro, equivalente al perímetro exterior del resto. */
+.wood-corner{
+  width:var(--wood-corner-diagonal-length)!important;
+  height:var(--wood-frame-size)!important;
+  filter:drop-shadow(0 0 1px rgba(8,3,1,.98))!important;
+  -webkit-filter:drop-shadow(0 0 1px rgba(8,3,1,.98))!important;
+}
+.wood-corner::before,
+.wood-corner::after{
+  content:""!important;
+  position:absolute!important;
+  z-index:6!important;
+  top:0!important;
+  bottom:0!important;
+  width:2px!important;
+  height:auto!important;
+  background:rgba(8,3,1,.98)!important;
+  box-shadow:none!important;
+  pointer-events:none!important;
+}
+.wood-corner::before{left:0!important;right:auto!important;}
+.wood-corner::after{right:0!important;left:auto!important;}
+
+</style>
+
+<style id="wood-corner-exact-thickness-final">
+/* Geometría final: la diagonal conserva exactamente el mismo ancho de
+   sección que el tablón recto. La longitud 2√2·grosor hace que sus puntas
+   lleguen a los ingletes de los tablones largos sin acortar la madera. */
+.table-wrap{
+  --wood-corner-diagonal-length:calc(var(--wood-frame-size) * 2.82842712474619);
+}
+.wood-corner{
+  box-sizing:border-box!important;
+  width:var(--wood-corner-diagonal-length)!important;
+  height:var(--wood-frame-size)!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  transform-origin:50% 50%!important;
+  /* Mismo contorno exterior que los tablones rectos, sin sombra extra que
+     altere el grosor aparente de la pieza diagonal. */
+  filter:drop-shadow(0 0 1px rgba(8,3,1,.95))!important;
+  -webkit-filter:drop-shadow(0 0 1px rgba(8,3,1,.95))!important;
+}
+.wood-corner .wood-plank-texture{
+  width:var(--wood-texture-length)!important;
+  height:auto!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:fill!important;
+}
 </style>
 
 </body>
