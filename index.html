@@ -1959,6 +1959,115 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 }
 </style>
 
+
+
+<style id="wood-plank-depth-and-joinery">
+/* Profundidad: sombra orientada hacia el paño y cantos visibles en cada unión. */
+.wood-frame{
+  /* La ranura entre piezas queda oscura, como una junta real entre tablones. */
+  background:linear-gradient(145deg,#160b06 0%,#3b2416 48%,#120804 100%)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,220,166,.10)!important;
+}
+.wood-plank{
+  box-shadow:
+    inset 0 1px 0 rgba(255,239,207,.40),
+    inset 0 -2px 4px rgba(18,8,3,.42),
+    inset 0 0 0 1px rgba(20,10,5,.25),
+    0 2px 3px rgba(0,0,0,.48)!important;
+}
+.wood-plank::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+}
+.wood-plank::after{
+  inset:1px!important;
+  border:1px solid rgba(255,225,177,.17)!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(23,11,5,.32),
+    inset 0 1px 0 rgba(255,239,208,.16)!important;
+}
+
+/* Los tablones horizontales tienen un canto en ambos extremos y sombra abajo/arriba. */
+.wood-plank--top::before{
+  background:
+    linear-gradient(90deg,rgba(19,9,4,.92),rgba(249,218,171,.72) 42%,rgba(37,19,9,.60)) left center/6px 100% no-repeat,
+    linear-gradient(90deg,rgba(37,19,9,.60),rgba(249,218,171,.72) 58%,rgba(19,9,4,.92)) right center/6px 100% no-repeat,
+    linear-gradient(180deg,rgba(255,229,184,.10),rgba(13,5,2,.76)) left bottom/100% 8px no-repeat;
+}
+.wood-plank--bottom::before{
+  background:
+    linear-gradient(90deg,rgba(19,9,4,.92),rgba(249,218,171,.72) 42%,rgba(37,19,9,.60)) left center/6px 100% no-repeat,
+    linear-gradient(90deg,rgba(37,19,9,.60),rgba(249,218,171,.72) 58%,rgba(19,9,4,.92)) right center/6px 100% no-repeat,
+    linear-gradient(180deg,rgba(13,5,2,.76),rgba(255,229,184,.10)) left top/100% 8px no-repeat;
+}
+
+/* Los tablones laterales repiten el canto en sus dos extremos y sombrean el lado interior. */
+.wood-plank--left::before{
+  background:
+    linear-gradient(180deg,rgba(19,9,4,.92),rgba(249,218,171,.72) 42%,rgba(37,19,9,.60)) center top/100% 6px no-repeat,
+    linear-gradient(180deg,rgba(37,19,9,.60),rgba(249,218,171,.72) 58%,rgba(19,9,4,.92)) center bottom/100% 6px no-repeat,
+    linear-gradient(90deg,rgba(255,229,184,.10),rgba(13,5,2,.76)) right top/8px 100% no-repeat;
+}
+.wood-plank--right::before{
+  background:
+    linear-gradient(180deg,rgba(19,9,4,.92),rgba(249,218,171,.72) 42%,rgba(37,19,9,.60)) center top/100% 6px no-repeat,
+    linear-gradient(180deg,rgba(37,19,9,.60),rgba(249,218,171,.72) 58%,rgba(19,9,4,.92)) center bottom/100% 6px no-repeat,
+    linear-gradient(90deg,rgba(13,5,2,.76),rgba(255,229,184,.10)) left top/8px 100% no-repeat;
+}
+
+/* Los cantos de las cuatro piezas curvas coinciden con los extremos de los tablones largos.
+   Las otras dos líneas de cada esquina forman una sombra en el borde que mira al paño. */
+.wood-corner::before{
+  clip-path:inherit;
+  border-radius:inherit;
+}
+.wood-corner--tl::before{
+  background:
+    /* canto de unión con el tablón superior */
+    linear-gradient(to left,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) right top/6px 62% no-repeat,
+    /* canto de unión con el tablón izquierdo */
+    linear-gradient(to top,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) left bottom/62% 6px no-repeat,
+    /* sombra de los dos cantos internos */
+    linear-gradient(to bottom,rgba(255,228,184,.08),rgba(13,5,2,.72)) right bottom 38%/38% 8px no-repeat,
+    linear-gradient(to right,rgba(255,228,184,.08),rgba(13,5,2,.72)) right 38% bottom/8px 38% no-repeat;
+}
+.wood-corner--tr::before{
+  background:
+    linear-gradient(to right,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) left top/6px 62% no-repeat,
+    linear-gradient(to top,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) right bottom/62% 6px no-repeat,
+    linear-gradient(to bottom,rgba(255,228,184,.08),rgba(13,5,2,.72)) left bottom 38%/38% 8px no-repeat,
+    linear-gradient(to left,rgba(255,228,184,.08),rgba(13,5,2,.72)) left 38% bottom/8px 38% no-repeat;
+}
+.wood-corner--br::before{
+  background:
+    linear-gradient(to right,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) left bottom/6px 62% no-repeat,
+    linear-gradient(to bottom,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) right top/62% 6px no-repeat,
+    linear-gradient(to bottom,rgba(13,5,2,.72),rgba(255,228,184,.08)) left top 38%/62% 8px no-repeat,
+    linear-gradient(to right,rgba(13,5,2,.72),rgba(255,228,184,.08)) left 62% top/8px 38% no-repeat;
+}
+.wood-corner--bl::before{
+  background:
+    linear-gradient(to left,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) right bottom/6px 62% no-repeat,
+    linear-gradient(to bottom,rgba(17,7,3,.94),rgba(250,218,170,.78) 38%,rgba(48,26,13,.30)) left top/62% 6px no-repeat,
+    linear-gradient(to bottom,rgba(13,5,2,.72),rgba(255,228,184,.08)) right top 38%/38% 8px no-repeat,
+    linear-gradient(to left,rgba(13,5,2,.72),rgba(255,228,184,.08)) right 38% top/8px 38% no-repeat;
+}
+
+@media(max-width:760px){
+  .wood-plank--top::before,.wood-plank--bottom::before,
+  .wood-plank--left::before,.wood-plank--right::before{
+    background-size:5px 100%,5px 100%,100% 6px;
+  }
+  .wood-corner--tl::before,.wood-corner--tr::before,
+  .wood-corner--br::before,.wood-corner--bl::before{
+    background-size:5px 62%,62% 5px,38% 6px,6px 38%;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
