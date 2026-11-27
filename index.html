@@ -3357,7 +3357,7 @@ let multiplayerReconnectTimer=null,multiplayerReconnectDelay=900,multiplayerInte
 let multiplayerLastPublicCount=0,multiplayerLastHandNo=0,multiplayerLastOutcome='',multiplayerLastEnvidoReveal='',multiplayerAnimating=false;
 let multiplayerLastTrickExitKey='',multiplayerRevealedHandNo=0;
 let multiplayerDealAnimating=false,multiplayerServerDealing=false,multiplayerFlightCount=0;
-let multiplayerHandEndPromise=null,mpRoomsRefreshTimer=null,mpRoomsFetchInFlight=false;
+let multiplayerHandEndPromise=null,mpRoomsRefreshTimer=null,mpRoomsFetchInFlight=false,mpHeartbeatTimer=null;
 const mpEl=id=>document.getElementById(id);
 function mpApiReady(){return !MULTIPLAYER_API_BASE.includes('TU-SUBDOMINIO');}
 function mpSetMessage(message,isError=false){const node=mpEl('onlineError');if(node){node.textContent=message||'';node.style.color=isError?'#e49b8f':'#c9c3a9';}}
@@ -3365,6 +3365,7 @@ function mpSetStatus(message){const node=mpEl('onlineStatus');if(node)node.textC
 function mpSaveSession(){if(!multiplayerSession)return;try{localStorage.setItem(MULTIPLAYER_SESSION_KEY,JSON.stringify(multiplayerSession));}catch(e){console.warn('No se pudo guardar la sesión online',e);}}
 function mpBuildSocketUrl(session){const base=session.api.replace(/\/$/,'').replace(/^https:/,'wss:').replace(/^http:/,'ws:');return `${base}/api/rooms/${encodeURIComponent(session.code)}/ws?token=${encodeURIComponent(session.token)}`;}
 function mpSend(message){if(!multiplayerSocket||multiplayerSocket.readyState!==WebSocket.OPEN){mpSetMessage('Conexión interrumpida. Intentando reconectar…',true);return false;}try{multiplayerSocket.send(JSON.stringify(message));return true;}catch(e){mpSetMessage('No se pudo enviar la acción.',true);return false;}}
+function mpStartHeartbeat(){if(mpHeartbeatTimer)clearInterval(mpHeartbeatTimer);mpHeartbeatTimer=setInterval(()=>{if(multiplayerSession&&multiplayerSocket?.readyState===WebSocket.OPEN)mpSend({type:'ping'});},45000);}
 
 let mpChatSessionKey='',mpChatOpen=false,mpChatUnreadCount=0,mpChatBubbleTimer=0;
 const mpChatSeenIds=new Set();
@@ -3457,6 +3458,7 @@ function mpConnectSession(session){
   ws.onclose=ev=>{
    if(multiplayerSocket===ws)multiplayerSocket=null;
    if(multiplayerIntentionalLeave||!multiplayerSession||ev.code===4001)return;
+   if(ev.code===4002){const reason=ev.reason||'La sala fue eliminada o cerrada por inactividad.';mpLeaveToMenu();mpSetMessage(reason,true);return;}
    mpSetStatus('Desconectado. Reconectando…');mpSetMessage('Se perdió la conexión. La partida queda guardada temporalmente.',true);mpChatSetStatus('Reconectando con la sala…',true);
    const delay=multiplayerReconnectDelay;multiplayerReconnectDelay=Math.min(12000,Math.round(multiplayerReconnectDelay*1.7));
    multiplayerReconnectTimer=setTimeout(()=>{if(multiplayerSession&&!multiplayerIntentionalLeave)mpConnectSession(multiplayerSession);},delay);
@@ -3579,13 +3581,14 @@ async function mpJoinRoom(roomCode=null){
  }catch(e){mpSetMessage(e.message||'Error al unirse.',true);}
 }
 function mpStartLobby(session){
- if(!session.resume)setMenuTab('online');multiplayerSession=session;multiplayerOpponentName='Rival';mpSaveSession();
+ if(!session.resume)setMenuTab('online');multiplayerSession=session;multiplayerOpponentName='Rival';mpSaveSession();mpStartHeartbeat();
  mpEl('onlineLobby').hidden=false;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=true;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=true;mpEl('onlineRoomCode').textContent=session.code;mpEl('startOnlineGameBtn').hidden=session.seat!==0;
  mpSetStatus('Conectando con Cloudflare…');mpSetMessage('');mpConnectSession(session);
 }
 function mpStartOnlineGame(){mpSend({type:'start'});}
 function mpLeaveToMenu(){
  multiplayerIntentionalLeave=true;multiplayerInGame=false;multiplayerAnimating=false;multiplayerDealAnimating=false;multiplayerFlightCount=0;
+ if(mpHeartbeatTimer){clearInterval(mpHeartbeatTimer);mpHeartbeatTimer=null;}
  if(multiplayerReconnectTimer){clearTimeout(multiplayerReconnectTimer);multiplayerReconnectTimer=null;}
  if(multiplayerSocket){try{if(multiplayerSocket.readyState===WebSocket.OPEN)multiplayerSocket.send(JSON.stringify({type:'leave'}));multiplayerSocket.close(1000,'El jugador volvió al menú');}catch{}multiplayerSocket=null;}
  try{localStorage.removeItem(MULTIPLAYER_SESSION_KEY);}catch{}
@@ -3875,7 +3878,7 @@ async function mpDeleteHostedRoom(room,button){
  const saved=mpGetHostedRooms().find(x=>x.code===room.code&&x.api===MULTIPLAYER_API_BASE);if(!saved)return;
  if(button)button.disabled=true;
  try{
-  const response=await fetch(`${MULTIPLAYER_API_BASE.replace(/\/$/,'')}/api/rooms/${encodeURIComponent(room.code)}`,{method:'DELETE',headers:{'Content-Type':'application/json','Authorization':`Bearer ${saved.token}`,'X-Room-Token':saved.token},body:JSON.stringify({token:saved.token})});
+  const response=await fetch(`${MULTIPLAYER_API_BASE.replace(/\/$/,'')}/api/rooms/${encodeURIComponent(room.code)}`,{method:'DELETE',headers:{'Authorization':`Bearer ${saved.token}`}});
   let data={};try{data=await response.json();}catch{}
   if(!response.ok)throw new Error(data.error||'El Worker no permitió borrar la sala.');
   const remaining=mpGetHostedRooms().filter(x=>!(x.code===room.code&&x.api===MULTIPLAYER_API_BASE));try{localStorage.setItem(HOSTED_ROOMS_STORAGE_KEY,JSON.stringify(remaining));}catch{}
@@ -3896,7 +3899,7 @@ async function mpRefreshRooms(quiet=false){
    const isPrivate=!!(room.isPrivate||room.visibility==='private');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
    const titleLine=document.createElement('div');titleLine.className='room-item-title';
    const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-16`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(title,lock);
-   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261126-16';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
+   if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261127-01';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
    const points=document.createElement('span');points.className='room-points-icon';points.textContent=String([15,30,40].includes(Number(room.targetPoints))?Number(room.targetPoints):30);points.setAttribute('aria-label',`Partida a ${points.textContent} puntos`);titleLine.appendChild(points);
    const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores`;
    info.append(titleLine,meta);const actions=document.createElement('div');actions.className='room-item-actions';
@@ -4251,7 +4254,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
 .room-delete-btn:hover{background:rgba(150,40,28,.58)!important;box-shadow:0 0 10px rgba(238,133,111,.48),inset 0 0 5px rgba(255,210,190,.15);filter:brightness(1.35);transform:scale(1.07);}
 .room-visibility-icon,.room-flower-icon{display:block!important;visibility:visible!important;opacity:1!important;filter:brightness(0) saturate(100%) invert(86%) sepia(25%) saturate(587%) hue-rotate(2deg) brightness(101%) contrast(92%);}
 .room-visibility-icon{object-fit:contain;}
-.room-flower-icon{filter:brightness(0) saturate(100%) invert(83%) sepia(30%) saturate(647%) hue-rotate(4deg) brightness(103%) contrast(94%);}
+/* La flor usa exactamente el mismo tono que los demás SVG de la lista. */
 
 
 /* La textura ocupa todo el marco de los paneles de la lista de servidores. */
