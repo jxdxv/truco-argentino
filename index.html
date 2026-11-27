@@ -1826,15 +1826,16 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 
 
 <style id="real-plank-table-frame">
-/* Marco de tablones rectos. La veta siempre sigue el eje largo de cada pieza. */
+/* Marco de madera: ocho piezas con encuentros a inglete exactos.
+   Las cuatro diagonales tienen el mismo grosor VISIBLE que los tablones rectos. */
 .table-wrap{
   --wood-frame-size:clamp(16px,1.75vw,24px);
-  --wood-corner-size:calc(var(--wood-frame-size) + 14px);
-  --wood-seam:4px;
-  --wood-corner-tip:calc(var(--wood-corner-size) - var(--wood-frame-size) * .35355339);
-  --wood-corner-board-length:calc((var(--wood-corner-tip) - var(--wood-frame-size) / 2) * 1.41421356);
-  --wood-corner-center-near:calc((var(--wood-corner-tip) + var(--wood-frame-size) / 2) * .5);
-  --wood-corner-center-far:calc(var(--wood-corner-size) - var(--wood-corner-center-near));
+  --wood-corner-run:calc(var(--wood-frame-size) * 2);
+  --wood-corner-center:calc(var(--wood-frame-size) * 1.5);
+  --wood-corner-diagonal-length:calc(var(--wood-frame-size) * 2.82842712475);
+  --wood-corner-diagonal-width:calc(var(--wood-frame-size) * 1.41421356237);
+  /* La imagen conserva siempre la misma escala en piezas largas y diagonales. */
+  --wood-texture-length:2400px;
   position:relative!important;
   isolation:isolate!important;
   box-sizing:border-box!important;
@@ -1842,7 +1843,6 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border-radius:clamp(26px,3.8vw,48px)/clamp(20px,3.8vh,34px)!important;
   outline:0!important;
   overflow:visible!important;
-  /* background.png permanece aplicado a .felt, sin cambios. */
 }
 .wood-frame{
   position:absolute!important;
@@ -1852,52 +1852,137 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   overflow:hidden!important;
   pointer-events:none!important;
   border:0!important;
-  border-radius:inherit!important;
+  border-radius:0!important;
   background:transparent!important;
+  /* El marco tiene esquinas biseladas: no hay respaldo oscuro detrás de las juntas. */
+  clip-path:polygon(
+    var(--wood-corner-run) 0,
+    calc(100% - var(--wood-corner-run)) 0,
+    100% var(--wood-corner-run),
+    100% calc(100% - var(--wood-corner-run)),
+    calc(100% - var(--wood-corner-run)) 100%,
+    var(--wood-corner-run) 100%,
+    0 calc(100% - var(--wood-corner-run)),
+    0 var(--wood-corner-run)
+  )!important;
 }
-/* Fondo oscuro únicamente en los huecos entre piezas; no cubre el paño. */
-.wood-frame::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  box-sizing:border-box;
-  border:var(--wood-frame-size) solid #21140b;
-  border-radius:inherit;
-  pointer-events:none;
-}
-/* Cada sombra queda DENTRO de su propia tabla: nunca se extiende sobre background.png. */
+.wood-frame::before{content:none!important;display:none!important;}
 .wood-plank{
   position:absolute!important;
   display:block!important;
   box-sizing:border-box!important;
   z-index:1!important;
   overflow:hidden!important;
-  background-color:#76502f!important;
+  background:transparent!important;
   border:0!important;
   border-radius:0!important;
   box-shadow:none!important;
+  filter:none!important;
 }
 .wood-plank-texture{
   position:absolute!important;
-  inset:0!important;
-  display:block!important;
-  width:100%!important;
-  height:100%!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:var(--wood-texture-length)!important;
+  height:auto!important;
   min-width:0!important;
   min-height:0!important;
   max-width:none!important;
   max-height:none!important;
-  object-fit:cover!important;
+  object-fit:fill!important;
   object-position:center center!important;
   border:0!important;
   border-radius:0!important;
-  transform:none!important;
+  transform:translate(-50%,-50%)!important;
   pointer-events:none!important;
   user-select:none!important;
   -webkit-user-drag:none!important;
 }
-/* Sombra tenue en el lado que mira al paño, recortada al área del tablón. */
+/* Los cuatro tablones largos se cortan a 45° en ambos extremos.
+   Las líneas de corte coinciden exactamente con las tapas de las diagonales. */
+.wood-plank--top,
+.wood-plank--bottom{
+  left:var(--wood-corner-run)!important;
+  right:var(--wood-corner-run)!important;
+  height:var(--wood-frame-size)!important;
+}
+.wood-plank--top{
+  top:0!important;
+  clip-path:polygon(
+    0 0,
+    100% 0,
+    calc(100% - var(--wood-frame-size)) 100%,
+    var(--wood-frame-size) 100%
+  )!important;
+}
+.wood-plank--bottom{
+  bottom:0!important;
+  clip-path:polygon(
+    var(--wood-frame-size) 0,
+    calc(100% - var(--wood-frame-size)) 0,
+    100% 100%,
+    0 100%
+  )!important;
+}
+.wood-plank--left,
+.wood-plank--right{
+  top:var(--wood-corner-run)!important;
+  bottom:var(--wood-corner-run)!important;
+  width:var(--wood-frame-size)!important;
+}
+.wood-plank--left{
+  left:0!important;
+  clip-path:polygon(
+    0 0,
+    100% var(--wood-frame-size),
+    100% calc(100% - var(--wood-frame-size)),
+    0 100%
+  )!important;
+}
+.wood-plank--right{
+  right:0!important;
+  clip-path:polygon(
+    100% 0,
+    100% 100%,
+    0 calc(100% - var(--wood-frame-size)),
+    0 var(--wood-frame-size)
+  )!important;
+}
+/* En los laterales la misma imagen gira, sin deformarse, para seguir la veta. */
+.wood-plank--left .wood-plank-texture,
+.wood-plank--right .wood-plank-texture{
+  transform:translate(-50%,-50%) rotate(90deg)!important;
+}
+/* Cada esquina es un solo tablón diagonal. Su grosor proyectado tras el giro
+   equivale exactamente al grosor de los tablones rectos. */
+.wood-corner{
+  width:var(--wood-corner-diagonal-length)!important;
+  height:var(--wood-corner-diagonal-width)!important;
+  z-index:2!important;
+}
+.wood-corner--tl{
+  left:var(--wood-corner-center)!important;
+  top:var(--wood-corner-center)!important;
+  transform:translate(-50%,-50%) rotate(-45deg)!important;
+}
+.wood-corner--tr{
+  left:calc(100% - var(--wood-corner-center))!important;
+  top:var(--wood-corner-center)!important;
+  transform:translate(-50%,-50%) rotate(45deg)!important;
+}
+.wood-corner--br{
+  left:calc(100% - var(--wood-corner-center))!important;
+  top:calc(100% - var(--wood-corner-center))!important;
+  transform:translate(-50%,-50%) rotate(135deg)!important;
+}
+.wood-corner--bl{
+  left:var(--wood-corner-center)!important;
+  top:calc(100% - var(--wood-corner-center))!important;
+  transform:translate(-50%,-50%) rotate(-135deg)!important;
+}
+/* Sombra fina únicamente en los cantos interiores, sin separar visualmente juntas. */
 .wood-plank::after{
   content:"";
   position:absolute;
@@ -1905,104 +1990,43 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   pointer-events:none;
 }
 .wood-plank--top::after{
-  left:0;right:0;bottom:0;height:5px;
-  background:linear-gradient(to top,rgba(0,0,0,.48),rgba(0,0,0,0));
+  left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(to top,rgba(0,0,0,.42),transparent);
 }
 .wood-plank--bottom::after{
-  left:0;right:0;top:0;height:5px;
-  background:linear-gradient(to bottom,rgba(0,0,0,.48),rgba(0,0,0,0));
+  left:0;right:0;top:0;height:4px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.42),transparent);
 }
 .wood-plank--left::after{
-  top:0;bottom:0;right:0;width:5px;
-  background:linear-gradient(to left,rgba(0,0,0,.48),rgba(0,0,0,0));
+  top:0;bottom:0;right:0;width:4px;
+  background:linear-gradient(to left,rgba(0,0,0,.42),transparent);
 }
 .wood-plank--right::after{
-  top:0;bottom:0;left:0;width:5px;
-  background:linear-gradient(to right,rgba(0,0,0,.48),rgba(0,0,0,0));
+  top:0;bottom:0;left:0;width:4px;
+  background:linear-gradient(to right,rgba(0,0,0,.42),transparent);
 }
-/* Horizontal: la imagen se deja en su orientación nativa. */
-.wood-plank--top{
-  left:calc(var(--wood-corner-size) + var(--wood-seam));
-  right:calc(var(--wood-corner-size) + var(--wood-seam));
-  top:0;
-  height:var(--wood-frame-size);
+.wood-corner::after{
+  left:0;right:0;bottom:0;height:4px;
+  background:linear-gradient(to top,rgba(0,0,0,.42),transparent);
 }
-.wood-plank--bottom{
-  left:calc(var(--wood-corner-size) + var(--wood-seam));
-  right:calc(var(--wood-corner-size) + var(--wood-seam));
-  bottom:0;
-  height:var(--wood-frame-size);
+/* Contorno oscuro continuo solo en el perímetro exterior del marco. */
+.wood-plank--top::before,
+.wood-plank--bottom::before,
+.wood-plank--left::before,
+.wood-plank--right::before,
+.wood-corner::before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  background:rgba(10,5,2,.96);
 }
-/* Vertical: se intercambian las dimensiones del PNG antes de girarlo 90 grados,
-   de modo que la veta siga el largo sin deformar ni estirar la textura. */
-.wood-plank--left,
-.wood-plank--right{
-  container-type:size;
-}
-.wood-plank--left{
-  left:0;
-  top:calc(var(--wood-corner-size) + var(--wood-seam));
-  bottom:calc(var(--wood-corner-size) + var(--wood-seam));
-  width:var(--wood-frame-size);
-}
-.wood-plank--right{
-  right:0;
-  top:calc(var(--wood-corner-size) + var(--wood-seam));
-  bottom:calc(var(--wood-corner-size) + var(--wood-seam));
-  width:var(--wood-frame-size);
-}
-.wood-plank--left .wood-plank-texture,
-.wood-plank--right .wood-plank-texture{
-  inset:auto!important;
-  left:50%!important;
-  top:50%!important;
-  right:auto!important;
-  bottom:auto!important;
-  width:100cqh!important;
-  height:100cqw!important;
-  transform:translate(-50%,-50%) rotate(90deg)!important;
-}
-/* Esquinas: cada una es UNA tabla corta y recta en diagonal (/, \\).
-   No hay piezas en U, clip-path ni bordes dibujados. */
-.wood-corner{
-  width:var(--wood-corner-board-length);
-  height:var(--wood-frame-size);
-  z-index:2!important;
-}
-.wood-corner--tl{
-  left:var(--wood-corner-center-near);
-  top:var(--wood-corner-center-near);
-  transform:translate(-50%,-50%) rotate(-45deg)!important;
-}
-.wood-corner--tr{
-  left:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
-  top:var(--wood-corner-center-near);
-  transform:translate(-50%,-50%) rotate(45deg)!important;
-}
-.wood-corner--br{
-  left:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
-  top:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
-  transform:translate(-50%,-50%) rotate(-45deg)!important;
-}
-.wood-corner--bl{
-  left:var(--wood-corner-center-near);
-  top:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
-  transform:translate(-50%,-50%) rotate(45deg)!important;
-}
-/* La sombra de cada diagonal también queda contenida dentro de su tabla y mira
-   al centro de la mesa: lado inferior en esquinas superiores, superior en inferiores. */
-.wood-corner--tl::after,
-.wood-corner--tr::after{
-  left:0;right:0;bottom:0;height:5px;
-  background:linear-gradient(to top,rgba(0,0,0,.48),rgba(0,0,0,0));
-}
-.wood-corner--br::after,
-.wood-corner--bl::after{
-  left:0;right:0;top:0;height:5px;
-  background:linear-gradient(to bottom,rgba(0,0,0,.48),rgba(0,0,0,0));
-}
-/* Cartas y controles siguen en su capa habitual; solo las puntas diagonales
-   invaden unos píxeles de la esquina de background.png, como se pidió. */
+.wood-plank--top::before{left:0;right:0;top:0;height:2px;}
+.wood-plank--bottom::before{left:0;right:0;bottom:0;height:2px;}
+.wood-plank--left::before{left:0;top:0;bottom:0;width:2px;}
+.wood-plank--right::before{right:0;top:0;bottom:0;width:2px;}
+.wood-corner::before{left:0;right:0;top:0;height:2px;}
+/* La mesa y sus controles permanecen en su capa original. */
 .table-wrap>#felt,
 .table-wrap>.bottom-area,
 .table-wrap>.event-strip{
@@ -2012,18 +2036,15 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 @media(max-width:760px){
   .table-wrap{
     --wood-frame-size:clamp(11px,2.8vw,16px);
-    --wood-corner-size:calc(var(--wood-frame-size) + 10px);
-    --wood-seam:3px;
     border-radius:clamp(20px,5vw,32px)/clamp(16px,3.8vh,26px)!important;
   }
 }
 @media(max-width:390px){
   .table-wrap{
     --wood-frame-size:11px;
-    --wood-corner-size:21px;
-    --wood-seam:3px;
   }
 }
+
 </style>
 
 </head>
