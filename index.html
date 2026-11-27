@@ -1826,12 +1826,15 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 
 
 <style id="real-plank-table-frame">
-/* Marco construido con la MISMA textura recta en todas las piezas.
-   El PNG se recorta dentro de cada tablón (object-fit:cover), nunca se deforma. */
+/* Marco de tablones rectos. La veta siempre sigue el eje largo de cada pieza. */
 .table-wrap{
   --wood-frame-size:clamp(16px,1.75vw,24px);
   --wood-corner-size:calc(var(--wood-frame-size) + 14px);
   --wood-seam:4px;
+  --wood-corner-tip:calc(var(--wood-corner-size) - var(--wood-frame-size) * .35355339);
+  --wood-corner-board-length:calc((var(--wood-corner-tip) - var(--wood-frame-size) / 2) * 1.41421356);
+  --wood-corner-center-near:calc((var(--wood-corner-tip) + var(--wood-frame-size) / 2) * .5);
+  --wood-corner-center-far:calc(var(--wood-corner-size) - var(--wood-corner-center-near));
   position:relative!important;
   isolation:isolate!important;
   box-sizing:border-box!important;
@@ -1839,12 +1842,12 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border-radius:clamp(26px,3.8vw,48px)/clamp(20px,3.8vh,34px)!important;
   outline:0!important;
   overflow:visible!important;
-  /* No se modifica el fondo: background.png sigue aplicado a .table-wrap. */
+  /* background.png permanece aplicado a .felt, sin cambios. */
 }
 .wood-frame{
   position:absolute!important;
   inset:calc(0px - var(--wood-frame-size))!important;
-  z-index:0!important;
+  z-index:2!important;
   box-sizing:border-box!important;
   overflow:hidden!important;
   pointer-events:none!important;
@@ -1852,8 +1855,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border-radius:inherit!important;
   background:transparent!important;
 }
-/* Base oscura solo debajo de las separaciones; es un anillo, no una capa sobre
-   el paño ni sobre background.png. Los tablones se dibujan encima. */
+/* Fondo oscuro únicamente en los huecos entre piezas; no cubre el paño. */
 .wood-frame::before{
   content:"";
   position:absolute;
@@ -1864,21 +1866,7 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   border-radius:inherit;
   pointer-events:none;
 }
-/* Sombra suave únicamente hacia el interior de la mesa. El pseudo-elemento no
-   tiene fondo: solo dibuja una sombra fina en el borde del área transparente. */
-.wood-frame::after{
-  content:"";
-  position:absolute;
-  inset:var(--wood-frame-size);
-  z-index:3;
-  pointer-events:none;
-  border-radius:clamp(10px,2.5vw,28px)/clamp(8px,2.2vh,20px);
-  box-shadow:
-    inset 0 5px 8px -2px rgba(0,0,0,.52),
-    inset 0 -5px 8px -2px rgba(0,0,0,.52),
-    inset 5px 0 8px -2px rgba(0,0,0,.52),
-    inset -5px 0 8px -2px rgba(0,0,0,.52);
-}
+/* Cada sombra queda DENTRO de su propia tabla: nunca se extiende sobre background.png. */
 .wood-plank{
   position:absolute!important;
   display:block!important;
@@ -1909,8 +1897,30 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   user-select:none!important;
   -webkit-user-drag:none!important;
 }
-/* Tramos rectos. Los huecos entre ellos y las esquinas dejan ver la base oscura
-   del marco, creando profundidad sin contornos ni líneas dibujadas. */
+/* Sombra tenue en el lado que mira al paño, recortada al área del tablón. */
+.wood-plank::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  pointer-events:none;
+}
+.wood-plank--top::after{
+  left:0;right:0;bottom:0;height:5px;
+  background:linear-gradient(to top,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+.wood-plank--bottom::after{
+  left:0;right:0;top:0;height:5px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+.wood-plank--left::after{
+  top:0;bottom:0;right:0;width:5px;
+  background:linear-gradient(to left,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+.wood-plank--right::after{
+  top:0;bottom:0;left:0;width:5px;
+  background:linear-gradient(to right,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+/* Horizontal: la imagen se deja en su orientación nativa. */
 .wood-plank--top{
   left:calc(var(--wood-corner-size) + var(--wood-seam));
   right:calc(var(--wood-corner-size) + var(--wood-seam));
@@ -1922,6 +1932,12 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   right:calc(var(--wood-corner-size) + var(--wood-seam));
   bottom:0;
   height:var(--wood-frame-size);
+}
+/* Vertical: se intercambian las dimensiones del PNG antes de girarlo 90 grados,
+   de modo que la veta siga el largo sin deformar ni estirar la textura. */
+.wood-plank--left,
+.wood-plank--right{
+  container-type:size;
 }
 .wood-plank--left{
   left:0;
@@ -1935,35 +1951,58 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   bottom:calc(var(--wood-corner-size) + var(--wood-seam));
   width:var(--wood-frame-size);
 }
-/* Las cuatro esquinas son piezas en L: la forma se curva por el recorte del
-   marco, pero la veta del PNG conserva su dirección recta. */
+.wood-plank--left .wood-plank-texture,
+.wood-plank--right .wood-plank-texture{
+  inset:auto!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:100cqh!important;
+  height:100cqw!important;
+  transform:translate(-50%,-50%) rotate(90deg)!important;
+}
+/* Esquinas: cada una es UNA tabla corta y recta en diagonal (/, \\).
+   No hay piezas en U, clip-path ni bordes dibujados. */
 .wood-corner{
-  width:var(--wood-corner-size);
-  height:var(--wood-corner-size);
-  border:0!important;
-  box-shadow:none!important;
+  width:var(--wood-corner-board-length);
+  height:var(--wood-frame-size);
+  z-index:2!important;
 }
 .wood-corner--tl{
-  top:0;left:0;
-  border-top-left-radius:var(--wood-corner-size)!important;
-  clip-path:polygon(0 0,100% 0,100% 62%,62% 62%,62% 100%,0 100%);
+  left:var(--wood-corner-center-near);
+  top:var(--wood-corner-center-near);
+  transform:translate(-50%,-50%) rotate(-45deg)!important;
 }
 .wood-corner--tr{
-  top:0;right:0;
-  border-top-right-radius:var(--wood-corner-size)!important;
-  clip-path:polygon(0 0,100% 0,100% 100%,38% 100%,38% 62%,0 62%);
+  left:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
+  top:var(--wood-corner-center-near);
+  transform:translate(-50%,-50%) rotate(45deg)!important;
 }
 .wood-corner--br{
-  right:0;bottom:0;
-  border-bottom-right-radius:var(--wood-corner-size)!important;
-  clip-path:polygon(100% 0,100% 100%,0 100%,0 38%,62% 38%,62% 0);
+  left:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
+  top:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
+  transform:translate(-50%,-50%) rotate(-45deg)!important;
 }
 .wood-corner--bl{
-  left:0;bottom:0;
-  border-bottom-left-radius:var(--wood-corner-size)!important;
-  clip-path:polygon(0 0,62% 0,62% 38%,100% 38%,100% 100%,0 100%);
+  left:var(--wood-corner-center-near);
+  top:calc(100% - var(--wood-corner-size) + var(--wood-corner-center-far));
+  transform:translate(-50%,-50%) rotate(45deg)!important;
 }
-/* La superficie y sus elementos se mantienen por encima del marco. */
+/* La sombra de cada diagonal también queda contenida dentro de su tabla y mira
+   al centro de la mesa: lado inferior en esquinas superiores, superior en inferiores. */
+.wood-corner--tl::after,
+.wood-corner--tr::after{
+  left:0;right:0;bottom:0;height:5px;
+  background:linear-gradient(to top,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+.wood-corner--br::after,
+.wood-corner--bl::after{
+  left:0;right:0;top:0;height:5px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.48),rgba(0,0,0,0));
+}
+/* Cartas y controles siguen en su capa habitual; solo las puntas diagonales
+   invaden unos píxeles de la esquina de background.png, como se pidió. */
 .table-wrap>#felt,
 .table-wrap>.bottom-area,
 .table-wrap>.event-strip{
@@ -2086,14 +2125,14 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   <main class="table-wrap">
     <!-- Marco de madera: una única textura recta, recortada dentro de cada pieza. -->
     <div class="wood-frame" aria-hidden="true">
-      <span class="wood-plank wood-plank--top"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-plank--right"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-plank--bottom"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-plank--left"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-corner wood-corner--tl"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-corner wood-corner--tr"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-corner wood-corner--br"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
-      <span class="wood-plank wood-corner wood-corner--bl"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-2" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-plank--top"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-plank--right"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-plank--bottom"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-plank--left"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-corner wood-corner--tl"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-corner wood-corner--tr"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-corner wood-corner--br"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
+      <span class="wood-plank wood-corner wood-corner--bl"><img class="wood-plank-texture" src="./assets/plank.png?v=20261127-3" alt="" aria-hidden="true" draggable="false" decoding="async" loading="eager"></span>
     </div>
     <section class="felt" id="felt">
       <div class="call-effects" id="callEffects" aria-live="polite"></div>
@@ -4271,7 +4310,7 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
  const ranks=[1,2,3,4,5,6,7,10,11,12];
  const cdn='https://raw.githubusercontent.com/gjenkins20/spanish-playing-cards-svg/main/';
  const files=['card_back.svg',...suits.flatMap(suit=>ranks.map(rank=>`card_${suit}_${String(rank).padStart(2,'0')}.svg`))];
- const imageFiles=['assets/background.png?v=20261126-15','assets/bg_ui.png?v=20261126-8','assets/bg_uip.png?v=20261126-8','assets/plank.png?v=20261127-2'];
+ const imageFiles=['assets/background.png?v=20261126-15','assets/bg_ui.png?v=20261126-8','assets/bg_uip.png?v=20261126-8','assets/plank.png?v=20261127-3'];
  const rasterMap=window.__trucoCardRaster=Object.create(null);
  const cacheName='truco-card-raster-v2';
  let completed=0,screenClosed=false,cachePromise=null;
