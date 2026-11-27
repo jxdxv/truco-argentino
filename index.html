@@ -863,6 +863,17 @@ body:not(.in-game){height:auto;min-height:100vh;min-height:100dvh;overflow:auto}
 .menu-online-pane{margin-top:12px}
 .menu-account-line{display:flex;gap:8px;align-items:center;color:#b8c7b6;font-size:10px;margin:0 0 9px}
 .menu-account-line[hidden]{display:none!important}
+#privateJoinOverlay{position:fixed;inset:0;z-index:27000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78);backdrop-filter:blur(5px)}
+#privateJoinOverlay.show{display:flex}
+.private-join-card{width:min(330px,100%);padding:22px;border:1px solid rgba(222,193,131,.48);border-radius:12px;background:linear-gradient(155deg,#04420f,#091c15);box-shadow:0 24px 70px #000b;color:#eee2c5;text-align:left}
+.private-join-title{margin:0 0 7px;color:#f1d9a1;font:700 18px Georgia,serif;letter-spacing:.07em}
+.private-join-subtitle{margin:0 0 16px;color:#bdc8b4;font-size:11px;line-height:1.45}
+.private-join-input{width:100%;box-sizing:border-box;border:1px solid rgba(213,190,137,.38);border-radius:6px;background:rgba(0,0,0,.28);color:#f2e6c7;padding:12px;text-align:center;font:800 19px inherit;letter-spacing:.28em;text-transform:uppercase;outline:none}
+.private-join-input:focus{border-color:#e8cf91;box-shadow:0 0 0 2px #e8cf9122}
+.private-join-error{min-height:16px;margin-top:7px;color:#e49b8f;font-size:10px;line-height:1.4}
+.private-join-actions{display:flex;gap:8px;margin-top:13px}
+.private-join-actions button{flex:1;border:1px solid rgba(221,197,143,.32);border-radius:6px;padding:10px;background:rgba(0,0,0,.2);color:#e7d8b5;font-size:9px;font-weight:900;letter-spacing:.1em;cursor:pointer}
+.private-join-actions button.primary{border-color:#ecd99f;background:linear-gradient(180deg,#e7d29b,#b99453);color:#20281d}
 .profile-overlay{position:fixed;inset:0;z-index:26000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.78);backdrop-filter:blur(5px)}
 .profile-overlay.show{display:flex}
 .profile-card{width:min(390px,100%);max-height:calc(100vh - 30px);overflow:auto;padding:22px;border:1px solid rgba(222,193,131,.44);border-radius:12px;background:linear-gradient(155deg,#04420f,#091c15);box-shadow:0 24px 70px #000b;color:#eee2c5;text-align:left}
@@ -1969,6 +1980,15 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
   </div>
   <button class="profile-submit" id="confirmCreateRoomBtn" type="button">CREAR SERVIDOR</button>
   <div class="profile-note" id="createRoomMessage" role="status" aria-live="polite"></div>
+ </section>
+</div>
+<div id="privateJoinOverlay" aria-hidden="true">
+ <section class="private-join-card" role="dialog" aria-modal="true" aria-labelledby="privateJoinTitle">
+  <h2 class="private-join-title" id="privateJoinTitle">PARTIDA PRIVADA</h2>
+  <p class="private-join-subtitle">Ingresá el código de acceso de 6 caracteres para unirte a esta mesa.</p>
+  <input class="private-join-input" id="privateJoinCode" type="password" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="6" placeholder="••••••" aria-label="Código privado">
+  <div class="private-join-error" id="privateJoinMessage" role="status" aria-live="polite"></div>
+  <div class="private-join-actions"><button type="button" id="privateJoinCancel">CANCELAR</button><button type="button" class="primary" id="privateJoinConfirm">UNIRSE</button></div>
  </section>
 </div>
 
@@ -3567,19 +3587,27 @@ async function mpCreateRoom(){
  }catch(e){mpEl('createRoomMessage').textContent=e.message||'Error al crear el servidor.';}
  finally{btn.disabled=false;}
 }
-async function mpJoinRoom(roomCode=null){
+async function mpJoinRoom(roomCode=null,fromPrivateModal=false){
  try{await accountRestorePromise;}catch{}
- if(!mpApiReady()){mpSetMessage('Falta configurar MULTIPLAYER_API_BASE con la URL workers.dev de tu Worker.',true);return;}
+ if(!mpApiReady()){const message='Falta configurar MULTIPLAYER_API_BASE con la URL workers.dev de tu Worker.';if(fromPrivateModal){mpEl('privateJoinMessage').textContent=message;}else mpSetMessage(message,true);return false;}
  const code=String(roomCode||'').replace(/[^a-z0-9]/gi,'').toUpperCase();
- if(!/^[A-Z0-9]{6}$/.test(code)){mpSetMessage('El código debe tener exactamente 6 caracteres.',true);return;}
- mpSetMessage('Buscando partida…');
+ if(!/^[A-Z0-9]{6}$/.test(code)){const message='El código debe tener exactamente 6 caracteres.';if(fromPrivateModal){mpEl('privateJoinMessage').textContent=message;}else mpSetMessage(message,true);return false;}
+ if(fromPrivateModal)mpEl('privateJoinConfirm').disabled=true;else mpSetMessage('Buscando partida…');
  try{
   const api=MULTIPLAYER_API_BASE.replace(/\/$/,''),name=mpGetPlayerName('Jugador 2');
   const response=await fetch(`${api}/api/rooms/${code}/join`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({playerName:name})});
   const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo unir a la sala.');
-  mpStartLobby({api,code,token:data.token,seat:data.seat,name});
- }catch(e){mpSetMessage(e.message||'Error al unirse.',true);}
+  mpClosePrivateJoin();mpStartLobby({api,code,token:data.token,seat:data.seat,name});return true;
+ }catch(e){const message=e.message||'Error al unirse.';if(fromPrivateModal){mpEl('privateJoinMessage').textContent=message;}else mpSetMessage(message,true);return false;}
+ finally{if(fromPrivateModal)mpEl('privateJoinConfirm').disabled=false;}
 }
+function mpOpenPrivateJoin(){
+ const overlay=mpEl('privateJoinOverlay'),input=mpEl('privateJoinCode');if(!overlay||!input)return;
+ input.value='';mpEl('privateJoinMessage').textContent='';overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');setTimeout(()=>input.focus(),30);
+}
+function mpClosePrivateJoin(){const overlay=mpEl('privateJoinOverlay');if(!overlay)return;overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');mpEl('privateJoinCode').value='';mpEl('privateJoinMessage').textContent='';}
+async function mpSubmitPrivateJoin(){const input=mpEl('privateJoinCode');await mpJoinRoom(input?.value||'',true);}
+
 function mpStartLobby(session){
  if(!session.resume)setMenuTab('online');multiplayerSession=session;multiplayerOpponentName='Rival';mpSaveSession();mpStartHeartbeat();
  mpEl('onlineLobby').hidden=false;if(mpEl('onlineCreateRow'))mpEl('onlineCreateRow').hidden=true;if(mpEl('onlineJoinRow'))mpEl('onlineJoinRow').hidden=true;mpEl('onlineRoomCode').textContent=session.code;mpEl('startOnlineGameBtn').hidden=session.seat!==0;
@@ -3896,14 +3924,14 @@ async function mpRefreshRooms(quiet=false){
   if(!rooms.length){const empty=document.createElement('div');empty.className='room-empty';empty.textContent='No hay servidores disponibles. Podés crear una sala.';fragment.appendChild(empty);}
   rooms.forEach(room=>{
    const row=document.createElement('div');row.className='room-item';const info=document.createElement('div');info.className='room-item-info';
-   const isPrivate=!!(room.isPrivate||room.visibility==='private');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
+   const isPrivate=!!(room.isPrivate||room.is_private||room.private||room.visibility==='private'||room.visibility==='PRIVATE');const title=document.createElement('strong');title.textContent=room.roomName||room.name||room.playerName||'Servidor de Truco';
    const titleLine=document.createElement('div');titleLine.className='room-item-title';
-   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261126-16`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(title,lock);
+   const lock=document.createElement('img');lock.className='room-visibility-icon';lock.alt=isPrivate?'Privado':'Público';lock.src=`./svg/${isPrivate?'locked':'unlocked'}.svg?v=20261127-private-code`;lock.onerror=()=>{const paths=isPrivate?'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>':'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>';lock.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f0d99e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`);};titleLine.append(title,lock);
    if(room.withFlor){const flower=document.createElement('img');flower.className='room-visibility-icon room-flower-icon';flower.alt='Con flor';flower.src='./svg/flower.svg?v=20261127-01';flower.onerror=()=>{flower.style.display='none';};titleLine.appendChild(flower);}
    const points=document.createElement('span');points.className='room-points-icon';points.textContent=String([15,30,40].includes(Number(room.targetPoints))?Number(room.targetPoints):30);points.setAttribute('aria-label',`Partida a ${points.textContent} puntos`);titleLine.appendChild(points);
    const meta=document.createElement('small');meta.textContent=`${room.playerCount||1}/2 jugadores`;
    info.append(titleLine,meta);const actions=document.createElement('div');actions.className='room-item-actions';
-   const join=document.createElement('button');join.className='online-action';join.type='button';join.textContent='UNIRSE';join.addEventListener('click',()=>{if(isPrivate){const accessCode=window.prompt('Este servidor es privado. Introducí el código de acceso:');if(accessCode===null)return;mpJoinRoom(accessCode);}else{mpJoinRoom(room.code);}});actions.appendChild(join);
+   const join=document.createElement('button');join.className='online-action';join.type='button';join.textContent='UNIRSE';join.addEventListener('click',()=>{if(isPrivate){mpOpenPrivateJoin();}else{mpJoinRoom(room.code);}});actions.appendChild(join);
    if(mpIsLocalHost(room)){const del=document.createElement('button');del.className='room-delete-btn';del.type='button';del.title='Borrar servidor';del.setAttribute('aria-label','Borrar servidor');const trash=document.createElementNS('http://www.w3.org/2000/svg','svg');trash.setAttribute('viewBox','0 0 24 24');trash.setAttribute('aria-hidden','true');trash.innerHTML='<path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';del.appendChild(trash);del.addEventListener('click',()=>mpDeleteHostedRoom(room,del));actions.appendChild(del);}
    row.append(info,actions);fragment.appendChild(row);
   });
@@ -3998,13 +4026,14 @@ let handDragConsumedClick=false;
 $('playerHand').addEventListener('click',ev=>{if(handDragConsumedClick){handDragConsumedClick=false;ev.preventDefault();return;}const card=ev.target.closest('.card[data-index]');if(card&&!card.classList.contains('disabled'))playCard(Number(card.dataset.index));});
 $('statsOpen').addEventListener('click',openStatsPanel);$('statsClose').addEventListener('click',closeStatsPanel);$('statsCloseX').addEventListener('click',closeStatsPanel);
 $('statsOverlay').addEventListener('click',ev=>{if(ev.target===$('statsOverlay'))closeStatsPanel();});
-document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&$('statsOverlay').classList.contains('show'))closeStatsPanel();if(ev.key==='Escape'&&mpEl('profileOverlay')?.classList.contains('show'))accountClose();if(ev.key==='Escape'&&mpEl('createRoomOverlay')?.classList.contains('show'))mpCloseCreateRoom();if(ev.key==='Escape'&&mpChatOpen)mpChatMinimize();});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&$('statsOverlay').classList.contains('show'))closeStatsPanel();if(ev.key==='Escape'&&mpEl('profileOverlay')?.classList.contains('show'))accountClose();if(ev.key==='Escape'&&mpEl('createRoomOverlay')?.classList.contains('show'))mpCloseCreateRoom();if(ev.key==='Escape'&&mpEl('privateJoinOverlay')?.classList.contains('show'))mpClosePrivateJoin();if(ev.key==='Escape'&&mpChatOpen)mpChatMinimize();});
 $('startGame').addEventListener('click',startConfiguredGame);$('menuBtn').addEventListener('click',openMainMenu);
 mpEl('menuTabAI')?.addEventListener('click',()=>setMenuTab('ai'));
 mpEl('menuTabOnline')?.addEventListener('click',()=>setMenuTab('online'));
 mpEl('createRoomBtn')?.addEventListener('click',mpOpenCreateRoom);
 mpEl('createRoomClose')?.addEventListener('click',mpCloseCreateRoom);
 mpEl('createRoomOverlay')?.addEventListener('click',ev=>{if(ev.target===mpEl('createRoomOverlay'))mpCloseCreateRoom();});
+mpEl('privateJoinConfirm')?.addEventListener('click',mpSubmitPrivateJoin);mpEl('privateJoinCancel')?.addEventListener('click',mpClosePrivateJoin);mpEl('privateJoinOverlay')?.addEventListener('click',ev=>{if(ev.target===mpEl('privateJoinOverlay'))mpClosePrivateJoin();});mpEl('privateJoinCode')?.addEventListener('keydown',ev=>{if(ev.key==='Enter')mpSubmitPrivateJoin();});mpEl('privateJoinCode')?.addEventListener('input',ev=>{ev.target.value=ev.target.value.replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,6);mpEl('privateJoinMessage').textContent='';});
 mpEl('confirmCreateRoomBtn')?.addEventListener('click',mpCreateRoom);
 mpEl('refreshRoomsBtn')?.addEventListener('click',mpRefreshRooms);
 mpEl('profileOpen')?.addEventListener('click',accountOpen);mpEl('profileClose')?.addEventListener('click',accountClose);
