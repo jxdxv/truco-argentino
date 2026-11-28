@@ -2133,6 +2133,98 @@ body :where(h1,h2,h3,h4,h5,h6,p,span,div,label,button,small,strong,b,em,i,li,a,o
 
 </style>
 
+
+<style id="wood-frame-finish-details">
+/* Acabado aplicado a cada una de las ocho piezas, no al contenedor:
+   la sombra sigue únicamente la silueta real y no recrea el marco antiguo. */
+.wood-frame>.wood-plank{
+  pointer-events:none!important;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.60))
+         drop-shadow(0 0 1.35px rgba(8,3,1,.98))!important;
+  -webkit-filter:drop-shadow(0 2px 2px rgba(0,0,0,.60))
+                 drop-shadow(0 0 1.35px rgba(8,3,1,.98))!important;
+}
+/* Las juntas se reservan exclusivamente a las cuatro piezas diagonales.
+   Antes/después se colocan con coordenadas calculadas por el motor geométrico. */
+.wood-frame>.wood-plank::before,
+.wood-frame>.wood-plank::after{
+  content:none!important;
+  display:none!important;
+  box-shadow:none!important;
+}
+.wood-frame>.wood-corner::before,
+.wood-frame>.wood-corner::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  z-index:8!important;
+  top:var(--wood-joint-before-y)!important;
+  left:var(--wood-joint-before-x)!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:1.45px!important;
+  height:calc(var(--wood-frame-size) * 1.8)!important;
+  box-sizing:border-box!important;
+  border:0!important;
+  border-radius:1px!important;
+  transform:translate(-50%,-50%) rotate(var(--wood-joint-angle))!important;
+  transform-origin:50% 50%!important;
+  background:linear-gradient(90deg,
+    rgba(255,220,170,.20) 0%,
+    rgba(38,17,6,.94) 22%,
+    rgba(5,2,1,1) 52%,
+    rgba(18,8,3,.92) 100%)!important;
+  box-shadow:-1px 0 0 rgba(255,220,170,.16),
+              1px 0 1px rgba(0,0,0,.78),
+              0 0 1px rgba(0,0,0,.95)!important;
+  pointer-events:none!important;
+}
+.wood-frame>.wood-corner::after{
+  top:var(--wood-joint-after-y)!important;
+  left:var(--wood-joint-after-x)!important;
+}
+</style>
+
+
+<style id="wood-frame-svg-finish">
+/* Acabado vectorial independiente de los clip-path de cada tabla.
+   Así el contorno y la sombra no quedan recortados por la geometría de la pieza. */
+.wood-frame>.wood-plank{
+  z-index:1!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+}
+.wood-frame>.wood-plank::before,
+.wood-frame>.wood-plank::after{
+  content:none!important;
+  display:none!important;
+}
+.wood-frame>.wood-frame-shadow-layer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  z-index:0!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  clip-path:none!important;
+  -webkit-clip-path:none!important;
+}
+.wood-frame>.wood-frame-ink-layer{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  z-index:5!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  clip-path:none!important;
+  -webkit-clip-path:none!important;
+}
+</style>
+
 </head>
 <body>
 <div id="assetPreloader" role="status" aria-live="polite">
@@ -4680,6 +4772,340 @@ $('targetPoints').value='30';$('florEnabled').checked=false;$('menuDifficulty').
   object-fit:fill!important;
 }
 </style>
+
+
+<style id="responsive-wood-frame-offset-geometry">
+/* Sistema geométrico único del marco.
+   Los ocho tablones son franjas entre un octógono exterior y su offset interior.
+   Comparten un grosor fijo de 18 CSS px en escritorio y móviles. */
+.table-wrap{
+  --wood-frame-size:18px!important;
+  --wood-corner-run:calc(var(--wood-frame-size) * 2)!important;
+  --wood-texture-length:2400px!important;
+  box-sizing:border-box!important;
+  border:var(--wood-frame-size) solid transparent!important;
+  overflow:visible!important;
+  border-radius:clamp(26px,3.8vw,48px)/clamp(20px,3.8vh,34px)!important;
+}
+.wood-frame{
+  position:absolute!important;
+  inset:calc(0px - var(--wood-frame-size))!important;
+  z-index:2!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+  clip-path:none!important;
+  -webkit-clip-path:none!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  -webkit-filter:none!important;
+  pointer-events:none!important;
+}
+.wood-frame>.wood-plank{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  transform:none!important;
+  /* Mismo contorno fino en las ocho piezas. Sin sombra desplazada. */
+  filter:drop-shadow(0 0 1.25px rgba(5,2,1,.98))!important;
+  -webkit-filter:drop-shadow(0 0 1.25px rgba(5,2,1,.98))!important;
+}
+.wood-frame>.wood-plank::before,
+.wood-frame>.wood-plank::after{
+  content:none!important;
+  display:none!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+.wood-frame .wood-plank-texture{
+  position:absolute!important;
+  display:block!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:var(--wood-texture-length)!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:fill!important;
+  object-position:center center!important;
+  transform-origin:50% 50%!important;
+  border:0!important;
+  border-radius:0!important;
+  pointer-events:none!important;
+  user-select:none!important;
+  -webkit-user-drag:none!important;
+}
+/* Se anulan explícitamente las antiguas reglas de grosor adaptativo móvil. */
+@media(max-width:760px){
+  .table-wrap{--wood-frame-size:18px!important;}
+}
+@media(max-width:390px){
+  .table-wrap{--wood-frame-size:18px!important;}
+}
+</style>
+<script id="wood-frame-offset-geometry-engine">
+(()=>{
+  'use strict';
+  const frame = document.querySelector('.wood-frame');
+  const table = frame?.closest('.table-wrap');
+  if (!frame || !table) return;
+
+  const pieces = [
+    ['.wood-plank--top', 0],
+    ['.wood-corner--tr', 1],
+    ['.wood-plank--right', 2],
+    ['.wood-corner--br', 3],
+    ['.wood-plank--bottom', 4],
+    ['.wood-corner--bl', 5],
+    ['.wood-plank--left', 6],
+    ['.wood-corner--tl', 7]
+  ].map(([selector, edge]) => ({element:frame.querySelector(selector), edge}))
+   .filter(item => item.element);
+  if (pieces.length !== 8) return;
+
+  const cross = (a,b) => a.x*b.y-a.y*b.x;
+  const add = (a,b) => ({x:a.x+b.x,y:a.y+b.y});
+  const sub = (a,b) => ({x:a.x-b.x,y:a.y-b.y});
+  const mul = (a,k) => ({x:a.x*k,y:a.y*k});
+  const length = v => Math.hypot(v.x,v.y);
+
+  function lineIntersection(p,r,q,s){
+    const den = cross(r,s);
+    if (Math.abs(den) < 1e-8) return null;
+    const u = cross(sub(q,p),s)/den;
+    return add(p,mul(r,u));
+  }
+
+  function update(){
+    const rect = frame.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    if (!(w > 80 && h > 80)) return;
+
+    const css = getComputedStyle(table);
+    const thickness = parseFloat(css.getPropertyValue('--wood-frame-size')) || 18;
+    // El bisel exterior es 2× el grosor; el anillo interior es un offset
+    // perpendicular real de thickness, no una aproximación con porcentajes.
+    const bevel = Math.min(thickness*2, Math.min(w,h)*0.18);
+    const outer = [
+      {x:bevel,y:0}, {x:w-bevel,y:0}, {x:w,y:bevel},
+      {x:w,y:h-bevel}, {x:w-bevel,y:h}, {x:bevel,y:h},
+      {x:0,y:h-bevel}, {x:0,y:bevel}
+    ];
+
+    const edges = outer.map((p,i)=>{
+      const q = outer[(i+1)%8];
+      const d = sub(q,p), len = length(d);
+      // Los vértices se recorren en sentido horario en coordenadas CSS;
+      // esta normal apunta siempre hacia el interior de la mesa.
+      const inward = {x:-d.y/len,y:d.x/len};
+      return {p,d,inward};
+    });
+
+    const inner = outer.map((vertex,i)=>{
+      const prev = edges[(i+7)%8];
+      const curr = edges[i];
+      const p = add(prev.p,mul(prev.inward,thickness));
+      const q = add(curr.p,mul(curr.inward,thickness));
+      return lineIntersection(p,prev.d,q,curr.d) || add(vertex,mul(curr.inward,thickness));
+    });
+
+    for (const {element,edge} of pieces){
+      const next = (edge+1)%8;
+      // Ogni polygon: outer edge + matching inner offset edge.
+      // Adjacent pieces share the exact same two computed joint points.
+      const quad = [outer[edge],outer[next],inner[next],inner[edge]];
+      const polygon = 'polygon('+quad.map(p=>`${p.x.toFixed(3)}px ${p.y.toFixed(3)}px`).join(',')+')';
+      element.style.setProperty('clip-path',polygon,'important');
+      element.style.setProperty('-webkit-clip-path',polygon,'important');
+
+      const center = quad.reduce((acc,p)=>add(acc,p),{x:0,y:0});
+      center.x /= 4; center.y /= 4;
+      const direction = sub(outer[next],outer[edge]);
+      const angle = Math.atan2(direction.y,direction.x)*180/Math.PI;
+      const img = element.querySelector('.wood-plank-texture');
+      if (img){
+        img.style.setProperty('left',`${center.x.toFixed(3)}px`,'important');
+        img.style.setProperty('top',`${center.y.toFixed(3)}px`,'important');
+        img.style.setProperty('transform',`translate(-50%,-50%) rotate(${angle.toFixed(4)}deg)`,'important');
+        img.style.setProperty('width','var(--wood-texture-length)','important');
+      }
+
+      // Las diagonales reciben dos juntas transversales simétricas. Cada
+      // posición se calcula entre el borde exterior y su offset interior,
+      // así la línea siempre cruza el ancho real de la pieza, incluso en móvil.
+      if (edge % 2 === 1){
+        const fractions = [0.19, 0.81];
+        const jointPoints = fractions.map(fraction => {
+          const outerPoint = add(outer[edge],mul(sub(outer[next],outer[edge]),fraction));
+          const innerPoint = add(inner[edge],mul(sub(inner[next],inner[edge]),fraction));
+          return mul(add(outerPoint,innerPoint),0.5);
+        });
+        element.style.setProperty('--wood-joint-before-x',`${jointPoints[0].x.toFixed(3)}px`);
+        element.style.setProperty('--wood-joint-before-y',`${jointPoints[0].y.toFixed(3)}px`);
+        element.style.setProperty('--wood-joint-after-x',`${jointPoints[1].x.toFixed(3)}px`);
+        element.style.setProperty('--wood-joint-after-y',`${jointPoints[1].y.toFixed(3)}px`);
+        element.style.setProperty('--wood-joint-angle',`${angle.toFixed(4)}deg`);
+      }
+    }
+  }
+
+  // El marco puede estar oculto en el menú inicial. ResizeObserver recalcula
+  // al aparecer la mesa y en cada cambio real de sus dimensiones.
+  let raf = 0;
+  const schedule = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(()=>{raf=0;update();});
+  };
+  if ('ResizeObserver' in window){
+    const observer = new ResizeObserver(schedule);
+    observer.observe(table);
+    observer.observe(frame);
+  }
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('orientationchange',schedule,{passive:true});
+  schedule();
+  setTimeout(schedule,120);
+  setTimeout(schedule,500);
+})();
+</script>
+
+
+<script id="wood-frame-svg-finish-engine">
+(()=>{
+  'use strict';
+  const frame=document.querySelector('.wood-frame');
+  const table=frame?.closest('.table-wrap');
+  if(!frame||!table)return;
+  const NS='http://www.w3.org/2000/svg';
+  const mk=(tag,attrs={})=>{
+    const el=document.createElementNS(NS,tag);
+    for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));
+    return el;
+  };
+  const ensureSvg=(className,layer)=>{
+    let svg=frame.querySelector(':scope > .'+className);
+    if(!svg){
+      svg=mk('svg',{viewBox:'0 0 100 100',preserveAspectRatio:'none','aria-hidden':'true'});
+      svg.classList.add(className);
+      if(layer==='shadow')frame.insertBefore(svg,frame.firstChild);
+      else frame.appendChild(svg);
+    }
+    return svg;
+  };
+  const shadowSvg=ensureSvg('wood-frame-shadow-layer','shadow');
+  const inkSvg=ensureSvg('wood-frame-ink-layer','ink');
+
+  const defs=mk('defs');
+  const filter=mk('filter',{
+    id:'wood-frame-shadow-only-filter',
+    x:'-25%',y:'-35%',width:'150%',height:'180%',
+    'color-interpolation-filters':'sRGB'
+  });
+  filter.append(
+    mk('feGaussianBlur',{in:'SourceAlpha',stdDeviation:'2.15',result:'blur'}),
+    /* Sin desplazamiento vertical: la sombra rodea por igual los cuatro lados. */
+    mk('feOffset',{in:'blur',dx:'0',dy:'0',result:'offsetBlur'}),
+    mk('feFlood',{'flood-color':'#000000','flood-opacity':'0.76',result:'shadowColor'}),
+    mk('feComposite',{in:'shadowColor',in2:'offsetBlur',operator:'in',result:'shadow'}),
+    mk('feMerge',{}).appendChild(mk('feMergeNode',{in:'shadow'}))
+  );
+  defs.appendChild(filter);
+  shadowSvg.appendChild(defs);
+  const shadowShape=mk('path',{fill:'#000000','fill-rule':'evenodd',filter:'url(#wood-frame-shadow-only-filter)'});
+  shadowSvg.appendChild(shadowShape);
+
+  const outerInk=mk('path',{
+    fill:'none',stroke:'#100702','stroke-width':'2.25','stroke-linejoin':'round',
+    'stroke-linecap':'round','vector-effect':'non-scaling-stroke'
+  });
+  const jointsInk=mk('path',{
+    fill:'none',stroke:'rgba(9,3,1,.92)','stroke-width':'1.25',
+    'stroke-linecap':'round','vector-effect':'non-scaling-stroke'
+  });
+  inkSvg.append(outerInk,jointsInk);
+
+  const cross=(a,b)=>a.x*b.y-a.y*b.x;
+  const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y});
+  const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y});
+  const mul=(a,k)=>({x:a.x*k,y:a.y*k});
+  const len=v=>Math.hypot(v.x,v.y);
+  const intersect=(p,r,q,s)=>{
+    const den=cross(r,s);
+    if(Math.abs(den)<1e-8)return null;
+    return add(p,mul(r,cross(sub(q,p),s)/den));
+  };
+  const pathOf=pts=>'M'+pts.map(p=>p.x.toFixed(3)+' '+p.y.toFixed(3)).join(' L')+' Z';
+  function update(){
+    const rect=frame.getBoundingClientRect(),w=rect.width,h=rect.height;
+    if(!(w>80&&h>80))return;
+    const css=getComputedStyle(table);
+    const t=parseFloat(css.getPropertyValue('--wood-frame-size'))||18;
+    const bevel=Math.min(t*2,Math.min(w,h)*.18);
+    const outer=[
+      {x:bevel,y:0},{x:w-bevel,y:0},{x:w,y:bevel},{x:w,y:h-bevel},
+      {x:w-bevel,y:h},{x:bevel,y:h},{x:0,y:h-bevel},{x:0,y:bevel}
+    ];
+    const edges=outer.map((p,i)=>{
+      const q=outer[(i+1)%8],d=sub(q,p),l=len(d);
+      return {p,d,inward:{x:-d.y/l,y:d.x/l}};
+    });
+    const inner=outer.map((v,i)=>{
+      const a=edges[(i+7)%8],b=edges[i];
+      const p=add(a.p,mul(a.inward,t)),q=add(b.p,mul(b.inward,t));
+      return intersect(p,a.d,q,b.d)||add(v,mul(b.inward,t));
+    });
+
+    for(const svg of [shadowSvg,inkSvg]){
+      svg.setAttribute('viewBox',`0 0 ${w.toFixed(3)} ${h.toFixed(3)}`);
+      svg.setAttribute('width',w.toFixed(3));
+      svg.setAttribute('height',h.toFixed(3));
+    }
+    // Sombra ambiental sin dirección, aplicada al perímetro completo del conjunto de tablones.
+    shadowShape.setAttribute('d',pathOf(outer)+' '+pathOf(inner));
+    shadowShape.setAttribute('fill-rule','evenodd');
+    outerInk.setAttribute('d',pathOf(outer));
+
+    // Líneas de junta reales: separan cada inglete diagonal del tablón recto contiguo.
+    let seams='';
+    for(let i=0;i<8;i++){
+      const a=outer[i],b=inner[i];
+      seams+=`M${a.x.toFixed(3)} ${a.y.toFixed(3)} L${b.x.toFixed(3)} ${b.y.toFixed(3)} `;
+    }
+    jointsInk.setAttribute('d',seams);
+
+    // No se dibujan rayas decorativas dentro de las diagonales.
+    // Solo quedan las juntas reales entre cada diagonal y los tablones rectos.
+  }
+
+  let raf=0;
+  const schedule=()=>{
+    if(raf)cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{raf=0;update();});
+  };
+  if('ResizeObserver'in window){
+    const ro=new ResizeObserver(schedule);ro.observe(table);ro.observe(frame);
+  }
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('orientationchange',schedule,{passive:true});
+  schedule();setTimeout(schedule,140);setTimeout(schedule,520);
+})();
+</script>
 
 </body>
 </html>
